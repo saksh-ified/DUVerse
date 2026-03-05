@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="DUVerse — Free academic resources for Delhi University students. Syllabus, notes, PYQs and mock tests organized by course, semester and subject."/>
+  <meta name="keywords" content="Delhi University, DU notes, DU syllabus, DU PYQ, previous year papers, mock test, BA BCom BSc BMS"/>
+  <meta name="theme-color" content="#080c18"/>
+  <meta property="og:title" content="DUVerse — Every Resource. Every Subject. One Place."/>
+  <meta property="og:description" content="Free syllabus, notes, PYQs and mock tests for Delhi University students."/>
+  <meta property="og:type" content="website"/>
+  <title>DUVerse — Every Resource. Every Subject. One Place.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --night:    #080c18;
+      --navy:     #0d1226;
+      --navy2:    #111830;
+      --card:     #151d35;
+      --card2:    #1a2340;
+      --border:   #232d4a;
+      --border2:  #2d3a5c;
+      --indigo:   #4f6ef7;
+      --indigo2:  #6b85ff;
+      --violet:   #7c5cfc;
+      --sky:      #38bdf8;
+      --mint:     #34d399;
+      --rose:     #fb7185;
+      --amber:    #fbbf24;
+      --text:     #f0f3ff;
+      --text2:    #c8d0f0;
+      --muted:    #7a88b8;
+      --faint:    #3a4568;
+      --font-d:   'Fraunces', Georgia, serif;
+      --font-b:   'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--night);
+      color: var(--text);
+      font-family: var(--font-b);
+      overflow-x: hidden;
+    }
+
+    /* ─── GRAIN ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 900;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* ─── MESH GRADIENT ─── */
+    .mesh {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(79,110,247,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 10%, rgba(124,92,252,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(56,189,248,0.07) 0%, transparent 60%);
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    body { cursor: none; }
+    #cur { position: fixed; width: 8px; height: 8px; background: var(--indigo); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+    #cur-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(79,110,247,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%;
+      height: 64px;
+      background: rgba(8,12,24,0.8);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      animation: slideDown 0.7s ease both;
+    }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-100%); } to { opacity:1; transform:translateY(0); } }
+
+    .logo {
+      font-family: var(--font-d); font-size: 1.45rem; font-weight: 900;
+      color: var(--text); letter-spacing: -0.5px; text-decoration: none;
+    }
+    .logo span { color: var(--indigo2); font-style: italic; }
+
+    .nav-center { display: flex; gap: 0.2rem; }
+    .nav-center a {
+      padding: 0.4rem 1rem; border-radius: 6px;
+      font-size: 0.83rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; transition: all 0.18s;
+    }
+    .nav-center a:hover { color: var(--text); background: var(--card); }
+
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-pill {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--mint);
+      background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2);
+      padding: 0.25rem 0.75rem; border-radius: 100px;
+    }
+    .nav-btn { 
+      background: var(--indigo); color: white; border: none;
+      padding: 0.5rem 1.2rem; border-radius: 8px;
+      font-family: var(--font-b); font-size: 0.83rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: all 0.2s; box-shadow: 0 0 20px rgba(79,110,247,0.25);
+    }
+    .nav-btn:hover { background: var(--indigo2); transform: translateY(-1px); }
+    @media (max-width: 768px) { 
+      .nav-btn { display: none; }
+      .nav-login-btn { padding: 0.4rem 0.7rem; font-size: 0.75rem; }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      padding: 7rem 6% 4rem;
+      gap: 4rem;
+    }
+
+    .hero-left { display: flex; flex-direction: column; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(79,110,247,0.1); border: 1px solid rgba(79,110,247,0.25);
+      border-radius: 100px; padding: 0.35rem 1rem;
+      font-size: 0.75rem; font-weight: 600; color: var(--indigo2);
+      width: fit-content; margin-bottom: 2rem;
+      animation: up 0.8s 0.1s both;
+    }
+    .badge-dot { width: 6px; height: 6px; background: var(--mint); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    h1 {
+      font-family: var(--font-d);
+      font-size: clamp(3rem, 5.5vw, 6rem);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -2.5px; color: var(--text);
+      margin-bottom: 1.6rem;
+      animation: up 0.8s 0.25s both;
+    }
+    h1 .accent {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--indigo2) 0%, var(--violet) 50%, var(--sky) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    h1 .dim { color: var(--muted); }
+
+    .hero-sub {
+      font-size: 1.05rem; line-height: 1.75; color: var(--text2);
+      max-width: 480px; margin-bottom: 2.5rem;
+      animation: up 0.8s 0.4s both;
+      font-weight: 300;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+
+    .hero-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 3.5rem; animation: up 0.8s 0.55s both; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--indigo); color: white;
+      padding: 0.85rem 2rem; border-radius: 10px;
+      font-family: var(--font-b); font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.22s;
+      box-shadow: 0 4px 24px rgba(79,110,247,0.35);
+    }
+    .btn-primary:hover { background: var(--indigo2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(79,110,247,0.45); }
+    .btn-primary .arr { transition: transform 0.2s; }
+    .btn-primary:hover .arr { transform: translateX(3px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: var(--text2);
+      padding: 0.85rem 1.8rem; border-radius: 10px;
+      font-family: var(--font-b); font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; border: 1px solid var(--border2); cursor: pointer;
+      transition: all 0.22s;
+    }
+    .btn-ghost:hover { border-color: var(--indigo); color: var(--indigo2); background: rgba(79,110,247,0.06); }
+
+    .hero-trust {
+      display: flex; align-items: center; gap: 2rem;
+      animation: up 0.8s 0.7s both;
+    }
+    .trust-item { display: flex; flex-direction: column; }
+    .trust-num { font-family: var(--font-d); font-size: 1.8rem; font-weight: 700; color: var(--text); letter-spacing: -1px; }
+    .trust-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-top: 0.1rem; }
+    .trust-sep { width: 1px; height: 36px; background: var(--border); }
+
+    /* ─── HERO RIGHT — Live Preview Panel ─── */
+    .hero-right {
+      position: relative; z-index: 1;
+      animation: up 0.9s 0.3s both;
+    }
+
+    .preview-window {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,110,247,0.1);
+    }
+    .pw-bar {
+      background: var(--navy2); padding: 0.85rem 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pw-dots { display: flex; gap: 0.4rem; }
+    .pw-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .pw-dots .r { background: var(--rose); }
+    .pw-dots .y { background: var(--amber); }
+    .pw-dots .g { background: var(--mint); }
+    .pw-url {
+      flex: 1; background: var(--card2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.3rem 0.8rem;
+      font-size: 0.72rem; color: var(--muted); font-family: monospace;
+    }
+
+    .pw-body { padding: 1.2rem; }
+
+    /* breadcrumb inside preview */
+    .pw-breadcrumb {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem;
+    }
+    .pw-breadcrumb .crumb { color: var(--indigo2); font-weight: 600; }
+    .pw-breadcrumb .sep { color: var(--faint); }
+
+    .pw-subject-title {
+      font-family: var(--font-d); font-size: 1.2rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.3rem;
+    }
+    .pw-subject-meta { font-size: 0.75rem; color: var(--muted); margin-bottom: 1rem; }
+
+    .pw-tabs {
+      display: flex; gap: 0.3rem; margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 0;
+    }
+    .pw-tab {
+      padding: 0.45rem 1rem; font-size: 0.78rem; font-weight: 600;
+      color: var(--muted); cursor: pointer; border-radius: 6px 6px 0 0;
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+      margin-bottom: -1px;
+    }
+    .pw-tab.active { color: var(--indigo2); border-bottom-color: var(--indigo); background: rgba(79,110,247,0.06); }
+
+    .pw-resource-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .pw-res-item {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      transition: border-color 0.2s;
+    }
+    .pw-res-item:hover { border-color: var(--indigo); }
+    .pw-res-left { display: flex; align-items: center; gap: 0.8rem; }
+    .pw-res-icon {
+      width: 32px; height: 32px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    }
+    .pw-res-name { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .pw-res-size { font-size: 0.68rem; color: var(--muted); }
+    .pw-res-dl {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 0.2rem 0.6rem; border-radius: 5px; border: none; cursor: pointer;
+    }
+
+    @keyframes up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      position: relative; z-index: 2;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--navy); overflow: hidden; padding: 0.65rem 0;
+    }
+    .ticker-inner { display: flex; white-space: nowrap; animation: scroll 28s linear infinite; }
+    .ticker-inner span { padding: 0 1.5rem; font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.5px; }
+    .ticker-inner .t-dot { color: var(--indigo); font-size: 0.5rem; vertical-align: middle; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SECTION COMMONS ─── */
+    section { position: relative; z-index: 1; }
+    .section-inner { padding: 7rem 8%; }
+    .section-inner.alt { background: var(--navy); }
+
+    .label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--indigo2); margin-bottom: 1rem;
+    }
+    .label::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--indigo); }
+
+    h2.sh {
+      font-family: var(--font-d); font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+    h2.sh em { font-style: italic; color: var(--muted); }
+    p.sp { font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 500px; font-weight: 300; }
+
+    /* ─── COURSES SECTION ─── */
+    .courses-wrap {
+      display: grid; grid-template-columns: 300px 1fr;
+      gap: 4rem; align-items: start; margin-top: 4rem;
+    }
+    .courses-aside { position: sticky; top: 5rem; }
+    .courses-aside .sh { font-size: 2rem; }
+    .aside-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin: 1rem 0 2rem; }
+    .all-courses-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: var(--indigo2);
+      border: 1px solid var(--border2); border-radius: 8px;
+      padding: 0.65rem 1.3rem; font-family: var(--font-b); font-size: 0.83rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .all-courses-btn:hover { background: var(--card); border-color: var(--indigo); }
+
+    .courses-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .c-card {
+      background: var(--card); padding: 2rem;
+      transition: background 0.2s; cursor: pointer; position: relative;
+    }
+    .c-card:hover { background: var(--card2); }
+    .c-card:hover .c-go { opacity: 1; transform: translate(2px,-2px); }
+    .c-num { font-family: var(--font-d); font-size: 0.7rem; font-weight: 700; color: var(--faint); letter-spacing: 2px; margin-bottom: 0.8rem; }
+    .c-icon { font-size: 1.6rem; margin-bottom: 0.7rem; }
+    .c-name { font-family: var(--font-d); font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .c-full { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.9rem; line-height: 1.5; }
+    .c-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .chip { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px; padding: 0.18rem 0.55rem; border-radius: 4px; background: rgba(79,110,247,0.1); color: var(--indigo2); border: 1px solid rgba(79,110,247,0.2); }
+    .c-go { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1rem; color: var(--indigo2); opacity: 0; transition: all 0.2s; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+      margin-top: 4rem;
+    }
+    .how-card {
+      background: var(--navy); padding: 2.5rem 1.8rem;
+      position: relative; transition: background 0.2s;
+    }
+    .how-card:hover { background: var(--card); }
+    .how-step {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; color: var(--indigo);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .how-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.2rem;
+      background: var(--card); border: 1px solid var(--border2);
+    }
+    .how-card h3 { font-family: var(--font-d); font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+    .how-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+    .how-arrow {
+      position: absolute; top: 50%; right: -14px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--night); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--indigo2); z-index: 2;
+      transform: translateY(-50%);
+    }
+    .how-card:last-child .how-arrow { display: none; }
+
+    /* ─── RESOURCES ─── */
+    .res-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin-top: 4rem;
+    }
+    .res-big {
+      grid-row: span 2;
+      background: var(--card); border: 1px solid var(--border2); border-radius: 16px;
+      padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;
+      transition: border-color 0.2s; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .res-big::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--indigo), var(--violet));
+    }
+    .res-big:hover { border-color: var(--indigo); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+    .res-small {
+      background: var(--card); border: 1px solid var(--border2); border-radius: 16px;
+      padding: 2rem; transition: border-color 0.2s; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .res-small::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    }
+    .res-small.c1::before { background: var(--sky); }
+    .res-small.c2::before { background: var(--mint); }
+    .res-small.c3::before { background: var(--violet); }
+    .res-small.c4::before { background: var(--rose); }
+    .res-small:hover { border-color: var(--indigo); }
+
+    .res-icon2 { font-size: 2rem; margin-bottom: 1.2rem; }
+    .res-t { font-family: var(--font-d); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .res-big .res-t { font-size: 1.6rem; }
+    .res-d { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+    .res-status2 {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 0.25rem 0.7rem; border-radius: 100px; margin-top: 1.2rem;
+    }
+    .s-live { background: rgba(52,211,153,0.1); color: var(--mint); border: 1px solid rgba(52,211,153,0.2); }
+    .s-soon { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
+    .s-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+    /* ─── SOCIAL PROOF / WHY ─── */
+    .why-section { background: var(--navy); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 0; background: var(--border);
+      border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+      margin-top: 3rem;
+    }
+    .why-item {
+      background: var(--navy); padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border); transition: background 0.2s;
+    }
+    .why-item:last-child { border-right: none; }
+    .why-item:hover { background: var(--card); }
+    .why-em {
+      font-family: var(--font-d); font-size: 2.8rem; font-weight: 900;
+      letter-spacing: -1.5px; color: var(--text); line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .why-em span { font-style: italic; color: var(--indigo2); }
+    .why-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.8rem; }
+    .why-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── TESTIMONIAL / QUOTE ─── */
+    .quote-wrap {
+      padding: 7rem 8%; text-align: center;
+      background: var(--night);
+    }
+    .q-big {
+      font-family: var(--font-d); font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 700; font-style: italic; color: var(--text2);
+      max-width: 760px; margin: 0 auto 2rem; line-height: 1.45;
+    }
+    .q-big em { color: var(--indigo2); font-style: normal; }
+    .q-line { width: 48px; height: 2px; background: var(--indigo); margin: 0 auto 1.2rem; }
+    .q-attr { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); }
+
+    /* ─── CTA ─── */
+    .cta-wrap {
+      padding: 7rem 8%; text-align: center;
+      background: var(--navy); border-top: 1px solid var(--border);
+    }
+    .cta-box {
+      max-width: 620px; margin: 0 auto;
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 20px; padding: 4rem;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--indigo), var(--violet), var(--sky));
+    }
+    .cta-box .sh { margin-bottom: 1rem; }
+    .cta-box .sp { margin: 0 auto 2.5rem; text-align: center; }
+    .cta-btns { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--night); border-top: 1px solid var(--border);
+      padding: 4rem 8% 2.5rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem;
+    }
+    .f-brand { font-family: var(--font-d); font-size: 1.6rem; font-weight: 900; margin-bottom: 0.8rem; }
+    .f-brand span { font-style: italic; color: var(--indigo2); }
+    .f-about { font-size: 0.83rem; color: var(--muted); line-height: 1.7; max-width: 240px; }
+    .f-col h5 { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--indigo2); margin-bottom: 1.2rem; }
+    .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .f-col ul a { font-size: 0.83rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .f-col ul a:hover { color: var(--text); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.78rem; color: var(--faint); }
+    .f-free { font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mint); background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); padding: 0.25rem 0.75rem; border-radius: 100px; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .r { opacity:0; transform:translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .r.show { opacity:1; transform:translateY(0); }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 8px; z-index: 900;
+    }
+    .hamburger span {
+      display: block; height: 1.5px; background: var(--text2);
+      border-radius: 2px; transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ─── MOBILE NAV DRAWER ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 799;
+      background: rgba(8,12,24,0.98);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 6%;
+      flex-direction: column; gap: 0.3rem;
+      transform: translateY(-10px); opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .mobile-nav.open {
+      display: flex; transform: translateY(0); opacity: 1;
+    }
+    .mobile-nav a {
+      padding: 0.85rem 1rem; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; color: var(--text2);
+      text-decoration: none; border: 1px solid transparent;
+      transition: all 0.18s;
+    }
+    .mobile-nav a:hover { background: var(--card); border-color: var(--border); }
+    .mobile-nav .m-cta {
+      background: var(--indigo); color: white; text-align: center;
+      margin-top: 0.5rem; border-color: transparent;
+    }
+
+    /* ─── RESPONSIVE 1024px ─── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-right { display: none; }
+      .courses-wrap { grid-template-columns: 1fr; gap: 2rem; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+      .res-layout { grid-template-columns: 1fr 1fr; }
+      .res-big { grid-row: span 1; grid-column: span 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .why-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    /* ─── RESPONSIVE 768px ─── */
+    @media (max-width: 768px) {
+      /* cursor off on touch */
+      #cur, #cur-ring { display: none; }
+      body { cursor: auto; }
+
+      /* nav */
+      .nav-center { display: none; }
+      .nav-pill { display: none; }
+      .hamburger { display: flex; }
+
+      /* hero */
+      .hero { padding: 5.5rem 5% 3rem; gap: 0; }
+      h1 { font-size: clamp(2.4rem, 9vw, 3.5rem); letter-spacing: -1.5px; }
+      .hero-sub { font-size: 0.95rem; }
+      .hero-cta { flex-direction: column; }
+      .hero-cta a { text-align: center; }
+      .hero-trust { gap: 1.2rem; flex-wrap: wrap; }
+
+      /* sections */
+      .section-inner { padding: 4rem 5%; }
+      h2.sh { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+
+      /* courses */
+      .courses-grid { grid-template-columns: 1fr; }
+      .courses-wrap { gap: 1.5rem; }
+
+      /* how it works */
+      .how-grid { grid-template-columns: 1fr; }
+      .how-arrow { display: none; }
+
+      /* resources */
+      .res-layout { grid-template-columns: 1fr; }
+      .res-big { grid-column: span 1; }
+
+      /* why */
+      .why-grid { grid-template-columns: 1fr; }
+      .why-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .why-item:last-child { border-bottom: none; }
+
+      /* quote */
+      .quote-wrap { padding: 4rem 5%; }
+      .q-big { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+
+      /* cta */
+      .cta-wrap { padding: 4rem 5%; }
+      .cta-box { padding: 2.5rem 1.5rem; }
+      .cta-btns { flex-direction: column; }
+      .cta-btns a { text-align: center; }
+
+      /* footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 0.8rem; }
+    }
+
+    /* ─── RESPONSIVE 480px ─── */
+    @media (max-width: 480px) {
+      nav { padding: 0 4%; }
+      .hero { padding: 5rem 4% 2.5rem; }
+      .section-inner { padding: 3.5rem 4%; }
+      .c-card { padding: 1.5rem; }
+      .how-card { padding: 1.8rem 1.2rem; }
+      .res-big, .res-small { padding: 1.5rem; }
+      .cta-box { padding: 2rem 1.2rem; border-radius: 14px; }
+      footer { padding: 3rem 4% 2rem; }
+      .trust-sep { display: none; }
+      .hero-trust { gap: 1.5rem; }
+    }
+
+    /* ─── NAV PROFILE BTN ─── */
+    .nav-login-btn {
+      background: transparent; color: var(--text2);
+      border: 1px solid var(--border2); border-radius: 8px;
+      padding: 0.45rem 1rem; font-family: var(--font-b);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-login-btn:hover { border-color: var(--indigo); color: var(--indigo2); }
+    .nav-profile-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 100px; padding: 0.3rem 0.8rem 0.3rem 0.3rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-profile-btn:hover { border-color: var(--indigo); }
+    .nav-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: white;
+    }
+    .nav-streak-badge { font-size: 0.75rem; font-weight: 700; color: var(--text2); }
+
+    /* ─── OVERLAY ─── */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px); z-index: 1000;
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .overlay.active { display: flex; }
+
+    /* ─── LOGIN MODAL ─── */
+    .login-modal {
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 20px; padding: 2.5rem;
+      width: 100%; max-width: 400px;
+      position: relative; animation: popIn 0.3s ease both;
+    }
+    @keyframes popIn { from { opacity:0; transform:scale(0.95) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 6px; width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--muted); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { color: var(--text); border-color: var(--border2); }
+    .modal-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 1.8rem; }
+    .modal-title { font-family: var(--font-d); font-size: 1.5rem; font-weight: 900; margin-bottom: 0.4rem; }
+    .modal-sub { font-size: 0.83rem; color: var(--muted); margin-bottom: 1.8rem; line-height: 1.5; }
+    .modal-tabs { display: flex; gap: 0.3rem; margin-bottom: 1.5rem; background: var(--navy); border-radius: 8px; padding: 0.3rem; }
+    .modal-tab {
+      flex: 1; padding: 0.5rem; border-radius: 6px; border: none;
+      background: transparent; color: var(--muted);
+      font-family: var(--font-b); font-size: 0.83rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .modal-tab.active { background: var(--card2); color: var(--text); }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 0.4rem; display: block; text-transform: uppercase; }
+    .form-input {
+      width: 100%; background: var(--navy); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      color: var(--text); font-family: var(--font-b); font-size: 0.9rem;
+      transition: border-color 0.2s; outline: none;
+    }
+    .form-input:focus { border-color: var(--indigo); }
+    .form-input::placeholder { color: var(--faint); }
+    .form-btn {
+      width: 100%; background: var(--indigo); color: white; border: none;
+      border-radius: 10px; padding: 0.9rem;
+      font-family: var(--font-b); font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; margin-top: 0.5rem;
+      box-shadow: 0 4px 20px rgba(79,110,247,0.3);
+    }
+    .form-btn:hover { background: var(--indigo2); transform: translateY(-1px); }
+    .form-error { font-size: 0.78rem; color: var(--rose); margin-top: 0.3rem; display: none; }
+
+    /* ─── PROFILE DRAWER ─── */
+    .profile-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 100%; max-width: 380px;
+      background: var(--navy); border-left: 1px solid var(--border);
+      z-index: 1001; transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto; display: flex; flex-direction: column;
+    }
+    .profile-drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      padding: 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--navy); z-index: 2;
+    }
+    .drawer-header h3 { font-family: var(--font-d); font-size: 1.1rem; font-weight: 800; }
+    .drawer-close {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); cursor: pointer; font-size: 1rem; transition: all 0.2s;
+    }
+    .drawer-close:hover { color: var(--text); }
+
+    .drawer-profile-top {
+      padding: 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .drawer-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 800; color: white; flex-shrink: 0;
+    }
+    .drawer-name { font-family: var(--font-d); font-size: 1.1rem; font-weight: 800; }
+    .drawer-course { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .drawer-edit {
+      margin-left: auto; background: var(--card); border: 1px solid var(--border);
+      border-radius: 7px; padding: 0.35rem 0.8rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .drawer-edit:hover { color: var(--text); border-color: var(--border2); }
+
+    /* Stats row */
+    .drawer-stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .dstat {
+      background: var(--navy2); padding: 1.2rem 1rem; text-align: center;
+    }
+    .dstat-num { font-family: var(--font-d); font-size: 1.6rem; font-weight: 900; color: var(--text); line-height: 1; }
+    .dstat-lbl { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
+
+    /* Streak calendar */
+    .drawer-section { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .drawer-section-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--indigo2); margin-bottom: 1rem;
+    }
+    .streak-bar { display: flex; gap: 4px; flex-wrap: wrap; }
+    .streak-day {
+      width: 22px; height: 22px; border-radius: 4px;
+      background: var(--card); border: 1px solid var(--border);
+      transition: all 0.2s; cursor: default;
+    }
+    .streak-day.active { background: var(--indigo); border-color: var(--indigo); }
+    .streak-day.today { background: var(--mint); border-color: var(--mint); box-shadow: 0 0 8px rgba(52,211,153,0.4); }
+
+    /* Activity list */
+    .activity-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .activity-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem;
+    }
+    .act-icon {
+      width: 32px; height: 32px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .act-name { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .act-meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .act-tag {
+      margin-left: auto; font-size: 0.65rem; font-weight: 700;
+      padding: 0.15rem 0.5rem; border-radius: 4px; flex-shrink: 0;
+    }
+
+    /* Downloads list */
+    .download-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem;
+      transition: border-color 0.2s;
+    }
+    .download-item:hover { border-color: var(--indigo); }
+    .dl-icon { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .dl-name { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .dl-meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .dl-btn {
+      margin-left: auto; background: rgba(79,110,247,0.1); color: var(--indigo2);
+      border: 1px solid rgba(79,110,247,0.2); border-radius: 6px;
+      padding: 0.25rem 0.6rem; font-size: 0.7rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+    }
+    .dl-btn:hover { background: var(--indigo); color: white; }
+
+    /* Logout */
+    .drawer-logout {
+      margin: 1.5rem; background: transparent;
+      border: 1px solid rgba(251,113,117,0.3); border-radius: 10px;
+      padding: 0.75rem; color: var(--rose); font-family: var(--font-b);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .drawer-logout:hover { background: rgba(251,113,117,0.08); }
+
+    @media (max-width: 480px) {
+      .profile-drawer { max-width: 100%; }
+      .nav-login-btn { padding: 0.4rem 0.7rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+  <div class="mesh"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="#" style="display:flex;align-items:center;gap:0;text-decoration:none;">
+      <div style="width:42px;height:42px;border-radius:8px;background:#0f1729;border:2px solid #4f6ef7;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4f6ef7,#7c5cfc);"></div>
+        <span style="font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:800;color:#f0f3ff;line-height:1;">DU</span>
+        <div style="width:20px;height:1px;background:#4f6ef7;margin:2px 0;"></div>
+        <div style="width:4px;height:4px;border-radius:50%;background:#7c5cfc;"></div>
+      </div>
+      <div style="padding-left:11px;">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.5px;color:#f0f3ff;line-height:1;">DU<span style="color:#6b85ff;">Verse</span></div>
+      </div>
+    </a>
+    <div class="nav-center">
+      <a href="#courses">Courses</a>
+      <a href="#how">How It Works</a>
+      <a href="#resources">Resources</a>
+      <a href="#why">Why DUVerse</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-pill">100% Free</span>
+      <a href="#courses" class="nav-btn" id="navCta">Start Learning →</a>
+      <button class="nav-profile-btn" id="navProfileBtn" onclick="openProfile()" style="display:none;">
+        <div class="nav-avatar" id="navAvatar">A</div>
+        <div class="nav-streak-badge" id="navStreakBadge">🔥 0</div>
+      </button>
+      <button class="nav-login-btn" id="navLoginBtn" onclick="openLogin()">Log In</button>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MOBILE NAV ── -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#courses" onclick="toggleMenu()">Courses</a>
+    <a href="#how" onclick="toggleMenu()">How It Works</a>
+    <a href="#resources" onclick="toggleMenu()">Resources</a>
+    <a href="#why" onclick="toggleMenu()">Why DUVerse</a>
+    <a href="#courses" class="m-cta" onclick="toggleMenu()">Start Learning →</a>
+  </div>
+
+  <!-- ── LOGIN MODAL ── -->
+  <div class="overlay" id="loginOverlay" onclick="handleOverlayClick(event,'loginOverlay')">
+    <div class="login-modal">
+      <button class="modal-close" onclick="closeLogin()">✕</button>
+      <div class="modal-logo">
+        <div style="width:32px;height:32px;border-radius:6px;background:#0f1729;border:2px solid #4f6ef7;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#4f6ef7,#7c5cfc);"></div>
+          <span style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:800;color:#f0f3ff;">DU</span>
+          <div style="width:14px;height:1px;background:#4f6ef7;margin:1px 0;"></div>
+          <div style="width:3px;height:3px;border-radius:50%;background:#7c5cfc;"></div>
+        </div>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#f0f3ff;">DU<span style="color:#6b85ff;">Verse</span></span>
+      </div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchTab('login')">Log In</button>
+        <button class="modal-tab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="loginEmail" placeholder="yourname@gmail.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="loginPassword" placeholder="••••••••"/>
+          <div class="form-error" id="loginError">Invalid email or password. Try again.</div>
+        </div>
+        <button class="form-btn" onclick="handleLogin()">Log In →</button>
+      </div>
+
+      <!-- Signup Form -->
+      <div id="signupForm" style="display:none;">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" id="signupName" placeholder="Your name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="signupEmail" placeholder="yourname@gmail.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Course</label>
+          <select class="form-input" id="signupCourse">
+            <option value="">Select your programme</option>
+            <option>B.A. Programme</option>
+            <option>B.A. (Hons.) Economics</option>
+            <option>B.A. (Hons.) English</option>
+            <option>B.A. (Hons.) Hindi</option>
+            <option>B.A. (Hons.) History</option>
+            <option>B.A. (Hons.) Political Science</option>
+            <option>B.Com. / B.Com. (Hons.)</option>
+            <option>B.Sc. (Hons.) Mathematics</option>
+            <option>B.Sc. (Hons.) Computer Science</option>
+            <option>B.Sc. (Hons.) Physics</option>
+            <option>B.Sc. Life Sciences</option>
+            <option>BMS</option>
+            <option>BBA (FIA)</option>
+            <option>B.El.Ed.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="signupPassword" placeholder="Min. 6 characters"/>
+          <div class="form-error" id="signupError">Please fill all fields correctly.</div>
+        </div>
+        <button class="form-btn" onclick="handleSignup()">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROFILE DRAWER ── -->
+  <div class="overlay" id="profileOverlay" onclick="handleOverlayClick(event,'profileOverlay')" style="justify-content:flex-end;padding:0;align-items:stretch;">
+    <div class="profile-drawer" id="profileDrawer">
+
+      <div class="drawer-header">
+        <h3>My Profile</h3>
+        <button class="drawer-close" onclick="closeProfile()">✕</button>
+      </div>
+
+      <!-- User info -->
+      <div class="drawer-profile-top">
+        <div class="drawer-avatar" id="drawerAvatar">A</div>
+        <div>
+          <div class="drawer-name" id="drawerName">Student</div>
+          <div class="drawer-course" id="drawerCourse">B.A. Programme</div>
+        </div>
+        <button class="drawer-edit">Edit</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="drawer-stats">
+        <div class="dstat">
+          <div class="dstat-num" id="statStreak">0</div>
+          <div class="dstat-lbl">🔥 Streak</div>
+        </div>
+        <div class="dstat">
+          <div class="dstat-num" id="statDownloads">0</div>
+          <div class="dstat-lbl">📥 Downloads</div>
+        </div>
+        <div class="dstat">
+          <div class="dstat-num" id="statDays">1</div>
+          <div class="dstat-lbl">📅 Days Active</div>
+        </div>
+      </div>
+
+      <!-- Streak Calendar -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">🔥 Study Streak — Last 21 Days</div>
+        <div class="streak-bar" id="streakBar"></div>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.8rem;">Visit DUVerse every day to keep your streak alive!</p>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">⚡ Recent Activity</div>
+        <div class="activity-list" id="activityList">
+          <div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No activity yet. Start exploring resources!</div>
+        </div>
+      </div>
+
+      <!-- Downloads -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">📥 Downloads</div>
+        <div class="activity-list" id="downloadList">
+          <div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No downloads yet.</div>
+        </div>
+      </div>
+
+      <button class="drawer-logout" onclick="handleLogout()">← Log Out</button>
+    </div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section style="position:relative;z-index:1;">
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Built exclusively for Delhi University students
+        </div>
+
+        <h1>
+          Stop Searching.<br>
+          <span class="accent">Start Studying.</span><br>
+          <span class="dim">Right Now.</span>
+        </h1>
+
+        <p class="hero-sub">
+          Syllabus, notes, PYQs, and mock tests — organized by <strong>course → semester → subject</strong>. Everything a DU student needs, in one place, completely free.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#courses" class="btn-primary">Browse My Course <span class="arr">→</span></a>
+          <a href="#how" class="btn-ghost">See How It Works</a>
+        </div>
+
+        <div class="hero-trust">
+          <div class="trust-item">
+            <span class="trust-num">65+</span>
+            <span class="trust-lbl">Colleges</span>
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-item">
+            <span class="trust-num">100+</span>
+            <span class="trust-lbl">Subjects</span>
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-item">
+            <span class="trust-num">₹0</span>
+            <span class="trust-lbl">Always Free</span>
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-item">
+            <span class="trust-num">1</span>
+            <span class="trust-lbl">Platform</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Preview Window -->
+      <div class="hero-right">
+        <div class="preview-window">
+          <div class="pw-bar">
+            <div class="pw-dots">
+              <span class="r2"></span><span class="y"></span><span class="g"></span>
+            </div>
+            <div class="pw-url" id="pwUrl">DUVerse.github.io/ba/sem3/computer-applications</div>
+          </div>
+          <div class="pw-body" id="pwBody" style="transition: opacity 0.35s ease;">
+            <!-- Filled dynamically by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>B.A. Programme</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) Economics</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) English</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) History</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) Political Science</span><span class="t-dot">●</span>
+      <span>B.Com. / B.Com. (Hons.)</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Mathematics</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Computer Science</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Physics</span><span class="t-dot">●</span>
+      <span>B.Sc. Life Sciences</span><span class="t-dot">●</span>
+      <span>BMS</span><span class="t-dot">●</span>
+      <span>BBA (FIA)</span><span class="t-dot">●</span>
+      <span>B.El.Ed.</span><span class="t-dot">●</span>
+      <span>Free Forever · No Login · No Ads</span><span class="t-dot">●</span>
+      <!-- duplicate for seamless loop -->
+      <span>B.A. Programme</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) Economics</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) English</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) History</span><span class="t-dot">●</span>
+      <span>B.A. (Hons.) Political Science</span><span class="t-dot">●</span>
+      <span>B.Com. / B.Com. (Hons.)</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Mathematics</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Computer Science</span><span class="t-dot">●</span>
+      <span>B.Sc. (Hons.) Physics</span><span class="t-dot">●</span>
+      <span>B.Sc. Life Sciences</span><span class="t-dot">●</span>
+      <span>BMS</span><span class="t-dot">●</span>
+      <span>BBA (FIA)</span><span class="t-dot">●</span>
+      <span>B.El.Ed.</span><span class="t-dot">●</span>
+      <span>Free Forever · No Login · No Ads</span><span class="t-dot">●</span>
+    </div>
+  </div>
+
+  <!-- ── COURSES ── -->
+  <section id="courses">
+    <div class="section-inner">
+      <div class="label r">Academic Programmes</div>
+      <div class="courses-wrap">
+        <div class="courses-aside r">
+          <div class="big-num" style="font-family:var(--font-d);font-size:6rem;font-weight:900;color:var(--border);line-height:1;margin-bottom:-0.5rem;">08</div>
+          <p class="aside-desc">Select your degree to enter a fully structured resource hub — semester by semester, subject by subject.</p>
+          <a href="#" class="all-courses-btn">View All Programmes →</a>
+        </div>
+        <div class="courses-grid r">
+
+          <!-- ARTS -->
+          <div class="c-card" onclick="alert('B.A. Programme resources coming soon!')">
+            <div class="c-num">01 — Arts</div>
+            <div class="c-icon">📚</div>
+            <div class="c-name">B.A. Programme</div>
+            <div class="c-full">Multi-disciplinary Arts programme with subject combinations across Humanities & Social Sciences</div>
+            <div class="c-chips"><span class="chip">6 Semesters</span><span class="chip">Humanities</span><span class="chip">Social Sciences</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <div class="c-card" onclick="alert('B.A. Honours resources coming soon!')">
+            <div class="c-num">02 — Arts Honours</div>
+            <div class="c-icon">🎓</div>
+            <div class="c-name">B.A. Honours</div>
+            <div class="c-full">Honours in Economics, English, Hindi, History, Political Science, Psychology, Sociology, Geography, Philosophy, Sanskrit & more</div>
+            <div class="c-chips"><span class="chip">Economics</span><span class="chip">English</span><span class="chip">History</span><span class="chip">+10 more</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <!-- COMMERCE -->
+          <div class="c-card" onclick="alert('B.Com. resources coming soon!')">
+            <div class="c-num">03 — Commerce</div>
+            <div class="c-icon">📊</div>
+            <div class="c-name">B.Com. / B.Com. (Hons.)</div>
+            <div class="c-full">Commerce Programme & Honours covering Accountancy, Business Law, Finance and Economics</div>
+            <div class="c-chips"><span class="chip">6 Semesters</span><span class="chip">Finance</span><span class="chip">Accountancy</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <!-- SCIENCE -->
+          <div class="c-card" onclick="alert('B.Sc. resources coming soon!')">
+            <div class="c-num">04 — Science</div>
+            <div class="c-icon">🔬</div>
+            <div class="c-name">B.Sc. Honours</div>
+            <div class="c-full">Honours in Physics, Chemistry, Mathematics, Computer Science, Botany, Zoology, Statistics, Electronics & more</div>
+            <div class="c-chips"><span class="chip">Physics</span><span class="chip">Maths</span><span class="chip">Comp. Sc.</span><span class="chip">+8 more</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <div class="c-card" onclick="alert('B.Sc. Programme resources coming soon!')">
+            <div class="c-num">05 — Science</div>
+            <div class="c-icon">🧪</div>
+            <div class="c-name">B.Sc. Programme</div>
+            <div class="c-full">Life Sciences, Physical Sciences (Chemistry / Computer Science / Electronics) and Mathematical Sciences</div>
+            <div class="c-chips"><span class="chip">Life Sciences</span><span class="chip">Physical Sc.</span><span class="chip">Math Sc.</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <!-- MANAGEMENT -->
+          <div class="c-card" onclick="alert('BMS resources coming soon!')">
+            <div class="c-num">06 — Management</div>
+            <div class="c-icon">💼</div>
+            <div class="c-name">BMS</div>
+            <div class="c-full">Bachelor of Management Studies — Marketing, Finance, HR, Operations & Business Strategy</div>
+            <div class="c-chips"><span class="chip">6 Semesters</span><span class="chip">Management</span><span class="chip">Business</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <div class="c-card" onclick="alert('BBA (FIA) resources coming soon!')">
+            <div class="c-num">07 — Management</div>
+            <div class="c-icon">📈</div>
+            <div class="c-name">BBA (FIA)</div>
+            <div class="c-full">Bachelor of Business Administration (Financial Investment Analysis) — offered at select DU colleges</div>
+            <div class="c-chips"><span class="chip">Finance</span><span class="chip">Investment</span><span class="chip">Analysis</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+          <!-- EDUCATION & OTHERS -->
+          <div class="c-card" onclick="alert('B.El.Ed. resources coming soon!')">
+            <div class="c-num">08 — Education</div>
+            <div class="c-icon">🏫</div>
+            <div class="c-name">B.El.Ed.</div>
+            <div class="c-full">Bachelor of Elementary Education — 4-year integrated programme for aspiring school teachers</div>
+            <div class="c-chips"><span class="chip">4 Years</span><span class="chip">Education</span><span class="chip">Pedagogy</span></div>
+            <span class="c-go">↗</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section id="how">
+    <div class="section-inner alt">
+      <div class="label r" style="justify-content:center;display:flex;">How DUVerse Works</div>
+      <h2 class="sh r" style="text-align:center;margin:0 auto 0.5rem;">Any Resource in <em>4 Steps</em></h2>
+      <p class="sp r" style="text-align:center;margin:0 auto;">Designed so a first-year student on day one can find what they need in under 10 seconds.</p>
+      <div class="how-grid r">
+        <div class="how-card">
+          <div class="how-step">Step 01</div>
+          <div class="how-icon">🎓</div>
+          <h3>Pick Your Course</h3>
+          <p>Select your degree programme — B.A., B.Com., B.Sc., BMS, BCA, or any other DU course.</p>
+          <div class="how-arrow">→</div>
+        </div>
+        <div class="how-card">
+          <div class="how-step">Step 02</div>
+          <div class="how-icon">📅</div>
+          <h3>Choose Semester</h3>
+          <p>Navigate to your current semester. All 6 semesters are clearly laid out — no confusion.</p>
+          <div class="how-arrow">→</div>
+        </div>
+        <div class="how-card">
+          <div class="how-step">Step 03</div>
+          <div class="how-icon">📖</div>
+          <h3>Select Subject</h3>
+          <p>Pick the subject you need. Every subject in your semester is listed and labelled clearly.</p>
+          <div class="how-arrow">→</div>
+        </div>
+        <div class="how-card">
+          <div class="how-step">Step 04</div>
+          <div class="how-icon">⚡</div>
+          <h3>Access Everything</h3>
+          <p>Syllabus, Notes, PYQs, Mock Tests — all tabbed and ready. Read online or download instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESOURCES ── -->
+  <section id="resources">
+    <div class="section-inner">
+      <div class="label r">What's Inside</div>
+      <h2 class="sh r">Everything You Need<br><em>to Ace Your Exams</em></h2>
+      <p class="sp r">No hunting, no paywalls, no signup. Just open and study.</p>
+
+      <div class="res-layout r">
+        <div class="res-big">
+          <div>
+            <div class="res-icon2">📋</div>
+            <div class="res-t">Previous Year Question Papers</div>
+            <p class="res-d">The single most effective way to prepare for DU exams. Full archive of PYQs organized by year, semester, and subject. Know exactly what to expect.</p>
+          </div>
+          <div>
+            <span class="res-status2 s-live"><span class="s-dot"></span> Live Now</span>
+          </div>
+        </div>
+
+        <div class="res-small c1">
+          <div class="res-icon2">📄</div>
+          <div class="res-t">Official Syllabus</div>
+          <p class="res-d">Up-to-date syllabus for every course, semester, and subject straight from DU guidelines.</p>
+          <span class="res-status2 s-live"><span class="s-dot"></span> Live</span>
+        </div>
+
+        <div class="res-small c2">
+          <div class="res-icon2">📝</div>
+          <div class="res-t">Study Notes</div>
+          <p class="res-d">Structured, comprehensive notes covering the full curriculum. Never miss a topic again.</p>
+          <span class="res-status2 s-live"><span class="s-dot"></span> Live</span>
+        </div>
+
+        <div class="res-small c3">
+          <div class="res-icon2">🧪</div>
+          <div class="res-t">Mock Tests</div>
+          <p class="res-d">Timed tests that simulate real exams. Identify weak areas before results day.</p>
+          <span class="res-status2 s-soon"><span class="s-dot"></span> Coming Soon</span>
+        </div>
+
+        <div class="res-small c4">
+          <div class="res-icon2">🗺️</div>
+          <div class="res-t">Study Guides</div>
+          <p class="res-d">Revision strategies, topic priorities, and exam prep plans for each subject.</p>
+          <span class="res-status2 s-soon"><span class="s-dot"></span> Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHY ── -->
+  <section id="why">
+    <div class="section-inner why-section">
+      <div class="label r">Why DUVerse</div>
+      <h2 class="sh r">The Problem We <em>Solved</em></h2>
+      <p class="sp r">DU resources were always there — just impossible to find. We fixed that.</p>
+      <div class="why-grid r">
+        <div class="why-item">
+          <div class="why-label">The Old Way</div>
+          <div class="why-em">7+<span> tabs</span></div>
+          <p class="why-desc">Students used to dig through college websites, Telegram groups, WhatsApp forwards, and scattered PDFs just to find one syllabus.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-label">With DUVerse</div>
+          <div class="why-em"><span>&lt;</span>10<span>sec</span></div>
+          <p class="why-desc">From landing on DUVerse to reading your subject's PYQ — in under 10 seconds. Designed around the student's actual workflow.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-label">The Promise</div>
+          <div class="why-em">₹<span>0</span></div>
+          <p class="why-desc">No subscriptions. No paywalls. No ads. No login required. DUVerse is free because education should be accessible to every DU student.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUOTE ── -->
+  <section class="quote-wrap r">
+    <div class="q-line"></div>
+    <p class="q-big">"The student who panics at 11pm before an exam shouldn't have to hunt for resources. They should already <em>have everything they need.</em>"</p>
+    <p class="q-attr">— The idea behind DUVerse</p>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section>
+    <div class="cta-wrap r">
+      <div class="cta-box">
+        <div class="label" style="justify-content:center;display:flex;margin-bottom:1.2rem;">Get Started Today</div>
+        <h2 class="sh" style="text-align:center;">Study Smarter.<br><em>Score Higher.</em></h2>
+        <p class="sp" style="text-align:center;margin:1rem auto 2.5rem;">Join Delhi University students who've stopped searching and started studying. Free. Always.</p>
+        <div class="cta-btns">
+          <a href="#courses" class="btn-primary">Explore Courses <span class="arr">→</span></a>
+          <a href="#how" class="btn-ghost">How It Works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:0;margin-bottom:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:8px;background:#0f1729;border:2px solid #4f6ef7;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4f6ef7,#7c5cfc);"></div>
+          <span style="font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:800;color:#f0f3ff;line-height:1;">DU</span>
+          <div style="width:20px;height:1px;background:#4f6ef7;margin:2px 0;"></div>
+          <div style="width:4px;height:4px;border-radius:50%;background:#7c5cfc;"></div>
+        </div>
+        <div style="padding-left:11px;">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.5px;color:#f0f3ff;line-height:1;">DU<span style="color:#6b85ff;">Verse</span></div>
+        </div>
+      </div>
+        <p class="f-about">The academic resource hub built exclusively for Delhi University students. Free, structured, and always accessible.</p>
+        <div style="display:flex;gap:0.6rem;margin-top:1.2rem;">
+          <a href="#" title="Instagram" style="width:36px;height:36px;border-radius:8px;background:#151d35;border:1px solid #232d4a;display:flex;align-items:center;justify-content:center;text-decoration:none;" onmouseover="this.style.borderColor='#4f6ef7';this.style.background='#1a2340'" onmouseout="this.style.borderColor='#232d4a';this.style.background='#151d35'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7a88b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#7a88b8"/></svg>
+          </a>
+          <a href="#" title="Telegram" style="width:36px;height:36px;border-radius:8px;background:#151d35;border:1px solid #232d4a;display:flex;align-items:center;justify-content:center;text-decoration:none;" onmouseover="this.style.borderColor='#4f6ef7';this.style.background='#1a2340'" onmouseout="this.style.borderColor='#232d4a';this.style.background='#151d35'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7a88b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </a>
+          <a href="#" title="WhatsApp" style="width:36px;height:36px;border-radius:8px;background:#151d35;border:1px solid #232d4a;display:flex;align-items:center;justify-content:center;text-decoration:none;" onmouseover="this.style.borderColor='#4f6ef7';this.style.background='#1a2340'" onmouseout="this.style.borderColor='#232d4a';this.style.background='#151d35'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7a88b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+          <a href="#" title="YouTube" style="width:36px;height:36px;border-radius:8px;background:#151d35;border:1px solid #232d4a;display:flex;align-items:center;justify-content:center;text-decoration:none;" onmouseover="this.style.borderColor='#4f6ef7';this.style.background='#1a2340'" onmouseout="this.style.borderColor='#232d4a';this.style.background='#151d35'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7a88b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h5>Courses</h5>
+        <ul>
+          <li><a href="#">B.A. Programme</a></li>
+          <li><a href="#">B.A. Honours</a></li>
+          <li><a href="#">B.Com. / B.Com. (Hons.)</a></li>
+          <li><a href="#">B.Sc. Honours</a></li>
+          <li><a href="#">B.Sc. Programme</a></li>
+          <li><a href="#">BMS / BBA (FIA)</a></li>
+          <li><a href="#">B.El.Ed.</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Syllabus</a></li>
+          <li><a href="#">Study Notes</a></li>
+          <li><a href="#">PYQs</a></li>
+          <li><a href="#">Mock Tests</a></li>
+          <li><a href="#">Study Guides</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#">About DUVerse</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Contribute</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 DUVerse. Made with dedication for Delhi University students.</p>
+      <span class="f-free">Free Forever</span>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor — disable on touch devices
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      document.getElementById('cur').style.display = 'none';
+      document.getElementById('cur-ring').style.display = 'none';
+      document.body.style.cursor = 'auto';
+    }
+
+    // Cursor
+    const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){
+      cur.style.left=mx+'px';cur.style.top=my+'px';
+      rx+=(mx-rx)*0.13;ry+=(my-ry)*0.13;
+      ring.style.left=rx+'px';ring.style.top=ry+'px';
+      requestAnimationFrame(loop);
+    })();
+
+    // Hamburger menu
+    function toggleMenu() {
+      const ham = document.getElementById('hamburger');
+      const nav = document.getElementById('mobileNav');
+      ham.classList.toggle('open');
+      nav.classList.toggle('open');
+    }
+    // Close menu on outside click
+    document.addEventListener('click', e => {
+      const ham = document.getElementById('hamburger');
+      const nav = document.getElementById('mobileNav');
+      if (!ham.contains(e.target) && !nav.contains(e.target)) {
+        ham.classList.remove('open');
+        nav.classList.remove('open');
+      }
+    });
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach((e,i)=>{
+        if(e.isIntersecting) setTimeout(()=>e.target.classList.add('show'),i*90);
+      });
+    },{threshold:0.08});
+    document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+    // Tab switching in preview
+    document.querySelectorAll('.pw-tab').forEach(tab=>{
+      tab.addEventListener('click',function(){
+        document.querySelectorAll('.pw-tab').forEach(t=>t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    /* ════════════════════════════
+       AUTH & PROFILE SYSTEM
+    ════════════════════════════ */
+    // Simple in-memory store (replace with backend later)
+    let users = JSON.parse(localStorage.getItem('duverse_users') || '{}');
+    let currentUser = JSON.parse(localStorage.getItem('duverse_current') || 'null');
+
+    function saveData() {
+      localStorage.setItem('duverse_users', JSON.stringify(users));
+      localStorage.setItem('duverse_current', JSON.stringify(currentUser));
+    }
+
+    // Init UI based on login state
+    function initAuth() {
+      if (currentUser) {
+        document.getElementById('navLoginBtn').style.display = 'none';
+        document.getElementById('navProfileBtn').style.display = 'flex';
+        const u = users[currentUser];
+        document.getElementById('navAvatar').textContent = u.name.charAt(0).toUpperCase();
+        document.getElementById('navStreakBadge').textContent = '🔥 ' + u.streak;
+        updateStreak();
+      } else {
+        document.getElementById('navLoginBtn').style.display = 'flex';
+        document.getElementById('navProfileBtn').style.display = 'none';
+      }
+    }
+
+    // Open/close login
+    function openLogin() {
+      document.getElementById('loginOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLogin() {
+      document.getElementById('loginOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Switch login/signup tabs
+    function switchTab(tab) {
+      document.querySelectorAll('.modal-tab').forEach((t,i)=>{
+        t.classList.toggle('active', (tab==='login' && i===0)||(tab==='signup' && i===1));
+      });
+      document.getElementById('loginForm').style.display = tab==='login' ? 'block' : 'none';
+      document.getElementById('signupForm').style.display = tab==='signup' ? 'block' : 'none';
+    }
+
+    // Handle login
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass  = document.getElementById('loginPassword').value;
+      const err   = document.getElementById('loginError');
+      if (!users[email] || users[email].password !== pass) {
+        err.style.display = 'block'; return;
+      }
+      err.style.display = 'none';
+      currentUser = email;
+      saveData();
+      closeLogin();
+      initAuth();
+    }
+
+    // Handle signup
+    function handleSignup() {
+      const name   = document.getElementById('signupName').value.trim();
+      const email  = document.getElementById('signupEmail').value.trim();
+      const course = document.getElementById('signupCourse').value;
+      const pass   = document.getElementById('signupPassword').value;
+      const err    = document.getElementById('signupError');
+      if (!name || !email || !course || pass.length < 6) {
+        err.style.display = 'block'; return;
+      }
+      err.style.display = 'none';
+      const today = new Date().toDateString();
+      users[email] = {
+        name, email, course, password: pass,
+        streak: 1, lastVisit: today, daysActive: 1,
+        downloads: [], activity: [
+          { icon:'🎓', name:'Joined DUVerse', meta: today, tag:'Welcome', tagColor:'rgba(52,211,153,0.15)', tagText:'#34d399' }
+        ]
+      };
+      currentUser = email;
+      saveData();
+      closeLogin();
+      initAuth();
+    }
+
+    // Streak logic
+    function updateStreak() {
+      if (!currentUser) return;
+      const u = users[currentUser];
+      const today = new Date().toDateString();
+      const last  = new Date(u.lastVisit);
+      const now   = new Date();
+      const diff  = Math.floor((now - last) / (1000*60*60*24));
+      if (u.lastVisit !== today) {
+        if (diff === 1) { u.streak++; } 
+        else if (diff > 1) { u.streak = 1; }
+        u.daysActive = (u.daysActive || 1) + 1;
+        u.lastVisit = today;
+        u.activity = u.activity || [];
+        u.activity.unshift({ icon:'🔥', name:'Visited DUVerse', meta: today, tag:'Streak', tagColor:'rgba(251,191,36,0.15)', tagText:'#fbbf24' });
+        saveData();
+      }
+      document.getElementById('navStreakBadge').textContent = '🔥 ' + u.streak;
+    }
+
+    // Open profile drawer
+    function openProfile() {
+      if (!currentUser) return;
+      const u = users[currentUser];
+      document.getElementById('profileOverlay').classList.add('active');
+      document.getElementById('profileDrawer').classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Fill data
+      document.getElementById('drawerAvatar').textContent = u.name.charAt(0).toUpperCase();
+      document.getElementById('drawerName').textContent = u.name;
+      document.getElementById('drawerCourse').textContent = u.course;
+      document.getElementById('statStreak').textContent = u.streak || 1;
+      document.getElementById('statDownloads').textContent = (u.downloads||[]).length;
+      document.getElementById('statDays').textContent = u.daysActive || 1;
+
+      // Streak calendar (21 days)
+      buildStreakCalendar();
+
+      // Activity
+      buildActivityList();
+
+      // Downloads
+      buildDownloadList();
+    }
+
+    function closeProfile() {
+      document.getElementById('profileOverlay').classList.remove('active');
+      document.getElementById('profileDrawer').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e, id) {
+      if (e.target.id === id) {
+        if (id === 'loginOverlay') closeLogin();
+        if (id === 'profileOverlay') closeProfile();
+      }
+    }
+
+    function buildStreakCalendar() {
+      const bar = document.getElementById('streakBar');
+      bar.innerHTML = '';
+      const u = users[currentUser];
+      const streak = u.streak || 1;
+      const today = new Date().toDateString();
+      for (let i = 20; i >= 0; i--) {
+        const d = document.createElement('div');
+        d.className = 'streak-day';
+        if (i === 0) d.classList.add('today');
+        else if (i < streak) d.classList.add('active');
+        d.title = i === 0 ? 'Today' : `${i} day${i>1?'s':''} ago`;
+        bar.appendChild(d);
+      }
+    }
+
+    function buildActivityList() {
+      const list = document.getElementById('activityList');
+      const u = users[currentUser];
+      const acts = (u.activity || []).slice(0, 6);
+      if (!acts.length) {
+        list.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No activity yet.</div>';
+        return;
+      }
+      list.innerHTML = acts.map(a => `
+        <div class="activity-item">
+          <div class="act-icon" style="background:${a.tagColor||'rgba(79,110,247,0.12)'}">${a.icon}</div>
+          <div>
+            <div class="act-name">${a.name}</div>
+            <div class="act-meta">${a.meta}</div>
+          </div>
+          <span class="act-tag" style="background:${a.tagColor||'rgba(79,110,247,0.12)'};color:${a.tagText||'#6b85ff'};border:1px solid ${a.tagText||'#6b85ff'}33">${a.tag}</span>
+        </div>`).join('');
+    }
+
+    function buildDownloadList() {
+      const list = document.getElementById('downloadList');
+      const u = users[currentUser];
+      const dls = (u.downloads || []).slice(0, 5);
+      if (!dls.length) {
+        list.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No downloads yet. Open a subject to download resources!</div>';
+        return;
+      }
+      list.innerHTML = dls.map(d => `
+        <div class="download-item">
+          <div class="dl-icon" style="background:rgba(79,110,247,0.12)">📄</div>
+          <div>
+            <div class="dl-name">${d.name}</div>
+            <div class="dl-meta">${d.subject} · ${d.date}</div>
+          </div>
+          <button class="dl-btn">↓ PDF</button>
+        </div>`).join('');
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      saveData();
+      closeProfile();
+      initAuth();
+    }
+
+    /* ════════════════════════════
+       ROTATING PREVIEW WINDOW
+    ════════════════════════════ */
+    const previewCourses = [
+      {
+        url: 'DUVerse.github.io/ba/sem3/computer-applications',
+        crumb1: 'B.A. Programme', sem: 'Semester 3', subject: 'Computer Applications',
+        meta: 'B.A. Programme · Semester III · 4 resource types',
+        activeTab: 'Syllabus',
+        resources: [
+          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 340 KB · Updated Aug 2024', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Introduction to Computers', size:'Notes · 12 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — End Semester', size:'PDF · 180 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        ]
+      },
+      {
+        url: 'DUVerse.github.io/bcom/sem2/business-law',
+        crumb1: 'B.Com. (Hons.)', sem: 'Semester 2', subject: 'Business Law',
+        meta: 'B.Com. Honours · Semester II · 4 resource types',
+        activeTab: 'PYQs',
+        resources: [
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Business Law', size:'PDF · 210 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — Business Law', size:'PDF · 195 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Chapter 3 — Contract Act Notes', size:'Notes · 18 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+        ]
+      },
+      {
+        url: 'DUVerse.github.io/bsc-maths/sem4/real-analysis',
+        crumb1: 'B.Sc. (H) Mathematics', sem: 'Semester 4', subject: 'Real Analysis',
+        meta: 'B.Sc. Honours Maths · Semester IV · 4 resource types',
+        activeTab: 'Notes',
+        resources: [
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Sequences & Series', size:'Notes · 24 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Continuity & Limits', size:'Notes · 20 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 280 KB', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
+        ]
+      },
+      {
+        url: 'DUVerse.github.io/ba-eco/sem1/microeconomics',
+        crumb1: 'B.A. (H) Economics', sem: 'Semester 1', subject: 'Microeconomics',
+        meta: 'Economics Honours · Semester I · 4 resource types',
+        activeTab: 'Mock Test',
+        resources: [
+          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Consumer Theory', size:'30 Questions · 45 min', btnTxt:'Start', btnBg:'rgba(56,189,248,0.12)', btnColor:'#38bdf8', btnBorder:'rgba(56,189,248,0.25)' },
+          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Producer Theory', size:'25 Questions · 35 min', btnTxt:'Start', btnBg:'rgba(56,189,248,0.12)', btnColor:'#38bdf8', btnBorder:'rgba(56,189,248,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Microeconomics', size:'PDF · 165 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        ]
+      },
+      {
+        url: 'DUVerse.github.io/bms/sem3/marketing-management',
+        crumb1: 'BMS', sem: 'Semester 3', subject: 'Marketing Management',
+        meta: 'BMS · Semester III · 4 resource types',
+        activeTab: 'Syllabus',
+        resources: [
+          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 310 KB · Updated Aug 2024', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Marketing Mix (4Ps)', size:'Notes · 16 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — End Semester', size:'PDF · 190 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        ]
+      }
+    ];
+
+    let pwIndex = 0;
+
+    function renderPreview(idx, animate) {
+      const c = previewCourses[idx];
+      const urlEl  = document.getElementById('pwUrl');
+      const bodyEl = document.getElementById('pwBody');
+      if (!urlEl || !bodyEl) return;
+
+      if (animate) {
+        bodyEl.style.opacity = '0';
+        urlEl.style.opacity  = '0';
+      }
+
+      setTimeout(() => {
+        urlEl.textContent = c.url;
+        bodyEl.innerHTML = `
+          <div class="pw-breadcrumb">
+            <span class="crumb">${c.crumb1}</span>
+            <span class="sep">›</span>
+            <span>${c.sem}</span>
+            <span class="sep">›</span>
+            <span class="crumb">${c.subject}</span>
+          </div>
+          <div class="pw-subject-title">${c.subject}</div>
+          <div class="pw-subject-meta">${c.meta}</div>
+          <div class="pw-tabs">
+            ${['Syllabus','Notes','PYQs','Mock Test'].map(t=>`<div class="pw-tab${t===c.activeTab?' active':''}">${t}</div>`).join('')}
+          </div>
+          <div class="pw-resource-list">
+            ${c.resources.map(r=>`
+              <div class="pw-res-item">
+                <div class="pw-res-left">
+                  <div class="pw-res-icon" style="background:${r.bg}">${r.icon}</div>
+                  <div>
+                    <div class="pw-res-name">${r.name}</div>
+                    <div class="pw-res-size">${r.size}</div>
+                  </div>
+                </div>
+                <button class="pw-res-dl" style="background:${r.btnBg};color:${r.btnColor};border:1px solid ${r.btnBorder};">${r.btnTxt}</button>
+              </div>`).join('')}
+          </div>`;
+
+        // Re-attach tab click
+        bodyEl.querySelectorAll('.pw-tab').forEach(tab=>{
+          tab.addEventListener('click',function(){
+            bodyEl.querySelectorAll('.pw-tab').forEach(t=>t.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+
+        if (animate) {
+          bodyEl.style.transition = 'opacity 0.35s ease';
+          urlEl.style.transition  = 'opacity 0.35s ease';
+          bodyEl.style.opacity = '1';
+          urlEl.style.opacity  = '1';
+        }
+      }, animate ? 350 : 0);
+    }
+
+    // Init first slide immediately
+    renderPreview(0, false);
+
+    // Rotate every 2s
+    setInterval(() => {
+      pwIndex = (pwIndex + 1) % previewCourses.length;
+      renderPreview(pwIndex, true);
+    }, 2000);
+
+    // Also update url opacity transition reset
+    document.getElementById('pwUrl').style.transition = 'opacity 0.35s ease';
+
+    // Init on load
+    initAuth();
+  </script>
+</body>
+</html>
