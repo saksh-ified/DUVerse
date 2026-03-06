@@ -205,11 +205,13 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,110,247,0.1);
+      position: relative;
     }
     .pw-bar {
       background: var(--navy2); padding: 0.85rem 1.2rem;
       display: flex; align-items: center; gap: 0.8rem;
       border-bottom: 1px solid var(--border);
+      position: relative; z-index: 2;
     }
     .pw-dots { display: flex; gap: 0.4rem; }
     .pw-dots span { width: 10px; height: 10px; border-radius: 50%; }
@@ -220,14 +222,54 @@
       flex: 1; background: var(--card2); border: 1px solid var(--border);
       border-radius: 6px; padding: 0.3rem 0.8rem;
       font-size: 0.72rem; color: var(--muted); font-family: monospace;
+      transition: opacity 0.3s ease;
     }
 
-    .pw-body { padding: 1.2rem; }
+    /* Carousel viewport */
+    .pw-viewport {
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+    }
+    .pw-slide {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 1.2rem;
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+    .pw-slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      position: relative;
+    }
+    .pw-slide.exit {
+      opacity: 0;
+      transform: translateX(-60px);
+      position: absolute;
+    }
+
+    /* Dot indicators */
+    .pw-indicators {
+      display: flex; justify-content: center; gap: 5px;
+      padding: 0.5rem 0 0.8rem;
+      background: var(--card);
+    }
+    .pw-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border2); transition: all 0.3s;
+      cursor: pointer; border: none;
+    }
+    .pw-dot.active { background: var(--indigo); width: 18px; border-radius: 3px; }
 
     /* breadcrumb inside preview */
     .pw-breadcrumb {
       display: flex; align-items: center; gap: 0.4rem;
       font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem;
+      flex-wrap: wrap;
     }
     .pw-breadcrumb .crumb { color: var(--indigo2); font-weight: 600; }
     .pw-breadcrumb .sep { color: var(--faint); }
@@ -1062,13 +1104,12 @@
         <div class="preview-window">
           <div class="pw-bar">
             <div class="pw-dots">
-              <span class="r2"></span><span class="y"></span><span class="g"></span>
+              <span class="r"></span><span class="y"></span><span class="g"></span>
             </div>
-            <div class="pw-url" id="pwUrl">DUVerse.github.io/ba/sem3/computer-applications</div>
+            <div class="pw-url" id="pwUrl">duverse.github.io/ba/sem3/computer-applications</div>
           </div>
-          <div class="pw-body" id="pwBody" style="transition: opacity 0.35s ease;">
-            <!-- Filled dynamically by JS -->
-          </div>
+          <div class="pw-viewport" id="pwViewport"></div>
+          <div class="pw-indicators" id="pwIndicators"></div>
         </div>
       </div>
     </div>
@@ -1666,137 +1707,177 @@
       initAuth();
     }
 
-    /* ════════════════════════════
-       ROTATING PREVIEW WINDOW
-    ════════════════════════════ */
-    const previewCourses = [
+    /* ══════════════════════════════
+       CAROUSEL — SLIDE LEFT + FADE
+    ══════════════════════════════ */
+    const SLIDES = [
       {
-        url: 'DUVerse.github.io/ba/sem3/computer-applications',
-        crumb1: 'B.A. Programme', sem: 'Semester 3', subject: 'Computer Applications',
+        url: 'duverse.github.io/ba/sem3/computer-applications',
+        crumb: 'B.A. Programme › Semester 3', subject: 'Computer Applications',
         meta: 'B.A. Programme · Semester III · 4 resource types',
-        activeTab: 'Syllabus',
-        resources: [
-          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 340 KB · Updated Aug 2024', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
-          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Introduction to Computers', size:'Notes · 12 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
-          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — End Semester', size:'PDF · 180 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        tab: 'Syllabus',
+        res: [
+          { icon:'📄', bg:'rgba(79,110,247,0.12)',  name:'Official Syllabus 2024–25',         size:'PDF · 340 KB · Updated Aug 2024', btn:'↓ PDF',  bc:'rgba(52,211,153,0.12)',  bclr:'#34d399', bb:'rgba(52,211,153,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Introduction to Computers', size:'Notes · 12 pages',                btn:'Read',   bc:'rgba(79,110,247,0.12)',  bclr:'#6b85ff', bb:'rgba(79,110,247,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — End Semester',            size:'PDF · 180 KB',                   btn:'↓ PDF',  bc:'rgba(251,191,36,0.1)',   bclr:'#fbbf24', bb:'rgba(251,191,36,0.2)' },
         ]
       },
       {
-        url: 'DUVerse.github.io/bcom/sem2/business-law',
-        crumb1: 'B.Com. (Hons.)', sem: 'Semester 2', subject: 'Business Law',
+        url: 'duverse.github.io/bcom/sem2/business-law',
+        crumb: 'B.Com. (Hons.) › Semester 2', subject: 'Business Law',
         meta: 'B.Com. Honours · Semester II · 4 resource types',
-        activeTab: 'PYQs',
-        resources: [
-          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Business Law', size:'PDF · 210 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
-          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — Business Law', size:'PDF · 195 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
-          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Chapter 3 — Contract Act Notes', size:'Notes · 18 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
+        tab: 'PYQs',
+        res: [
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Business Law',       size:'PDF · 210 KB',      btn:'↓ PDF', bc:'rgba(251,191,36,0.1)',  bclr:'#fbbf24', bb:'rgba(251,191,36,0.2)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — Business Law',       size:'PDF · 195 KB',      btn:'↓ PDF', bc:'rgba(251,191,36,0.1)',  bclr:'#fbbf24', bb:'rgba(251,191,36,0.2)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Chapter 3 — Contract Act Notes',size:'Notes · 18 pages',  btn:'Read',  bc:'rgba(79,110,247,0.12)', bclr:'#6b85ff', bb:'rgba(79,110,247,0.25)' },
         ]
       },
       {
-        url: 'DUVerse.github.io/bsc-maths/sem4/real-analysis',
-        crumb1: 'B.Sc. (H) Mathematics', sem: 'Semester 4', subject: 'Real Analysis',
+        url: 'duverse.github.io/bsc-maths/sem4/real-analysis',
+        crumb: 'B.Sc. (H) Mathematics › Semester 4', subject: 'Real Analysis',
         meta: 'B.Sc. Honours Maths · Semester IV · 4 resource types',
-        activeTab: 'Notes',
-        resources: [
-          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Sequences & Series', size:'Notes · 24 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
-          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Continuity & Limits', size:'Notes · 20 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
-          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 280 KB', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
+        tab: 'Notes',
+        res: [
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 1 — Sequences & Series',  size:'Notes · 24 pages', btn:'Read',   bc:'rgba(79,110,247,0.12)',  bclr:'#6b85ff', bb:'rgba(79,110,247,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Continuity & Limits', size:'Notes · 20 pages', btn:'Read',   bc:'rgba(79,110,247,0.12)',  bclr:'#6b85ff', bb:'rgba(79,110,247,0.25)' },
+          { icon:'📄', bg:'rgba(79,110,247,0.12)',  name:'Official Syllabus 2024–25',    size:'PDF · 280 KB',     btn:'↓ PDF',  bc:'rgba(52,211,153,0.12)',  bclr:'#34d399', bb:'rgba(52,211,153,0.25)' },
         ]
       },
       {
-        url: 'DUVerse.github.io/ba-eco/sem1/microeconomics',
-        crumb1: 'B.A. (H) Economics', sem: 'Semester 1', subject: 'Microeconomics',
+        url: 'duverse.github.io/ba-eco/sem1/microeconomics',
+        crumb: 'B.A. (H) Economics › Semester 1', subject: 'Microeconomics',
         meta: 'Economics Honours · Semester I · 4 resource types',
-        activeTab: 'Mock Test',
-        resources: [
-          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Consumer Theory', size:'30 Questions · 45 min', btnTxt:'Start', btnBg:'rgba(56,189,248,0.12)', btnColor:'#38bdf8', btnBorder:'rgba(56,189,248,0.25)' },
-          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Producer Theory', size:'25 Questions · 35 min', btnTxt:'Start', btnBg:'rgba(56,189,248,0.12)', btnColor:'#38bdf8', btnBorder:'rgba(56,189,248,0.25)' },
-          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Microeconomics', size:'PDF · 165 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        tab: 'Mock Test',
+        res: [
+          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Consumer Theory', size:'30 Questions · 45 min', btn:'Start', bc:'rgba(56,189,248,0.12)', bclr:'#38bdf8', bb:'rgba(56,189,248,0.25)' },
+          { icon:'🧪', bg:'rgba(56,189,248,0.12)', name:'Mock Test — Producer Theory', size:'25 Questions · 35 min', btn:'Start', bc:'rgba(56,189,248,0.12)', bclr:'#38bdf8', bb:'rgba(56,189,248,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2023 — Microeconomics',   size:'PDF · 165 KB',         btn:'↓ PDF', bc:'rgba(251,191,36,0.1)',  bclr:'#fbbf24', bb:'rgba(251,191,36,0.2)' },
         ]
       },
       {
-        url: 'DUVerse.github.io/bms/sem3/marketing-management',
-        crumb1: 'BMS', sem: 'Semester 3', subject: 'Marketing Management',
+        url: 'duverse.github.io/bms/sem3/marketing-management',
+        crumb: 'BMS › Semester 3', subject: 'Marketing Management',
         meta: 'BMS · Semester III · 4 resource types',
-        activeTab: 'Syllabus',
-        resources: [
-          { icon:'📄', bg:'rgba(79,110,247,0.12)', name:'Official Syllabus 2024–25', size:'PDF · 310 KB · Updated Aug 2024', btnTxt:'↓ PDF', btnBg:'rgba(52,211,153,0.12)', btnColor:'#34d399', btnBorder:'rgba(52,211,153,0.25)' },
-          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Marketing Mix (4Ps)', size:'Notes · 16 pages', btnTxt:'Read', btnBg:'rgba(79,110,247,0.12)', btnColor:'#6b85ff', btnBorder:'rgba(79,110,247,0.25)' },
-          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — End Semester', size:'PDF · 190 KB', btnTxt:'↓ PDF', btnBg:'rgba(251,191,36,0.1)', btnColor:'#fbbf24', btnBorder:'rgba(251,191,36,0.2)' },
+        tab: 'Syllabus',
+        res: [
+          { icon:'📄', bg:'rgba(79,110,247,0.12)',  name:'Official Syllabus 2024–25',     size:'PDF · 310 KB · Updated Aug 2024', btn:'↓ PDF', bc:'rgba(52,211,153,0.12)',  bclr:'#34d399', bb:'rgba(52,211,153,0.25)' },
+          { icon:'📝', bg:'rgba(124,92,252,0.12)', name:'Unit 2 — Marketing Mix (4Ps)',  size:'Notes · 16 pages',               btn:'Read',  bc:'rgba(79,110,247,0.12)',  bclr:'#6b85ff', bb:'rgba(79,110,247,0.25)' },
+          { icon:'📋', bg:'rgba(251,191,36,0.12)', name:'PYQ 2022 — End Semester',       size:'PDF · 190 KB',                   btn:'↓ PDF', bc:'rgba(251,191,36,0.1)',   bclr:'#fbbf24', bb:'rgba(251,191,36,0.2)' },
         ]
       }
     ];
 
-    let pwIndex = 0;
+    const viewport    = document.getElementById('pwViewport');
+    const dotsWrap    = document.getElementById('pwIndicators');
+    const urlBar      = document.getElementById('pwUrl');
+    let   activeIdx   = 0;
+    let   carouselTimer;
+    let   transitioning = false;
 
-    function renderPreview(idx, animate) {
-      const c = previewCourses[idx];
-      const urlEl  = document.getElementById('pwUrl');
-      const bodyEl = document.getElementById('pwBody');
-      if (!urlEl || !bodyEl) return;
-
-      if (animate) {
-        bodyEl.style.opacity = '0';
-        urlEl.style.opacity  = '0';
-      }
-
-      setTimeout(() => {
-        urlEl.textContent = c.url;
-        bodyEl.innerHTML = `
-          <div class="pw-breadcrumb">
-            <span class="crumb">${c.crumb1}</span>
-            <span class="sep">›</span>
-            <span>${c.sem}</span>
-            <span class="sep">›</span>
-            <span class="crumb">${c.subject}</span>
-          </div>
-          <div class="pw-subject-title">${c.subject}</div>
-          <div class="pw-subject-meta">${c.meta}</div>
-          <div class="pw-tabs">
-            ${['Syllabus','Notes','PYQs','Mock Test'].map(t=>`<div class="pw-tab${t===c.activeTab?' active':''}">${t}</div>`).join('')}
-          </div>
-          <div class="pw-resource-list">
-            ${c.resources.map(r=>`
-              <div class="pw-res-item">
-                <div class="pw-res-left">
-                  <div class="pw-res-icon" style="background:${r.bg}">${r.icon}</div>
-                  <div>
-                    <div class="pw-res-name">${r.name}</div>
-                    <div class="pw-res-size">${r.size}</div>
-                  </div>
-                </div>
-                <button class="pw-res-dl" style="background:${r.btnBg};color:${r.btnColor};border:1px solid ${r.btnBorder};">${r.btnTxt}</button>
-              </div>`).join('')}
-          </div>`;
-
-        // Re-attach tab click
-        bodyEl.querySelectorAll('.pw-tab').forEach(tab=>{
-          tab.addEventListener('click',function(){
-            bodyEl.querySelectorAll('.pw-tab').forEach(t=>t.classList.remove('active'));
-            this.classList.add('active');
-          });
-        });
-
-        if (animate) {
-          bodyEl.style.transition = 'opacity 0.35s ease';
-          urlEl.style.transition  = 'opacity 0.35s ease';
-          bodyEl.style.opacity = '1';
-          urlEl.style.opacity  = '1';
-        }
-      }, animate ? 350 : 0);
+    function buildSlideHTML(s) {
+      return `
+        <div class="pw-breadcrumb"><span class="crumb">${s.crumb.replace(' › ','</span><span class="sep"> › </span><span class="crumb">')}</span></div>
+        <div class="pw-subject-title">${s.subject}</div>
+        <div class="pw-subject-meta">${s.meta}</div>
+        <div class="pw-tabs">
+          ${['Syllabus','Notes','PYQs','Mock Test'].map(t=>`<div class="pw-tab${t===s.tab?' active':''}">${t}</div>`).join('')}
+        </div>
+        <div class="pw-resource-list">
+          ${s.res.map(r=>`
+            <div class="pw-res-item">
+              <div class="pw-res-left">
+                <div class="pw-res-icon" style="background:${r.bg}">${r.icon}</div>
+                <div><div class="pw-res-name">${r.name}</div><div class="pw-res-size">${r.size}</div></div>
+              </div>
+              <button class="pw-res-dl" style="background:${r.bc};color:${r.bclr};border:1px solid ${r.bb}">${r.btn}</button>
+            </div>`).join('')}
+        </div>`;
     }
 
-    // Init first slide immediately
-    renderPreview(0, false);
+    // Build all slides in DOM upfront
+    SLIDES.forEach((s, i) => {
+      const div = document.createElement('div');
+      div.className = 'pw-slide' + (i === 0 ? ' active' : '');
+      div.id = 'pwSlide' + i;
+      div.innerHTML = buildSlideHTML(s);
+      viewport.appendChild(div);
+    });
 
-    // Rotate every 2s
-    setInterval(() => {
-      pwIndex = (pwIndex + 1) % previewCourses.length;
-      renderPreview(pwIndex, true);
-    }, 2000);
+    // Build dots
+    dotsWrap.innerHTML = SLIDES.map((_,i) =>
+      `<button class="pw-dot${i===0?' active':''}" onclick="carouselGo(${i})"></button>`
+    ).join('');
 
-    // Also update url opacity transition reset
-    document.getElementById('pwUrl').style.transition = 'opacity 0.35s ease';
+    function carouselGo(nextIdx) {
+      if (transitioning || nextIdx === activeIdx) return;
+      transitioning = true;
+
+      const current = document.getElementById('pwSlide' + activeIdx);
+      const next    = document.getElementById('pwSlide' + nextIdx);
+
+      // 1. Prep next slide: off-screen right, invisible
+      next.style.transition = 'none';
+      next.style.opacity    = '0';
+      next.style.transform  = 'translateX(60px)';
+      next.classList.remove('active');
+      next.style.position   = 'absolute';
+      next.style.top = '0'; next.style.left = '0'; next.style.right = '0';
+
+      // Force reflow
+      next.offsetHeight;
+
+      // 2. Exit current slide left
+      current.style.transition  = 'opacity 0.45s ease, transform 0.45s ease';
+      current.style.opacity     = '0';
+      current.style.transform   = 'translateX(-60px)';
+
+      // 3. Enter next slide from right
+      next.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+      next.style.opacity    = '1';
+      next.style.transform  = 'translateX(0)';
+
+      // 4. Update URL bar
+      urlBar.style.transition = 'opacity 0.25s ease';
+      urlBar.style.opacity    = '0';
+      setTimeout(() => {
+        urlBar.textContent  = SLIDES[nextIdx].url;
+        urlBar.style.opacity = '1';
+      }, 200);
+
+      // 5. Update dots
+      document.querySelectorAll('.pw-dot').forEach((d,i) => d.classList.toggle('active', i === nextIdx));
+
+      // 6. After animation — clean up
+      setTimeout(() => {
+        current.classList.remove('active');
+        current.style.position  = 'absolute';
+        current.style.opacity   = '0';
+
+        next.classList.add('active');
+        next.style.position  = 'relative';
+        next.style.transform = '';
+        next.style.opacity   = '';
+        next.style.transition = '';
+
+        activeIdx    = nextIdx;
+        transitioning = false;
+      }, 480);
+    }
+
+    function carouselNext() {
+      carouselGo((activeIdx + 1) % SLIDES.length);
+    }
+
+    function startCarousel() {
+      carouselTimer = setInterval(carouselNext, 3000);
+    }
+
+    // Pause on hover
+    viewport.addEventListener('mouseenter', () => clearInterval(carouselTimer));
+    viewport.addEventListener('mouseleave', startCarousel);
+
+    startCarousel();
 
     // Init on load
     initAuth();

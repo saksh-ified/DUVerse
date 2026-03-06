@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subject Resources — DUVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --night:#080c18;--navy:#0d1226;--navy2:#111830;--card:#151d35;--card2:#1a2340;
+      --border:#232d4a;--border2:#2d3a5c;--indigo:#4f6ef7;--indigo2:#6b85ff;
+      --violet:#7c5cfc;--mint:#34d399;--amber:#fbbf24;--rose:#fb7185;--sky:#38bdf8;
+      --text:#f0f3ff;--text2:#c8d0f0;--muted:#7a88b8;--faint:#3a4568;
+      --font-d:'Fraunces',Georgia,serif;--font-b:'Plus Jakarta Sans',sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--night);color:var(--text);font-family:var(--font-b);overflow-x:hidden;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:900;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.022'/%3E%3C/svg%3E")}
+    .mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(79,110,247,0.1) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 20%,rgba(124,92,252,0.08) 0%,transparent 55%)}
+
+    /* ── NAV (identical to BA-Pro.html) ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;
+      justify-content:space-between;padding:0 5%;height:64px;
+      background:rgba(8,12,24,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;text-decoration:none;gap:0}
+    .logo-icon{width:36px;height:36px;border-radius:7px;background:#0f1729;border:2px solid var(--indigo);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+    .logo-icon::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--indigo),var(--violet))}
+    .logo-icon span{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;color:var(--text);line-height:1}
+    .logo-line{width:18px;height:1px;background:var(--indigo);margin:2px 0}
+    .logo-dot{width:3.5px;height:3.5px;border-radius:50%;background:var(--violet)}
+    .logo-text{padding-left:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-0.5px;color:var(--text);line-height:1}
+    .logo-text span{color:var(--indigo2)}
+    .nav-bc{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--muted)}
+    .nav-bc a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+    .nav-bc a:hover{color:var(--indigo2)}
+    .nav-bc .sep{color:var(--faint)}
+    .nav-bc .cur{color:var(--text2);font-weight:600}
+    .nav-right{display:flex;align-items:center;gap:0.8rem}
+    .nav-back{background:var(--card);border:1px solid var(--border2);border-radius:8px;
+      padding:0.4rem 1rem;font-size:0.78rem;font-weight:600;color:var(--text2);
+      text-decoration:none;transition:all 0.2s}
+    .nav-back:hover{border-color:var(--indigo);color:var(--indigo2)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;
+      width:36px;height:36px;background:var(--card);border:1px solid var(--border2);
+      border-radius:8px;padding:8px;cursor:pointer}
+    .hamburger span{display:block;height:1.5px;background:var(--text2);border-radius:2px;transition:all 0.3s}
+
+    /* ── HERO ── */
+    .hero{position:relative;z-index:1;padding:6rem 5% 2rem;border-bottom:1px solid var(--border)}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;
+      background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      border-radius:100px;padding:0.3rem 1rem;font-size:0.7rem;font-weight:700;
+      letter-spacing:1px;text-transform:uppercase;color:var(--indigo2);margin-bottom:1.2rem}
+    .hero h1{font-family:var(--font-d);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;
+      letter-spacing:-1px;line-height:1.1;margin-bottom:0.6rem}
+    .hero h1 em{font-style:italic;color:var(--indigo2)}
+    .hero-sub{font-size:0.88rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.6}
+    .hero-stats{display:flex;gap:2.2rem;flex-wrap:wrap}
+    .hstat-num{font-family:var(--font-d);font-size:1.5rem;font-weight:900;color:var(--text);line-height:1}
+    .hstat-lbl{font-size:0.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:0.15rem}
+
+    /* ── STRUCT BAR ── */
+    .struct-bar{position:relative;z-index:1;padding:0.9rem 5%;background:var(--navy);
+      border-bottom:1px solid var(--border);display:flex;align-items:center;
+      justify-content:space-between;flex-wrap:wrap;gap:0.8rem}
+    .struct-info{font-size:0.72rem;color:var(--muted)}
+    .struct-info span{color:var(--mint);font-weight:700}
+    .struct-badge-pill{display:inline-flex;align-items:center;gap:0.5rem;
+      border-radius:7px;padding:0.35rem 1rem;font-size:0.7rem;font-weight:700;
+      background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);color:var(--indigo2)}
+
+    /* ── LAYOUT ── */
+    .layout{position:relative;z-index:1;display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 64px)}
+
+    /* ── SIDEBAR ── */
+    .sidebar{border-right:1px solid var(--border);position:sticky;top:64px;
+      height:calc(100vh - 64px);overflow-y:auto;background:var(--navy)}
+    .sidebar::-webkit-scrollbar{width:3px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+    .sb-head{padding:1.1rem 1.1rem 0.7rem;border-bottom:1px solid var(--border)}
+    .sb-head-title{font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:0.6rem}
+    .sb-tabs{display:flex;flex-direction:column;gap:2px}
+    .sbt{display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0.8rem;
+      border-radius:9px;cursor:pointer;transition:all 0.16s;border:1px solid transparent;
+      background:transparent;font-family:var(--font-b);width:100%;text-align:left}
+    .sbt:hover{background:var(--card);border-color:var(--border)}
+    .sbt.active{background:rgba(79,110,247,0.1);border-color:rgba(79,110,247,0.3)}
+    .sbt-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0}
+    .sbt.active .sbt-dot{background:var(--indigo2)}
+    .sbt-label{font-size:0.8rem;font-weight:600;color:var(--text2);flex:1}
+    .sbt.active .sbt-label{color:var(--text)}
+    .sbt-count{font-size:0.62rem;color:var(--faint);font-weight:700;background:var(--card2);
+      border:1px solid var(--border);border-radius:5px;padding:0.1rem 0.4rem}
+    .sbt.active .sbt-count{color:var(--indigo2);background:rgba(79,110,247,0.08);border-color:rgba(79,110,247,0.2)}
+    .sb-divider{height:1px;background:var(--border);margin:0.6rem 0}
+    .sb-sem-section{padding:0.7rem 1.1rem 0.5rem}
+    .sem-nav-item{display:flex;align-items:center;justify-content:space-between;
+      padding:0.5rem 0.7rem;border-radius:8px;text-decoration:none;
+      transition:all 0.15s;border:1px solid transparent;margin-bottom:2px}
+    .sem-nav-item:hover{background:var(--card);border-color:var(--border)}
+    .sem-nav-item.cur-sem{background:rgba(79,110,247,0.1);border-color:rgba(79,110,247,0.3)}
+    .sem-nav-label{font-size:0.78rem;font-weight:600;color:var(--text2)}
+    .sem-nav-item.cur-sem .sem-nav-label{color:var(--indigo2)}
+    .sem-status{font-size:0.58rem;font-weight:700;padding:0.12rem 0.4rem;border-radius:4px;letter-spacing:0.5px}
+    .s-live{background:rgba(52,211,153,0.12);color:var(--mint);border:1px solid rgba(52,211,153,0.25)}
+    .s-soon{background:rgba(251,191,36,0.08);color:var(--amber);border:1px solid rgba(251,191,36,0.18)}
+
+    /* ── CONTENT ── */
+    .content{padding:2rem 2.5rem;overflow-y:auto}
+
+    /* ── TABS BAR ── */
+    .tabs-row{display:flex;gap:0.25rem;border-bottom:1px solid var(--border);margin-bottom:2rem;flex-wrap:wrap}
+    .tab-btn{padding:0.6rem 1.2rem;font-size:0.8rem;font-weight:700;color:var(--muted);
+      cursor:pointer;background:transparent;border:none;border-bottom:2px solid transparent;
+      font-family:var(--font-b);border-radius:7px 7px 0 0;transition:all 0.2s;margin-bottom:-1px}
+    .tab-btn:hover{color:var(--text2);background:rgba(79,110,247,0.04)}
+    .tab-btn.active{color:var(--indigo2);border-bottom-color:var(--indigo);background:rgba(79,110,247,0.06)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    /* ── SYLLABUS PANEL ── */
+    .syl-header{background:var(--card);border:1px solid var(--border);border-radius:14px;
+      padding:1.4rem 1.6rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;
+      justify-content:space-between;gap:1.2rem;flex-wrap:wrap}
+    .syl-header-left h2{font-family:var(--font-d);font-size:1.2rem;font-weight:900;margin-bottom:0.35rem;letter-spacing:-0.5px}
+    .syl-header-left p{font-size:0.8rem;color:var(--muted);line-height:1.6;max-width:440px}
+    .syl-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+    .btn-dl{display:inline-flex;align-items:center;gap:0.5rem;border-radius:9px;
+      padding:0.6rem 1.2rem;font-family:var(--font-b);font-size:0.8rem;font-weight:700;
+      cursor:pointer;transition:all 0.2s;text-decoration:none;white-space:nowrap;border:none}
+    .btn-dl.primary{background:var(--indigo);color:white}
+    .btn-dl.primary:hover{background:var(--indigo2);transform:translateY(-1px)}
+    .btn-dl.ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
+    .btn-dl.ghost:hover{border-color:var(--indigo);color:var(--indigo2);background:rgba(79,110,247,0.06)}
+
+    /* assessment strip */
+    .assess-strip{background:var(--navy);border:1px solid var(--border);border-radius:10px;
+      padding:0.9rem 1.3rem;margin-bottom:1.5rem;
+      display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem}
+    .as-item{display:flex;flex-direction:column;gap:0.2rem}
+    .as-key{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--faint)}
+    .as-val{font-size:0.82rem;font-weight:700;color:var(--text2)}
+
+    /* paper cards */
+    .paper-section-label{display:flex;align-items:center;gap:0.7rem;
+      font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      color:var(--faint);margin:1.5rem 0 0.8rem}
+    .paper-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .paper-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+      margin-bottom:0.9rem;overflow:hidden;transition:border-color 0.2s}
+    .paper-card:hover{border-color:var(--border2)}
+    .paper-head{padding:1rem 1.3rem;display:flex;align-items:center;gap:0.9rem;cursor:pointer}
+    .paper-head-type{font-size:0.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      padding:0.18rem 0.55rem;border-radius:4px;white-space:nowrap;flex-shrink:0}
+    .type-dsc{background:rgba(79,110,247,0.12);color:var(--indigo2);border:1px solid rgba(79,110,247,0.2)}
+    .type-aecc{background:rgba(52,211,153,0.1);color:var(--mint);border:1px solid rgba(52,211,153,0.2)}
+    .type-sec{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+    .type-dse{background:rgba(124,92,252,0.12);color:var(--violet);border:1px solid rgba(124,92,252,0.2)}
+    .type-ge{background:rgba(56,189,248,0.1);color:var(--sky);border:1px solid rgba(56,189,248,0.2)}
+    .paper-code{font-size:0.65rem;font-weight:700;color:var(--muted);flex-shrink:0}
+    .paper-name{font-size:0.88rem;font-weight:700;color:var(--text);flex:1;line-height:1.3}
+    .paper-credits{font-size:0.68rem;font-weight:700;color:var(--muted);
+      background:var(--card2);border:1px solid var(--border);border-radius:5px;
+      padding:0.18rem 0.5rem;white-space:nowrap;flex-shrink:0}
+    .paper-toggle{color:var(--faint);font-size:0.75rem;transition:transform 0.25s;flex-shrink:0}
+    .paper-card.open .paper-toggle{transform:rotate(180deg);color:var(--indigo2)}
+    .paper-body{display:none;padding:0 1.3rem 1.2rem;border-top:1px solid var(--border)}
+    .paper-card.open .paper-body{display:block}
+    .paper-body-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;margin:0.8rem 0 0.6rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)}
+    .unit-list{list-style:none;margin-top:0.4rem}
+    .unit-item{display:flex;align-items:flex-start;gap:0.7rem;padding:0.48rem 0;
+      border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text2);line-height:1.5}
+    .unit-item:last-child{border-bottom:none}
+    .unit-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.8px;color:var(--indigo2);
+      background:rgba(79,110,247,0.08);border:1px solid rgba(79,110,247,0.15);
+      border-radius:4px;padding:0.14rem 0.42rem;flex-shrink:0;margin-top:0.15rem;white-space:nowrap}
+
+    /* ── NOTES / PYQ ── */
+    .coming-banner{border-radius:10px;padding:0.9rem 1.2rem;margin-bottom:1.4rem;
+      display:flex;align-items:flex-start;gap:0.8rem;font-size:0.82rem;line-height:1.5}
+    .cb-indigo{background:rgba(79,110,247,0.06);border:1px solid rgba(79,110,247,0.18);color:var(--indigo2)}
+    .cb-sky{background:rgba(56,189,248,0.05);border:1px solid rgba(56,189,248,0.18);color:var(--sky)}
+    .cb-violet{background:rgba(124,92,252,0.06);border:1px solid rgba(124,92,252,0.18);color:var(--violet)}
+    .cb-amber{background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.18);color:var(--amber)}
+    .res-grid{display:flex;flex-direction:column;gap:0.7rem}
+    .res-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+      padding:0.95rem 1.3rem;display:flex;align-items:center;justify-content:space-between;
+      gap:1rem;transition:all 0.2s}
+    .res-card:hover{border-color:var(--border2);background:var(--card2)}
+    .rc-left{display:flex;align-items:center;gap:0.9rem;flex:1;min-width:0}
+    .rc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;
+      justify-content:center;font-size:1.05rem;flex-shrink:0}
+    .rc-name{font-size:0.84rem;font-weight:700;color:var(--text);margin-bottom:0.12rem;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .rc-meta{font-size:0.68rem;color:var(--muted);display:flex;gap:0.7rem}
+    .rc-dl{background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      color:var(--indigo2);border-radius:7px;padding:0.35rem 0.85rem;
+      font-size:0.73rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+      font-family:var(--font-b);flex-shrink:0}
+    .rc-dl:hover{background:var(--indigo);color:white;border-color:var(--indigo)}
+    .empty-state{text-align:center;padding:3.5rem 2rem;color:var(--muted)}
+    .es-icon{font-size:2.2rem;margin-bottom:0.9rem}
+    .es-title{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--text2);margin-bottom:0.4rem}
+    .es-desc{font-size:0.8rem;line-height:1.6}
+
+    /* ── MOCK TEST ── */
+    .mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem}
+    .mock-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+      padding:1.3rem;cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden}
+    .mock-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--indigo),var(--violet));
+      transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+    .mock-card:hover{border-color:var(--indigo2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.3)}
+    .mock-card:hover::before{transform:scaleX(1)}
+    .mock-card.soon{opacity:0.5;cursor:default}
+    .mock-card.soon:hover{transform:none;box-shadow:none;border-color:var(--border)}
+    .mock-card.soon::before{display:none}
+    .mc-label{font-size:0.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--indigo2);margin-bottom:0.45rem}
+    .mock-card h3{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--text);
+      margin-bottom:0.35rem;letter-spacing:-0.3px}
+    .mock-card p{font-size:0.74rem;color:var(--muted);line-height:1.55;margin-bottom:0.9rem}
+    .mc-footer{display:flex;align-items:center;justify-content:space-between;
+      padding-top:0.75rem;border-top:1px solid var(--border)}
+    .mc-stats{display:flex;gap:0.8rem}
+    .mc-stat{font-size:0.67rem;color:var(--faint);font-weight:600}
+    .mc-stat span{color:var(--text2)}
+    .mc-btn{font-size:0.7rem;font-weight:700;color:var(--indigo2);
+      background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      border-radius:6px;padding:0.28rem 0.75rem;cursor:pointer;transition:all 0.2s;font-family:var(--font-b)}
+    .mc-btn:hover{background:var(--indigo);color:white;border-color:var(--indigo)}
+    .mc-soon-badge{font-size:0.67rem;font-weight:700;color:var(--amber);
+      background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);
+      border-radius:5px;padding:0.2rem 0.55rem}
+
+    /* ── ANIMATIONS ── */
+    .r{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease}
+    .r.show{opacity:1;transform:translateY(0)}
+
+    /* ── RESPONSIVE ── */
+    .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:700;backdrop-filter:blur(2px)}
+    .sb-overlay.open{display:block}
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;z-index:750;
+        transform:translateX(-100%);transition:transform 0.35s ease;padding-top:70px}
+      .sidebar.open{transform:translateX(0)}
+      .content{padding:1.5rem 1.2rem}
+      .hamburger{display:flex}
+      .nav-bc{display:none}
+      .assess-strip{grid-template-columns:1fr 1fr}
+      .mock-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:480px){
+      nav{padding:0 4%}
+      .hero{padding:5rem 4% 1.8rem}
+      .content{padding:1.2rem 0.9rem}
+      .syl-header{flex-direction:column}
+      .assess-strip{grid-template-columns:1fr 1fr}
+      .tabs-row{gap:0}
+      .tab-btn{padding:0.5rem 0.8rem;font-size:0.76rem}
+    }
+  </style>
+</head>
+<body>
+<div class="mesh"></div>
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSB()"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><span>DU</span><div class="logo-line"></div><div class="logo-dot"></div></div>
+    <div class="logo-text">DU<span>Verse</span></div>
+  </a>
+  <div class="nav-bc" id="navBc">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <a href="BA-Pro.html">B.A. Programme</a><span class="sep">›</span>
+    <span class="cur" id="bcCombo">—</span><span class="sep">›</span>
+    <span class="cur" id="bcSem">Sem —</span>
+  </div>
+  <div class="nav-right">
+    <a href="BA-Pro.html" class="nav-back">← Back</a>
+    <div class="hamburger" id="hamBtn" onclick="toggleSB()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge" id="heroBadge">📚 B.A. Programme</div>
+  <h1 id="heroTitle">Loading…</h1>
+  <p class="hero-sub" id="heroSub">Delhi University · B.A. Programme</p>
+  <div class="hero-stats">
+    <div><div class="hstat-num" id="hsNum1">—</div><div class="hstat-lbl">Semester</div></div>
+    <div><div class="hstat-num" id="hsNum2">—</div><div class="hstat-lbl">Papers</div></div>
+    <div><div class="hstat-num">25%</div><div class="hstat-lbl">Internal</div></div>
+    <div><div class="hstat-num">₹0</div><div class="hstat-lbl">Always Free</div></div>
+  </div>
+</div>
+
+<!-- STRUCT BAR -->
+<div class="struct-bar">
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);font-weight:600;margin-bottom:0.15rem">Curriculum</div>
+    <div class="struct-info">B.A. Programme · <span id="structureLabel">Old Structure — 6 Semesters (3 Years)</span></div>
+  </div>
+  <div class="struct-badge-pill" id="structBadge">📋 Old Structure · 6 Semesters</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-head-title">Resource Type</div>
+      <div class="sb-tabs">
+        <button class="sbt active" id="sbt-syllabus" onclick="switchTab('syllabus')">
+          <div class="sbt-dot"></div>
+          <div class="sbt-label">📋 Syllabus</div>
+          <div class="sbt-count" id="sbc-syllabus">View</div>
+        </button>
+        <button class="sbt" id="sbt-notes" onclick="switchTab('notes')">
+          <div class="sbt-dot"></div>
+          <div class="sbt-label">📝 Notes</div>
+          <div class="sbt-count" id="sbc-notes">0</div>
+        </button>
+        <button class="sbt" id="sbt-pyq" onclick="switchTab('pyq')">
+          <div class="sbt-dot"></div>
+          <div class="sbt-label">📄 PYQs</div>
+          <div class="sbt-count" id="sbc-pyq">0</div>
+        </button>
+        <button class="sbt" id="sbt-mock" onclick="switchTab('mock')">
+          <div class="sbt-dot"></div>
+          <div class="sbt-label">🧪 Mock Tests</div>
+          <div class="sbt-count" id="sbc-mock">0</div>
+        </button>
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-sem-section">
+      <div class="sb-head-title">Jump to Semester</div>
+      <div id="semNavList"></div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <!-- TABS ROW -->
+    <div class="tabs-row">
+      <button class="tab-btn active" id="tab-syllabus" onclick="switchTab('syllabus')">📋 Syllabus</button>
+      <button class="tab-btn" id="tab-notes" onclick="switchTab('notes')">📝 Notes</button>
+      <button class="tab-btn" id="tab-pyq" onclick="switchTab('pyq')">📄 PYQs</button>
+      <button class="tab-btn" id="tab-mock" onclick="switchTab('mock')">🧪 Mock Tests</button>
+    </div>
+
+    <!-- ── SYLLABUS PANEL ── -->
+    <div class="tab-panel active" id="panel-syllabus">
+      <div class="syl-header r">
+        <div class="syl-header-left">
+          <h2 id="sylTitle">Semester — Syllabus</h2>
+          <p id="sylDesc">Official Delhi University B.A. Programme syllabus. Source: DU Official Portal.</p>
+        </div>
+        <div class="syl-actions">
+          <a href="https://www.du.ac.in/uploads/RevisedSyllabi1/Annexure-81.%20B.A.(Programme).pdf" target="_blank" class="btn-dl primary">⬇ Official PDF</a>
+        </div>
+      </div>
+
+      <!-- Assessment Info -->
+      <div class="assess-strip r">
+        <div class="as-item"><div class="as-key">Assessment</div><div class="as-val">25% Internal + 75% End-Sem</div></div>
+        <div class="as-item"><div class="as-key">Theory Duration</div><div class="as-val">3 Hours</div></div>
+        <div class="as-item"><div class="as-key">Pass Criteria</div><div class="as-val">40% Aggregate</div></div>
+        <div class="as-item"><div class="as-key">Exam Schedule</div><div class="as-val" id="examSchedule">Nov/Dec</div></div>
+      </div>
+
+      <div id="paperList"></div>
+    </div>
+
+    <!-- ── NOTES PANEL ── -->
+    <div class="tab-panel" id="panel-notes">
+      <div class="coming-banner cb-indigo r">
+        <span style="font-size:1.1rem;flex-shrink:0">📝</span>
+        <div>Notes for this semester are being curated by students and faculty. <strong>Check back soon!</strong></div>
+      </div>
+      <div class="res-grid">
+        <div class="empty-state">
+          <div class="es-icon">📝</div>
+          <div class="es-title">Notes Coming Soon</div>
+          <p class="es-desc">High-quality notes for this combination and semester will be available here. Be the first to contribute your notes!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PYQ PANEL ── -->
+    <div class="tab-panel" id="panel-pyq">
+      <div class="coming-banner cb-sky r">
+        <span style="font-size:1.1rem;flex-shrink:0">📂</span>
+        <div>Previous Year Question Papers (2019–2024) for this semester combination are being collected and verified.</div>
+      </div>
+      <div class="res-grid">
+        <div class="empty-state">
+          <div class="es-icon">📄</div>
+          <div class="es-title">PYQs Coming Soon</div>
+          <p class="es-desc">Question papers from recent DU examinations organised by paper and year will appear here. Stay tuned!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MOCK TEST PANEL ── -->
+    <div class="tab-panel" id="panel-mock">
+      <div class="coming-banner cb-violet r">
+        <span style="font-size:1.1rem;flex-shrink:0">🧪</span>
+        <div>Interactive mock tests with MCQs, short answers, and timed practice are under development for this combination.</div>
+      </div>
+      <div class="mock-grid">
+        <div class="mock-card soon r">
+          <div class="mc-label">Chapter Quiz</div>
+          <h3>Unit 1 — Quick Quiz</h3>
+          <p>10 MCQs covering Unit 1 topics. Perfect for fast chapter revision.</p>
+          <div class="mc-footer">
+            <div class="mc-stats"><div class="mc-stat">Qs: <span>10</span></div><div class="mc-stat">Time: <span>10 min</span></div></div>
+            <div class="mc-soon-badge">Coming Soon</div>
+          </div>
+        </div>
+        <div class="mock-card soon r">
+          <div class="mc-label">Full Semester</div>
+          <h3>Semester Mock Test</h3>
+          <p>50 questions across all units. Simulates the end-semester exam format.</p>
+          <div class="mc-footer">
+            <div class="mc-stats"><div class="mc-stat">Qs: <span>50</span></div><div class="mc-stat">Time: <span>60 min</span></div></div>
+            <div class="mc-soon-badge">Coming Soon</div>
+          </div>
+        </div>
+        <div class="mock-card soon r">
+          <div class="mc-label">Previous Year</div>
+          <h3>PYQ-Based Mock</h3>
+          <p>Questions from actual DU exam papers, reframed as interactive test.</p>
+          <div class="mc-footer">
+            <div class="mc-stats"><div class="mc-stat">Qs: <span>30</span></div><div class="mc-stat">Time: <span>45 min</span></div></div>
+            <div class="mc-soon-badge">Coming Soon</div>
+          </div>
+        </div>
+        <div class="mock-card soon r">
+          <div class="mc-label">Speed Test</div>
+          <h3>Flash Round — 5 Minutes</h3>
+          <p>15 rapid-fire MCQs. Great for last-minute revision before exams.</p>
+          <div class="mc-footer">
+            <div class="mc-stats"><div class="mc-stat">Qs: <span>15</span></div><div class="mc-stat">Time: <span>5 min</span></div></div>
+            <div class="mc-soon-badge">Coming Soon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ═══════════════════ URL PARAMS ═══════════════════ */
+const params = new URLSearchParams(location.search);
+const comboId = params.get('combo') || 'his-polsc';
+const semNum  = parseInt(params.get('sem') || '1', 10);
+
+/* ═══════════════════ COMBO MAP ═══════════════════ */
+const COMBOS = {
+  'his-polsc': { name:'History + Political Science', icon:'🏛️', s1:'History', s2:'Political Science' },
+  'eco-polsc': { name:'Economics + Political Science', icon:'📊', s1:'Economics', s2:'Political Science' },
+  'eco-hist':  { name:'Economics + History', icon:'📈', s1:'Economics', s2:'History' },
+  'eco-maths': { name:'Economics + Mathematics', icon:'🔢', s1:'Economics', s2:'Mathematics' },
+  'eco-eng':   { name:'Economics + English', icon:'📖', s1:'Economics', s2:'English' },
+  'his-eng':   { name:'History + English', icon:'📜', s1:'History', s2:'English' },
+  'his-hindi': { name:'History + Hindi', icon:'📝', s1:'History', s2:'Hindi' },
+  'his-skt':   { name:'History + Sanskrit', icon:'🕉️', s1:'History', s2:'Sanskrit' },
+  'his-phil':  { name:'History + Philosophy', icon:'🏛️', s1:'History', s2:'Philosophy' },
+  'eco-geo':   { name:'Economics + Geography', icon:'🌐', s1:'Economics', s2:'Geography' },
+  'eco-psy':   { name:'Economics + Psychology', icon:'🧠', s1:'Economics', s2:'Psychology' },
+  'eco-soc':   { name:'Economics + Sociology', icon:'🤝', s1:'Economics', s2:'Sociology' },
+  'ca-eco':    { name:'Computer Applications + Economics', icon:'💻', s1:'Computer Applications', s2:'Economics' },
+  'ca-maths':  { name:'Computer Applications + Mathematics', icon:'💻', s1:'Computer Applications', s2:'Mathematics' },
+  'polsc-phil':{ name:'Political Science + Philosophy', icon:'⚖️', s1:'Political Science', s2:'Philosophy' },
+  'geo-hist':  { name:'Geography + History', icon:'🗺️', s1:'Geography', s2:'History' },
+  'psy-soc':   { name:'Psychology + Sociology', icon:'🤝', s1:'Psychology', s2:'Sociology' },
+  'eng-polsc': { name:'English + Political Science', icon:'📖', s1:'English', s2:'Political Science' },
+  'music-hist':{ name:'Music + History', icon:'🎵', s1:'Music', s2:'History' },
+};
+
+/* ═══════════════════ REAL DU PAPER STRUCTURE ═══════════════════
+   Based on official DU B.A. Programme syllabus (Old Structure, 6 Sems)
+   Paper types: DSC (Discipline Specific Core), AECC (Ability Enhancement),
+   SEC (Skill Enhancement), DSE (Discipline Specific Elective), GE (Generic Elective)
+═══════════════════ */
+function getPapers(combo, sem) {
+  const a = combo.s1, b = combo.s2;
+  const semData = {
+    1: [
+      { type:'DSC', typeKey:'dsc', code:'DSC-1A', name:`Introduction to ${a}`, credits:'6 Credits (5L+1T)',
+        desc:`Foundational paper introducing core concepts, theories and historical development of ${a}.`,
+        units:[
+          `Nature and Scope of ${a} — definition, subject matter and its relationship with other disciplines`,
+          `Historical Development — origin, growth and major schools of thought in ${a}`,
+          `Key Concepts and Theoretical Frameworks — foundational theories and their evolution`,
+          `Contemporary Relevance — application of ${a} in modern context and current debates`
+        ]},
+      { type:'DSC', typeKey:'dsc', code:'DSC-2A', name:`Foundations of ${b}`, credits:'6 Credits (5L+1T)',
+        desc:`Introductory paper covering the basic principles, methods and scope of ${b}.`,
+        units:[
+          `Introduction to ${b} — scope, nature and significance`,
+          `Classical Perspectives — major thinkers and their contributions to ${b}`,
+          `Analytical Methods and Research Approaches in ${b}`,
+          `Interdisciplinary Links — relationship of ${b} with allied social sciences`
+        ]},
+      { type:'AECC', typeKey:'aecc', code:'AECC-1', name:'English Communication / MIL', credits:'4 Credits',
+        desc:'Compulsory language paper to develop reading, writing and communication skills.',
+        units:[
+          `Reading Comprehension — unseen passages, vocabulary in context, inference skills`,
+          `Writing Skills — essay writing, précis and report writing`,
+          `Grammar and Usage — tenses, sentence structure, common errors`,
+          `Communication and Presentation — verbal and written communication in academic context`
+        ]},
+      { type:'GE', typeKey:'ge', code:'GE-1', name:'Generic Elective I', credits:'6 Credits',
+        desc:'Interdisciplinary elective offering exposure to a subject outside the core combination.',
+        units:[
+          `Core Concepts of the Elective Subject`,
+          `Foundational Theories and Perspectives`,
+          `Case Studies and Applications`,
+          `Contemporary Issues and Future Directions`
+        ]},
+    ],
+    2: [
+      { type:'DSC', typeKey:'dsc', code:'DSC-1B', name:`${a} — Paper II`, credits:'6 Credits (5L+1T)',
+        desc:`Second core paper in ${a}: deeper theoretical and applied concepts.`,
+        units:[
+          `Advanced Theoretical Frameworks in ${a}`,
+          `Historical and Comparative Perspectives`,
+          `Methodology and Research Methods used in ${a}`,
+          `Contemporary Debates and Emerging Issues in ${a}`
+        ]},
+      { type:'DSC', typeKey:'dsc', code:'DSC-2B', name:`${b} — Paper II`, credits:'6 Credits (5L+1T)',
+        desc:`Second core paper in ${b}: applied theories and case-based learning.`,
+        units:[
+          `Advanced Concepts in ${b}`,
+          `Policy Framework and Institutional Structures`,
+          `Empirical Studies and Field Research`,
+          `Comparative Analysis — Indian and Global Perspectives`
+        ]},
+      { type:'AECC', typeKey:'aecc', code:'AECC-2', name:'Environmental Science', credits:'4 Credits',
+        desc:'Compulsory paper on environmental awareness, sustainability and ecology.',
+        units:[
+          `Ecosystems and Biodiversity — types of ecosystems, threats to biodiversity, conservation`,
+          `Environmental Pollution — air, water, soil and noise pollution; causes and control`,
+          `Climate Change and Global Warming — causes, impacts and mitigation strategies`,
+          `Environmental Laws and Policy — key acts, international agreements, sustainable development`
+        ]},
+      { type:'GE', typeKey:'ge', code:'GE-2', name:'Generic Elective II', credits:'6 Credits',
+        desc:'Second interdisciplinary elective course from a related field.',
+        units:[
+          `Theoretical Foundations of the Elective`,
+          `Key Thinkers and Schools of Thought`,
+          `Applied Dimensions and Real-World Relevance`,
+          `Research Methods in the Elective Discipline`
+        ]},
+    ],
+    3: [
+      { type:'DSC', typeKey:'dsc', code:'DSC-1C', name:`${a} — Paper III`, credits:'6 Credits (5L+1T)',
+        desc:`Third paper in ${a}: specialised thematic and applied study.`,
+        units:[
+          `Thematic Study I — specialised area within ${a}`,
+          `Critical Perspectives and Debates`,
+          `Interdisciplinary Connections with ${b} and allied fields`,
+          `Research and Source Analysis in ${a}`
+        ]},
+      { type:'DSC', typeKey:'dsc', code:'DSC-2C', name:`${b} — Paper III`, credits:'6 Credits (5L+1T)',
+        desc:`Third paper in ${b}: advanced topics and specialised themes.`,
+        units:[
+          `Advanced Thematic Study in ${b}`,
+          `Comparative and Cross-Cultural Perspectives`,
+          `Data and Evidence in ${b} — quantitative and qualitative approaches`,
+          `Policy Analysis and Practical Implications`
+        ]},
+      { type:'SEC', typeKey:'sec', code:'SEC-1', name:'Skill Enhancement Course I', credits:'4 Credits',
+        desc:'Practical and employability-focused skill course to supplement core learning.',
+        units:[
+          `Academic Writing and Research — literature review, citations, referencing (APA/MLA)`,
+          `Data Collection Methods — primary and secondary data, surveys and interviews`,
+          `Digital Skills for Research — online databases, JSTOR, SHODHGANGA`,
+          `Presentation and Communication Skills — oral presentations, report formatting`
+        ]},
+      { type:'DSE', typeKey:'dse', code:'DSE-1A', name:'Discipline Specific Elective I', credits:'6 Credits',
+        desc:'Elective paper allowing depth specialisation in a related area of study.',
+        units:[
+          `Elective Theme I — core concepts and debates`,
+          `Elective Theme II — theoretical frameworks`,
+          `Applied and Empirical Dimensions`,
+          `Research Review and Seminar Discussion`
+        ]},
+    ],
+    4: [
+      { type:'DSC', typeKey:'dsc', code:'DSC-1D', name:`${a} — Paper IV`, credits:'6 Credits (5L+1T)',
+        desc:`Fourth and final core paper in ${a}: advanced research and contemporary analysis.`,
+        units:[
+          `Research Topics in ${a} — current debates and scholarly discussions`,
+          `Interdisciplinary Integration — linking ${a} with ${b} concepts`,
+          `Advanced Analytical Frameworks`,
+          `Essay Writing, Source Critique and Examination Preparation`
+        ]},
+      { type:'DSC', typeKey:'dsc', code:'DSC-2D', name:`${b} — Paper IV`, credits:'6 Credits (5L+1T)',
+        desc:`Fourth and final core paper in ${b}: synthesis, research and policy evaluation.`,
+        units:[
+          `Advanced Topics in ${b} — frontiers of current scholarship`,
+          `Policy Evaluation — assessing effectiveness of major policy interventions`,
+          `Fieldwork and Applied Research Methods`,
+          `Dissertation Preparation and Academic Writing`
+        ]},
+      { type:'SEC', typeKey:'sec', code:'SEC-2', name:'Skill Enhancement Course II', credits:'4 Credits',
+        desc:'Advanced practical course building on SEC-1; focuses on employability and digital tools.',
+        units:[
+          `Statistical Tools — basics of SPSS/Excel for data analysis`,
+          `Professional Communication — CVs, reports, emails and interviews`,
+          `Digital Research and Online Resources`,
+          `Career Planning and Industry Overview`
+        ]},
+      { type:'DSE', typeKey:'dse', code:'DSE-1B', name:'Discipline Specific Elective II', credits:'6 Credits',
+        desc:'Second DSE paper for specialisation; extends from DSE-1A topics.',
+        units:[
+          `Advanced Elective Theme I`,
+          `Advanced Elective Theme II`,
+          `Empirical Analysis and Case Studies`,
+          `Research Paper Presentation`
+        ]},
+    ],
+    5: [
+      { type:'DSE', typeKey:'dse', code:'DSE-2A', name:`${a} — Special Topic I`, credits:'6 Credits',
+        desc:`Advanced elective in ${a} exploring a specialised theme or period in depth.`,
+        units:[
+          `Specialised Theme in ${a} — in-depth study of a selected area`,
+          `Primary Source Analysis — archival, statistical or field data`,
+          `Comparative and Global Perspectives`,
+          `Research Essay and Dissertation Preparation`
+        ]},
+      { type:'DSE', typeKey:'dse', code:'DSE-2B', name:`${b} — Special Topic I`, credits:'6 Credits',
+        desc:`Advanced elective in ${b} with focus on research and specialised application.`,
+        units:[
+          `Specialised Theme in ${b}`,
+          `Policy and Institutional Analysis`,
+          `Fieldwork and Applied Research`,
+          `Seminar and Presentation`
+        ]},
+      { type:'SEC', typeKey:'sec', code:'SEC-3', name:'Skill Enhancement Course III', credits:'4 Credits',
+        desc:'Applied skills course focused on simulation, practical training and real-world scenarios.',
+        units:[
+          `Simulation Techniques and Problem Solving`,
+          `Group Projects and Team Research`,
+          `Workshop on Sector-Specific Applications`,
+          `Final Project Report and Presentation`
+        ]},
+    ],
+    6: [
+      { type:'DSE', typeKey:'dse', code:'DSE-3A', name:`${a} — Special Topic II`, credits:'6 Credits',
+        desc:`Final advanced elective in ${a}; includes research component and viva.`,
+        units:[
+          `Advanced Research in ${a}`,
+          `Dissertation Writing — structure, bibliography and referencing`,
+          `Viva Preparation — key concepts, debates and landmark works`,
+          `Examination Strategy and Paper Presentation Skills`
+        ]},
+      { type:'DSE', typeKey:'dse', code:'DSE-3B', name:`${b} — Special Topic II`, credits:'6 Credits',
+        desc:`Final advanced elective in ${b}; culminating research and evaluation.`,
+        units:[
+          `Advanced Research in ${b}`,
+          `Policy Brief and Research Report Writing`,
+          `Data Analysis and Interpretation`,
+          `Final Viva and Presentation`
+        ]},
+      { type:'SEC', typeKey:'sec', code:'SEC-4', name:'Skill Enhancement Course IV', credits:'4 Credits',
+        desc:'Final skills course covering research methods applied to real-world challenges.',
+        units:[
+          `Statistical Techniques for Research`,
+          `Writing for Publication — journal articles, reports`,
+          `Data Visualisation and Communication`,
+          `Industry Readiness and Placement Preparation`
+        ]},
+    ],
+  };
+  return semData[sem] || semData[1];
+}
+
+/* ═══════════════════ INIT ═══════════════════ */
+const combo = COMBOS[comboId] || { name: comboId, icon:'📚', s1: comboId.split('-')[0], s2: comboId.split('-')[1] || 'Elective' };
+const papers = getPapers(combo, semNum);
+
+document.title = `Sem ${semNum} — ${combo.name} | DUVerse`;
+document.getElementById('heroBadge').textContent = `${combo.icon} B.A. Programme`;
+document.getElementById('heroTitle').innerHTML = `${combo.name}<br><em>Semester ${semNum} Resources</em>`;
+document.getElementById('heroSub').textContent = `Delhi University · B.A. Programme · Official Syllabus & Study Material`;
+document.getElementById('hsNum1').textContent = semNum;
+document.getElementById('hsNum2').textContent = papers.length;
+document.getElementById('bcCombo').textContent = combo.name;
+document.getElementById('bcSem').textContent = `Sem ${semNum}`;
+document.getElementById('sylTitle').textContent = `Semester ${semNum} — Full Syllabus`;
+document.getElementById('sylDesc').textContent = `Official Delhi University B.A. Programme syllabi for ${combo.name}, Semester ${semNum}. Based on the published DU curriculum document.`;
+document.getElementById('examSchedule').textContent = semNum % 2 === 1 ? 'Nov/Dec' : 'May/Jun';
+
+/* ─ Render semester nav ─ */
+const semNavList = document.getElementById('semNavList');
+semNavList.innerHTML = [1,2,3,4,5,6].map(s => `
+  <a class="sem-nav-item ${s === semNum ? 'cur-sem' : ''}" href="subject.html?combo=${comboId}&sem=${s}">
+    <span class="sem-nav-label">Semester ${s}</span>
+    <span class="sem-status ${s <= 2 ? 's-live' : 's-soon'}">${s <= 2 ? 'Live' : 'Soon'}</span>
+  </a>`).join('');
+
+/* ─ Render papers ─ */
+const typeLabels = { dsc:'DSC', aecc:'AECC', sec:'SEC', dse:'DSE', ge:'GE' };
+const typeGroups = {};
+papers.forEach(p => {
+  if (!typeGroups[p.typeKey]) typeGroups[p.typeKey] = [];
+  typeGroups[p.typeKey].push(p);
+});
+
+let paperHTML = '';
+const order = ['dsc','aecc','ge','sec','dse'];
+const sectionNames = {
+  dsc:'Discipline Specific Core (DSC)',
+  aecc:'Ability Enhancement Compulsory (AECC)',
+  ge:'Generic Elective (GE)',
+  sec:'Skill Enhancement Courses (SEC)',
+  dse:'Discipline Specific Elective (DSE)'
+};
+
+order.forEach(key => {
+  if (!typeGroups[key]) return;
+  paperHTML += `<div class="paper-section-label">${sectionNames[key]}</div>`;
+  typeGroups[key].forEach((p, i) => {
+    const delay = i * 0.07;
+    paperHTML += `
+    <div class="paper-card r" style="transition-delay:${delay}s">
+      <div class="paper-head" onclick="togglePaper(this)">
+        <div class="paper-head-type type-${p.typeKey}">${p.type}</div>
+        <div class="paper-code">${p.code}</div>
+        <div class="paper-name">${p.name}</div>
+        <div class="paper-credits">${p.credits}</div>
+        <div class="paper-toggle">▼</div>
+      </div>
+      <div class="paper-body">
+        <p class="paper-body-desc">${p.desc}</p>
+        <ul class="unit-list">
+          ${p.units.map((u,j) => `
+          <li class="unit-item">
+            <span class="unit-badge">UNIT ${j+1}</span>
+            <span>${u}</span>
+          </li>`).join('')}
+        </ul>
+      </div>
+    </div>`;
+  });
+});
+
+document.getElementById('paperList').innerHTML = paperHTML;
+
+// Auto-open first paper
+setTimeout(() => {
+  const first = document.querySelector('.paper-card');
+  if (first) first.classList.add('open');
+}, 400);
+
+/* ═══════════════════ TABS ═══════════════════ */
+let curTab = 'syllabus';
+function switchTab(tab) {
+  curTab = tab;
+  ['syllabus','notes','pyq','mock'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t===tab);
+    document.getElementById('sbt-'+t).classList.toggle('active', t===tab);
+  });
+  setTimeout(() => {
+    document.querySelectorAll('#panel-'+tab+' .r').forEach((el,i) => {
+      setTimeout(() => el.classList.add('show'), i*55);
+    });
+  }, 20);
+}
+
+/* ═══════════════════ PAPER TOGGLE ═══════════════════ */
+function togglePaper(head) { head.closest('.paper-card').classList.toggle('open'); }
+
+/* ═══════════════════ SIDEBAR MOBILE ═══════════════════ */
+function toggleSB() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('open');
+}
+
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+setTimeout(() => {
+  document.querySelectorAll('.r').forEach((el,i) => {
+    setTimeout(() => el.classList.add('show'), i * 65);
+  });
+}, 100);
+</script>
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>B.A. Programme — DUVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --night:#080c18;--navy:#0d1226;--navy2:#111830;--card:#151d35;--card2:#1a2340;
+      --border:#232d4a;--border2:#2d3a5c;--indigo:#4f6ef7;--indigo2:#6b85ff;
+      --violet:#7c5cfc;--mint:#34d399;--amber:#fbbf24;--rose:#fb7185;--sky:#38bdf8;
+      --text:#f0f3ff;--text2:#c8d0f0;--muted:#7a88b8;--faint:#3a4568;
+      --font-d:'Fraunces',Georgia,serif;--font-b:'Plus Jakarta Sans',sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--night);color:var(--text);font-family:var(--font-b);overflow-x:hidden;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:900;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.022'/%3E%3C/svg%3E")}
+    .mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(79,110,247,0.1) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 20%,rgba(124,92,252,0.08) 0%,transparent 55%)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;
+      justify-content:space-between;padding:0 5%;height:64px;
+      background:rgba(8,12,24,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;text-decoration:none;gap:0}
+    .logo-icon{width:36px;height:36px;border-radius:7px;background:#0f1729;border:2px solid var(--indigo);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+    .logo-icon::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--indigo),var(--violet))}
+    .logo-icon span{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;color:var(--text);line-height:1}
+    .logo-line{width:18px;height:1px;background:var(--indigo);margin:2px 0}
+    .logo-dot{width:3.5px;height:3.5px;border-radius:50%;background:var(--violet)}
+    .logo-text{padding-left:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-0.5px;color:var(--text);line-height:1}
+    .logo-text span{color:var(--indigo2)}
+    .nav-bc{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--muted)}
+    .nav-bc a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+    .nav-bc a:hover{color:var(--indigo2)}
+    .nav-bc .sep{color:var(--faint)}
+    .nav-bc .cur{color:var(--text2);font-weight:600}
+    .nav-right{display:flex;align-items:center;gap:0.8rem}
+    .nav-back{background:var(--card);border:1px solid var(--border2);border-radius:8px;
+      padding:0.4rem 1rem;font-size:0.78rem;font-weight:600;color:var(--text2);
+      text-decoration:none;transition:all 0.2s}
+    .nav-back:hover{border-color:var(--indigo);color:var(--indigo2)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;
+      width:36px;height:36px;background:var(--card);border:1px solid var(--border2);
+      border-radius:8px;padding:8px;cursor:pointer}
+    .hamburger span{display:block;height:1.5px;background:var(--text2);border-radius:2px;transition:all 0.3s}
+
+    /* HERO */
+    .hero{position:relative;z-index:1;padding:6rem 5% 2.5rem;border-bottom:1px solid var(--border)}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;
+      background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      border-radius:100px;padding:0.3rem 1rem;font-size:0.7rem;font-weight:700;
+      letter-spacing:1px;text-transform:uppercase;color:var(--indigo2);margin-bottom:1.2rem}
+    .hero h1{font-family:var(--font-d);font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;
+      letter-spacing:-1.5px;line-height:1.05;margin-bottom:0.7rem}
+    .hero h1 em{font-style:italic;color:var(--indigo2)}
+    .hero p{font-size:0.9rem;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:1.5rem}
+    .hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap}
+    .hstat-num{font-family:var(--font-d);font-size:1.6rem;font-weight:900;color:var(--text);line-height:1}
+    .hstat-lbl{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:0.15rem}
+
+    /* STRUCTURE BAR */
+    .struct-bar{position:relative;z-index:1;padding:1rem 5%;background:var(--navy);
+      border-bottom:1px solid var(--border);display:flex;align-items:center;
+      justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .struct-info{font-size:0.72rem;color:var(--muted)}
+    .struct-info span{color:var(--mint);font-weight:700}
+    .struct-toggle{display:flex;gap:0.3rem;background:var(--night);
+      border:1px solid var(--border);border-radius:10px;padding:0.22rem}
+    .stog{padding:0.4rem 1.1rem;border-radius:7px;border:none;font-family:var(--font-b);
+      font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+      color:var(--muted);background:transparent}
+    .stog.active{background:var(--indigo);color:white;box-shadow:0 2px 12px rgba(79,110,247,0.3)}
+
+    /* LAYOUT */
+    .layout{position:relative;z-index:1;display:grid;grid-template-columns:290px 1fr;min-height:calc(100vh - 64px)}
+
+    /* SIDEBAR */
+    .sidebar{border-right:1px solid var(--border);position:sticky;top:64px;
+      height:calc(100vh - 64px);overflow-y:auto;background:var(--navy)}
+    .sidebar::-webkit-scrollbar{width:3px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+    .sb-head{padding:1.2rem 1.2rem 0.8rem;border-bottom:1px solid var(--border)}
+    .sb-head-title{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:0.8rem}
+    .sb-search{width:100%;background:var(--card);border:1px solid var(--border);
+      border-radius:8px;padding:0.55rem 0.85rem;color:var(--text);
+      font-family:var(--font-b);font-size:0.8rem;outline:none;transition:border-color 0.2s}
+    .sb-search:focus{border-color:var(--indigo)}
+    .sb-search::placeholder{color:var(--faint)}
+    .sb-cats{padding:0.8rem 1.2rem;display:flex;gap:0.35rem;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+    .cat{padding:0.28rem 0.75rem;border-radius:100px;font-size:0.68rem;font-weight:700;
+      cursor:pointer;border:1px solid var(--border);color:var(--muted);
+      background:transparent;transition:all 0.2s;white-space:nowrap}
+    .cat.active{background:rgba(79,110,247,0.15);border-color:var(--indigo);color:var(--indigo2)}
+    .sb-count{padding:0.5rem 1.2rem;font-size:0.68rem;color:var(--faint);border-bottom:1px solid var(--border)}
+    .sb-count span{color:var(--indigo2);font-weight:700}
+    .combo-list{padding:0.4rem 0.5rem}
+    .ci{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.8rem;
+      border-radius:9px;cursor:pointer;transition:all 0.16s;border:1px solid transparent;margin-bottom:1px}
+    .ci:hover{background:var(--card);border-color:var(--border)}
+    .ci.active{background:rgba(79,110,247,0.1);border-color:rgba(79,110,247,0.3)}
+    .ci-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .ci-name{font-size:0.8rem;font-weight:600;color:var(--text2);line-height:1.3;flex:1}
+    .ci-tag{font-size:0.62rem;color:var(--muted);margin-top:0.08rem}
+    .ci-arrow{color:var(--faint);font-size:0.75rem;flex-shrink:0}
+    .ci.active .ci-arrow{color:var(--indigo2)}
+    .sb-empty{padding:2rem 1.2rem;font-size:0.8rem;color:var(--muted);text-align:center}
+
+    /* CONTENT */
+    .content{padding:2rem 2.5rem;overflow-y:auto}
+
+    /* Combo header */
+    .combo-hdr{background:var(--card);border:1px solid var(--border);border-radius:14px;
+      padding:1.4rem 1.6rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1.2rem}
+    .combo-hdr-icon{width:50px;height:50px;border-radius:11px;display:flex;
+      align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+    .combo-hdr-name{font-family:var(--font-d);font-size:1.35rem;font-weight:900;letter-spacing:-0.5px}
+    .combo-hdr-meta{font-size:0.78rem;color:var(--muted);margin-top:0.25rem}
+    .combo-hdr-tags{display:flex;gap:0.4rem;margin-top:0.6rem;flex-wrap:wrap}
+    .htag{font-size:0.62rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:4px;letter-spacing:0.5px}
+
+    /* Info row */
+    .info-strip{background:var(--navy);border:1px solid var(--border);border-radius:10px;
+      padding:1rem 1.4rem;margin-bottom:1.5rem;
+      display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .istrip-item{display:flex;flex-direction:column;gap:0.2rem}
+    .istrip-key{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--faint)}
+    .istrip-val{font-size:0.82rem;font-weight:700;color:var(--text2)}
+
+    /* Structure badge */
+    .struct-badge{display:inline-flex;align-items:center;gap:0.5rem;
+      border-radius:7px;padding:0.4rem 1rem;font-size:0.72rem;font-weight:700;
+      margin-bottom:1.5rem}
+    .nep-b{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--mint)}
+    .old-b{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--amber)}
+
+    /* Year group */
+    .year-grp{margin-bottom:2.2rem}
+    .year-lbl{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem}
+    .year-pill{font-family:var(--font-d);font-size:0.78rem;font-weight:700;
+      padding:0.28rem 1rem;border-radius:100px;background:var(--card2);
+      border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+    .year-line{flex:1;height:1px;background:var(--border)}
+
+    /* Semester grid */
+    .sem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .sem-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+      padding:1.1rem 1.3rem;cursor:pointer;transition:all 0.22s;text-decoration:none;
+      display:block;position:relative;overflow:hidden}
+    .sem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--indigo),var(--violet));
+      transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease}
+    .sem-card:hover{border-color:var(--indigo2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.35)}
+    .sem-card:hover::before{transform:scaleX(1)}
+    .sem-card.soon{opacity:0.5;cursor:default}
+    .sem-card.soon:hover{transform:none;box-shadow:none;border-color:var(--border)}
+    .sem-card.soon::before{display:none}
+    .soon-tag{position:absolute;top:0.65rem;right:0.8rem;font-size:0.58rem;font-weight:700;
+      letter-spacing:1px;text-transform:uppercase;color:var(--amber);
+      background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);
+      border-radius:4px;padding:0.12rem 0.45rem}
+    .sem-num{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--indigo2);margin-bottom:0.4rem}
+    .sem-title{font-family:var(--font-d);font-size:0.98rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.3px;line-height:1.3}
+    .sem-subs{display:flex;flex-direction:column;gap:0.22rem;margin-bottom:0.7rem}
+    .sem-sub{display:flex;align-items:center;gap:0.45rem;font-size:0.73rem;color:var(--muted)}
+    .sem-sub::before{content:'';width:3.5px;height:3.5px;border-radius:50%;background:var(--border2);flex-shrink:0}
+    .sem-ft{display:flex;align-items:center;justify-content:space-between;
+      padding-top:0.7rem;border-top:1px solid var(--border)}
+    .sem-res{font-size:0.65rem;color:var(--faint)}
+    .sem-arr{width:22px;height:22px;border-radius:5px;background:rgba(79,110,247,0.1);
+      border:1px solid rgba(79,110,247,0.2);display:flex;align-items:center;
+      justify-content:center;color:var(--indigo2);font-size:0.68rem;transition:all 0.2s}
+    .sem-card:hover .sem-arr{background:var(--indigo);border-color:var(--indigo);color:white}
+
+    /* Colleges offering this */
+    .colleges-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+    .colleges-title{font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      color:var(--faint);margin-bottom:1rem}
+    .college-chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+    .college-chip{padding:0.3rem 0.8rem;border-radius:6px;font-size:0.7rem;font-weight:600;
+      background:var(--card2);border:1px solid var(--border);color:var(--muted);
+      transition:all 0.2s}
+    .college-chip:hover{border-color:var(--indigo);color:var(--indigo2)}
+
+    /* Sidebar overlay (mobile) */
+    .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:700;backdrop-filter:blur(2px)}
+    .sb-overlay.open{display:block}
+
+    /* Animations */
+    .r{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease}
+    .r.show{opacity:1;transform:translateY(0)}
+
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:fixed;top:0;left:0;bottom:0;width:290px;z-index:750;
+        transform:translateX(-100%);transition:transform 0.35s ease;padding-top:70px}
+      .sidebar.open{transform:translateX(0)}
+      .content{padding:1.5rem 1.2rem}
+      .hamburger{display:flex}
+      .nav-bc{display:none}
+      .info-strip{grid-template-columns:1fr 1fr}
+      .sem-grid{grid-template-columns:1fr}
+      .hero{padding:5.5rem 5% 2rem}
+    }
+    @media(max-width:480px){
+      nav{padding:0 4%}
+      .hero{padding:5rem 4% 1.8rem}
+      .content{padding:1.2rem 0.9rem}
+      .hero-stats{gap:1.5rem}
+      .info-strip{grid-template-columns:1fr 1fr}
+      .combo-hdr{flex-wrap:wrap}
+    }
+  </style>
+</head>
+<body>
+<div class="mesh"></div>
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSB()"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><span>DU</span><div class="logo-line"></div><div class="logo-dot"></div></div>
+    <div class="logo-text">DU<span>Verse</span></div>
+  </a>
+  <div class="nav-bc">
+    <a href="index.html" >Home</a><span class="sep">›</span>
+    <a href="#">Courses</a><span class="sep">›</span>
+    <span class="cur">B.A. Programme</span>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+    <div class="hamburger" id="hamBtn" onclick="toggleSB()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📚 B.A. Programme</div>
+  <h1>Choose Your<br><em>Subject Combination</em></h1>
+  <p>Delhi University's B.A. Programme offers <strong>180+ combinations</strong> across 50+ colleges. Find yours below — browse by category or search to see semester-wise resources.</p>
+  <div class="hero-stats">
+    <div><div class="hstat-num">180+</div><div class="hstat-lbl">Combinations</div></div>
+    <div><div class="hstat-num">50+</div><div class="hstat-lbl">DU Colleges</div></div>
+    <div><div class="hstat-num">8</div><div class="hstat-lbl">Semesters (NEP)</div></div>
+    <div><div class="hstat-num">₹0</div><div class="hstat-lbl">Always Free</div></div>
+  </div>
+</div>
+
+<!-- STRUCTURE BAR -->
+<div class="struct-bar">
+  <div>
+    <div style="font-size:0.72rem;color:var(--muted);font-weight:600;margin-bottom:0.2rem">Curriculum Structure</div>
+    <div class="struct-info">Showing: <span id="structLabel">NEP 2020 — 8 Semesters (4 Years)</span></div>
+  </div>
+  <div class="struct-toggle">
+    <button class="stog active" id="btnNEP" onclick="setStruct('nep')">NEP 2020</button>
+    <button class="stog" id="btnOld" onclick="setStruct('old')">Old Structure</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-head-title">Subject Combinations</div>
+      <input class="sb-search" type="text" placeholder="🔍  Search combinations..." id="sbSearch" oninput="filterCombos()"/>
+    </div>
+    <div class="sb-cats" id="sbCats">
+      <button class="cat active" onclick="setCat('all',this)">All</button>
+      <button class="cat" onclick="setCat('popular',this)">⭐ Popular</button>
+      <button class="cat" onclick="setCat('humanities',this)">Humanities</button>
+      <button class="cat" onclick="setCat('social',this)">Social Sci.</button>
+      <button class="cat" onclick="setCat('language',this)">Languages</button>
+      <button class="cat" onclick="setCat('commerce',this)">Commerce</button>
+      <button class="cat" onclick="setCat('science',this)">Sci & Tech</button>
+      <button class="cat" onclick="setCat('arts',this)">Arts & Culture</button>
+    </div>
+    <div class="sb-count" id="sbCount">Showing <span id="sbCountNum">0</span> combinations</div>
+    <div class="combo-list" id="comboList"></div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content" id="content"></main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   ALL 180+ REAL DU B.A. PROGRAMME COMBINATIONS
+   Sourced from official DU admission data
+═══════════════════════════════════════════════ */
+const COMBOS = [
+
+  /* ── MOST POPULAR ── */
+  { id:'his-polsc', name:'History + Political Science', icon:'🏛️', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'popular',
+    tags:['Most Popular','Humanities'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(79,110,247,0.12)',c:'#6b85ff'}],
+    colleges:['Aditi Mahavidyalaya','Aryabhatta College','Bharati College','Bhagini Nivedita College','Daulat Ram College','Deen Dayal Upadhyaya','Deshbandhu College','Dyal Singh College','Gargi College','Indraprastha College','Janki Devi Memorial','Jesus & Mary College','Kalindi College','Kamala Nehru College','Kirori Mal College','Lady Shri Ram College','Lakshmibai College','Maharaja Agrasen','Maitreyi College','Miranda House','Motilal Nehru (Day)','Motilal Nehru (Evening)','PGDAV College','PGDAV Evening','Rajdhani College','Ram Lal Anand','Ramanujan College','Satyawati Evening','Shaheed Bhagat Singh','Shaheed Bhagat Singh Evening','Shivaji College','Shyam Lal College','Shyam Lal Evening','Shyama Prasad Mukherji','Sri Aurobindo (Day)','Sri Aurobindo (Evening)','Sri Guru Nanak Dev Khalsa','Sri Guru Tegh Bahadur Khalsa','Sri Venkateswara College','Swami Shraddhanand','Vivekananda College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-polsc', name:'Economics + Political Science', icon:'📊', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'popular',
+    tags:['Popular','Social Sciences'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Aryabhatta College','Bhagini Nivedita College','Bharati College','Deen Dayal Upadhyaya','Deshbandhu College','Dyal Singh College','Gargi College','Indraprastha College','Janki Devi Memorial','Kalindi College','Kirori Mal College','Lady Shri Ram College','Maitreyi College','Miranda House','Motilal Nehru (Day)','PGDAV College','PGDAV Evening','Rajdhani College','Satyawati Evening','Shaheed Bhagat Singh Evening','Shivaji College','Shyam Lal College','Shyam Lal Evening','Shyama Prasad Mukherji','Sri Aurobindo (Day)','Sri Aurobindo (Evening)','Sri Guru Nanak Dev Khalsa','Sri Guru Tegh Bahadur Khalsa','Sri Venkateswara College','Swami Shraddhanand','Vivekananda College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-hist', name:'Economics + History', icon:'📈', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'popular',
+    tags:['Popular','Social Sciences'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Aryabhatta College','Bhagini Nivedita College','Deen Dayal Upadhyaya','Deshbandhu College','Dyal Singh College','Janki Devi Memorial','Kalindi College','Lady Shri Ram College','Miranda House','Motilal Nehru (Day)','PGDAV College','Rajdhani College','Ramanujan College','Satyawati Evening','Shaheed Bhagat Singh Evening','Shyama Prasad Mukherji','Sri Aurobindo (Day)','Sri Aurobindo (Evening)','Sri Guru Nanak Dev Khalsa','Sri Guru Tegh Bahadur Khalsa','Swami Shraddhanand','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-maths', name:'Economics + Mathematics', icon:'🔢', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'popular',
+    tags:['Popular','Science & Math'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Aditi Mahavidyalaya','Daulat Ram College','Dr. Bhim Rao Ambedkar','Dyal Singh College','Gargi College','Hansraj College','Indraprastha College','Janki Devi Memorial','Kalindi College','Lady Shri Ram College','Lakshmibai College','Maharaja Agrasen','Maitreyi College','Miranda House','Motilal Nehru (Day)','PGDAV Evening','Rajdhani College','Ram Lal Anand','Ramanujan College','Satyawati Evening','Shaheed Bhagat Singh','Shyam Lal Evening','Shyama Prasad Mukherji','Sri Guru Tegh Bahadur Khalsa','Swami Shraddhanand','Vivekananda College','Zakir Husain College','Zakir Husain Evening']
+  },
+
+  /* ── HUMANITIES ── */
+  { id:'eco-eng', name:'Economics + English', icon:'📖', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'humanities',
+    tags:['Humanities','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Deshbandhu College','Dyal Singh College','Dr. Bhim Rao Ambedkar','Lakshmibai College','Maitreyi College','Maharaja Agrasen','Motilal Nehru (Day)','Motilal Nehru (Evening)','PGDAV Evening','Satyawati Evening','Shaheed Bhagat Singh','Shivaji College','Shyam Lal College','Sri Aurobindo (Evening)','Sri Guru Nanak Dev Khalsa','Swami Shraddhanand','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'his-eng', name:'History + English', icon:'📜', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'humanities',
+    tags:['Humanities'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Deshbandhu College','Dr. Bhim Rao Ambedkar','Dyal Singh College','Motilal Nehru (Day)','Motilal Nehru (Evening)','PGDAV College','Rajdhani College','Satyawati Evening','Shaheed Bhagat Singh','Shyam Lal Evening','Sri Aurobindo (Evening)','Swami Shraddhanand','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'his-hindi', name:'History + Hindi', icon:'📝', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'humanities',
+    tags:['Humanities','Languages'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'},{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Delhi College Arts & Commerce','Deshbandhu College','Dyal Singh College','Maitreyi College','Motilal Nehru (Day)','PGDAV College','Rajdhani College','Ramanujan College','Satyawati Evening','Shivaji College','Shyam Lal Evening','Shyama Prasad Mukherji','Sri Aurobindo (Evening)','Swami Shraddhanand','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'his-skt', name:'History + Sanskrit', icon:'🕉️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'humanities',
+    tags:['Humanities','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Aditi Mahavidyalaya','Bharati College','Bhagini Nivedita College','Deshbandhu College','Dyal Singh College','Janki Devi Memorial','Kalindi College','Lakshmibai College','Maitreyi College','Motilal Nehru (Day)','PGDAV College','Rajdhani College','Ramanujan College','Satyawati Evening','Shyama Prasad Mukherji','Sri Aurobindo (Day)','Sri Aurobindo (Evening)','Sri Guru Tegh Bahadur Khalsa','Swami Shraddhanand','Vivekananda College','Zakir Husain College']
+  },
+  { id:'his-phil', name:'History + Philosophy', icon:'🏛️', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'humanities',
+    tags:['Humanities'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Deshbandhu College','Dyal Singh College','Gargi College','Indraprastha College','Janki Devi Memorial','Kirori Mal College','Miranda House','Ramanujan College','Shyama Prasad Mukherji','Zakir Husain College']
+  },
+  { id:'his-geo', name:'History + Geography', icon:'🌍', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'humanities',
+    tags:['Humanities','Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Aditi Mahavidyalaya','Dyal Singh College','Gargi College','Kalindi College','Kamala Nehru College','Miranda House','Shaheed Bhagat Singh Evening','Shivaji College','Shyama Prasad Mukherji']
+  },
+  { id:'eng-phil', name:'English + Philosophy', icon:'📚', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'humanities',
+    tags:['Humanities'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Deshbandhu College','Gargi College','Janki Devi Memorial','Miranda House']
+  },
+  { id:'hin-phil', name:'Hindi + Philosophy', icon:'🧘', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'humanities',
+    tags:['Humanities','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Deshbandhu College','Hindu College','Shyama Prasad Mukherji','Zakir Husain College']
+  },
+  { id:'skt-phil', name:'Sanskrit + Philosophy', icon:'🕉️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'humanities',
+    tags:['Humanities','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Hansraj College','Indraprastha College','Janki Devi Memorial','Shyama Prasad Mukherji','Zakir Husain College']
+  },
+  { id:'phil-hist', name:'Philosophy + History', icon:'🔮', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'humanities',
+    tags:['Humanities'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Daulat Ram College','Deshbandhu College','Gargi College','Kirori Mal College','Miranda House']
+  },
+  { id:'his-maths', name:'History + Mathematics', icon:'📐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'humanities',
+    tags:['Humanities','Science & Math'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Deshbandhu College','Satyawati Evening','Shyam Lal Evening','Zakir Husain College']
+  },
+
+  /* ── SOCIAL SCIENCES ── */
+  { id:'eco-geo', name:'Economics + Geography', icon:'🌐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Dyal Singh College','Kalindi College','Miranda House','Shaheed Bhagat Singh Evening','Shivaji College','Shyama Prasad Mukherji']
+  },
+  { id:'eco-psy', name:'Economics + Psychology', icon:'🧠', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Aditi Mahavidyalaya','Gargi College','Janki Devi Memorial','Kalindi College','Ramanujan College','Zakir Husain College']
+  },
+  { id:'eco-soc', name:'Economics + Sociology', icon:'🤝', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Kamala Nehru College','Shyama Prasad Mukherji','Zakir Husain College']
+  },
+  { id:'eco-phil', name:'Economics + Philosophy', icon:'⚖️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'social',
+    tags:['Social Sciences','Humanities'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Deshbandhu College','Dyal Singh College','Gargi College','Kirori Mal College','Shyama Prasad Mukherji','Zakir Husain Evening']
+  },
+  { id:'polsc-phil', name:'Political Science + Philosophy', icon:'⚖️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'social',
+    tags:['Social Sciences','UPSC Friendly'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Deshbandhu College','Gargi College','Indraprastha College','Janki Devi Memorial','Kirori Mal College','Lakshmibai College','Miranda House','Ramanujan College','Shyama Prasad Mukherji','Zakir Husain Evening']
+  },
+  { id:'polsc-soc', name:'Political Science + Sociology', icon:'🏢', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(34,211,153,0.12)',c:'#34d399'}],
+    colleges:['Aditi Mahavidyalaya','Bhagini Nivedita College','Jesus & Mary College','Lady Shri Ram College','Maitreyi College','Sri Venkateswara College']
+  },
+  { id:'polsc-geo', name:'Political Science + Geography', icon:'🌐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dyal Singh College','Kamala Nehru College','Kalindi College','Miranda House','Shaheed Bhagat Singh','Shaheed Bhagat Singh Evening','Shivaji College']
+  },
+  { id:'geo-hist', name:'Geography + History', icon:'🗺️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dyal Singh College','Kamala Nehru College','Kalindi College','Miranda House','Shaheed Bhagat Singh Evening','Shivaji College']
+  },
+  { id:'geo-maths', name:'Geography + Mathematics', icon:'📐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'social',
+    tags:['Social Sciences','Science & Math'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dyal Singh College','Kalindi College','Miranda House','Shyama Prasad Mukherji']
+  },
+  { id:'geo-psy', name:'Geography + Psychology', icon:'🧠', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Dyal Singh College']
+  },
+  { id:'psy-soc', name:'Psychology + Sociology', icon:'🤝', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'social',
+    tags:['Social Sciences','Trending'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'},{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Gargi College','Jesus & Mary College','Kamala Nehru College','Lady Shri Ram College','Lakshmibai College']
+  },
+  { id:'psy-phil', name:'Psychology + Philosophy', icon:'🔮', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'social',
+    tags:['Social Sciences','Humanities'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Daulat Ram College','Jesus & Mary College','Lakshmibai College','Ramanujan College','Zakir Husain College']
+  },
+  { id:'psy-eng', name:'Psychology + English', icon:'📖', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'social',
+    tags:['Social Sciences','Humanities'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Gargi College','Indraprastha College','Lakshmibai College']
+  },
+  { id:'polsc-psy', name:'Political Science + Psychology', icon:'🧠', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Lady Shri Ram College','Ramanujan College','Zakir Husain College']
+  },
+  { id:'soc-eng', name:'Sociology + English', icon:'🤝', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'social',
+    tags:['Social Sciences','Humanities'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Maitreyi College','Shivaji College','Sri Venkateswara College']
+  },
+  { id:'his-soc', name:'History + Sociology', icon:'📚', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'social',
+    tags:['Social Sciences','Humanities'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Lady Shri Ram College','Shyama Prasad Mukherji','Sri Venkateswara College']
+  },
+
+  /* ── LANGUAGES ── */
+  { id:'polsc-hindi', name:'Political Science + Hindi', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Deshbandhu College','Gargi College','Maitreyi College','Maharaja Agrasen','Miranda House','Motilal Nehru (Day)','Ramanujan College','Satyawati Evening','Shyam Lal Evening','Shyama Prasad Mukherji','Sri Aurobindo (Evening)','Sri Venkateswara College','Swami Shraddhanand','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'his-punjabi', name:'History + Punjabi', icon:'🌾', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dyal Singh College','Maitreyi College','Ramanujan College','Sri Guru Nanak Dev Khalsa']
+  },
+  { id:'polsc-punjabi', name:'Political Science + Punjabi', icon:'🌾', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dyal Singh College','Lakshmibai College','Maitreyi College','Miranda House','Ramanujan College','Sri Guru Nanak Dev Khalsa']
+  },
+  { id:'his-bengali', name:'History + Bengali', icon:'📜', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Dyal Singh College','Kirori Mal College','Miranda House','Zakir Husain College']
+  },
+  { id:'polsc-bengali', name:'Political Science + Bengali', icon:'📜', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Dyal Singh College','Kirori Mal College','Miranda House']
+  },
+  { id:'his-urdu', name:'History + Urdu', icon:'✍️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Dyal Singh College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'polsc-urdu', name:'Political Science + Urdu', icon:'✍️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Dyal Singh College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-urdu', name:'Economics + Urdu', icon:'✍️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dyal Singh College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'arabic-polsc', name:'Arabic + Political Science', icon:'📖', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'arabic-hist', name:'Arabic + History', icon:'📖', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'arabic-eco', name:'Arabic + Economics', icon:'📖', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'persian-polsc', name:'Persian + Political Science', icon:'📜', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'persian-hist', name:'Persian + History', icon:'📜', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'tamil-polsc', name:'Tamil + Political Science', icon:'🌺', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Miranda House','Sri Venkateswara College']
+  },
+  { id:'telugu-polsc', name:'Telugu + Political Science', icon:'🌺', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Sri Venkateswara College']
+  },
+  { id:'eng-german', name:'English + German', icon:'🇩🇪', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Foreign Language'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Delhi College Arts & Commerce','Gargi College']
+  },
+  { id:'eng-spanish', name:'English + Spanish', icon:'🇪🇸', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'language',
+    tags:['Languages','Foreign Language'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Delhi College Arts & Commerce']
+  },
+  { id:'his-spanish', name:'History + Spanish', icon:'🇪🇸', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'language',
+    tags:['Languages','Foreign Language','Unique'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Jesus & Mary College']
+  },
+  { id:'eco-french', name:'Economics + French', icon:'🇫🇷', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'language',
+    tags:['Languages','Foreign Language'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Vivekananda College']
+  },
+  { id:'eng-french', name:'English + French', icon:'🇫🇷', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'language',
+    tags:['Languages','Foreign Language'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Jesus & Mary College','Vivekananda College']
+  },
+  { id:'french-phil', name:'French + Philosophy', icon:'🇫🇷', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'language',
+    tags:['Languages','Foreign Language','Unique'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Jesus & Mary College']
+  },
+  { id:'eng-linguistics', name:'English + Linguistics', icon:'🔤', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Rajdhani College']
+  },
+  { id:'skt-polsc', name:'Sanskrit + Political Science', icon:'🕉️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Atma Ram Sanatan Dharma','Bhagini Nivedita College','Dr. Bhim Rao Ambedkar','Dyal Singh College','Hindu College','Janki Devi Memorial','Kalindi College','Lakshmibai College','Maharaja Agrasen','Maitreyi College','Miranda House','Motilal Nehru (Day)','PGDAV College','Rajdhani College','Satyawati Evening','Shyama Prasad Mukherji','Sri Aurobindo (Day)','Sri Venkateswara College','Swami Shraddhanand','Vivekananda College','Zakir Husain College']
+  },
+  { id:'hindi-polsc', name:'Hindi + Political Science', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Aditi Mahavidyalaya','Bhagini Nivedita College','Deshbandhu College','Maharaja Agrasen','Motilal Nehru (Day)','Motilal Nehru (Evening)','Shyama Prasad Mukherji','Sri Aurobindo (Evening)','Sri Venkateswara College','Swami Shraddhanand']
+  },
+  { id:'punjabi-skt', name:'Punjabi + Sanskrit', icon:'🌾', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Deshbandhu College']
+  },
+  { id:'bengali-skt', name:'Bengali + Sanskrit', icon:'📜', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Deshbandhu College']
+  },
+  { id:'hindi-punjabi', name:'Hindi + Punjabi', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Deshbandhu College']
+  },
+
+  /* ── COMMERCE & MANAGEMENT ── */
+  { id:'eco-hrm', name:'Economics + HRM', icon:'💼', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Dyal Singh Evening','Indraprastha College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-omsp', name:'Economics + OMSP', icon:'🗂️', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Bharati College','Bhagini Nivedita College','Dr. Bhim Rao Ambedkar','Maharaja Agrasen','Satyawati Evening','Shyam Lal College','Swami Shraddhanand']
+  },
+  { id:'eco-comm', name:'Economics + Commerce', icon:'💹', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'commerce',
+    tags:['Commerce & Management','Popular'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'},{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dyal Singh College','Hansraj College','PGDAV Evening','Shaheed Bhagat Singh','Shaheed Bhagat Singh Evening','Sri Aurobindo (Day)']
+  },
+  { id:'eco-aspsm', name:'Economics + Advertising (ASPSM)', icon:'📢', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Aditi Mahavidyalaya','Kamala Nehru College','Lakshmibai College']
+  },
+  { id:'eco-esb', name:'Economics + ESB', icon:'🚀', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'commerce',
+    tags:['Commerce & Management','Entrepreneurship'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Gargi College','Kalindi College','PGDAV College','Ramanujan College']
+  },
+  { id:'eco-acfin', name:'Accounting & Finance + Economics', icon:'💰', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Delhi College Arts & Commerce','PGDAV College','Ramanujan College']
+  },
+  { id:'hrm-psy', name:'HRM + Psychology', icon:'👥', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'commerce',
+    tags:['Commerce & Management','Social Sciences'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Indraprastha College','Zakir Husain College']
+  },
+  { id:'omsp-polsc', name:'OMSP + Political Science', icon:'🗂️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Bhagini Nivedita College','Dyal Singh Evening','Kamala Nehru College','Swami Shraddhanand']
+  },
+  { id:'omsp-hist', name:'OMSP + History', icon:'🗂️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Bharati College','Dyal Singh Evening','Swami Shraddhanand']
+  },
+  { id:'omsp-maths', name:'OMSP + Mathematics', icon:'🗂️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'commerce',
+    tags:['Commerce & Management','Science & Math'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Satyawati Evening','Swami Shraddhanand']
+  },
+  { id:'omsp-skt', name:'OMSP + Sanskrit', icon:'🗂️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dr. Bhim Rao Ambedkar','Swami Shraddhanand']
+  },
+
+  /* ── SCIENCE & TECH ── */
+  { id:'ca-eco', name:'Computer Applications + Economics', icon:'💻', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Bharati College','Bhagini Nivedita College','Delhi College Arts & Commerce','Dyal Singh Evening','Gargi College','Kalindi College','Lady Shri Ram College','Lakshmibai College','Maharaja Agrasen','Maitreyi College','PGDAV College','Ram Lal Anand','Shyama Prasad Mukherji','Vivekananda College']
+  },
+  { id:'ca-maths', name:'Computer Applications + Mathematics', icon:'💻', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Delhi College Arts & Commerce','Gargi College','Indraprastha College','Jesus & Mary College','Kalindi College','Lady Shri Ram College','Maharaja Agrasen','Maitreyi College','PGDAV College','Shyam Lal Evening','Shyama Prasad Mukherji','Vivekananda College']
+  },
+  { id:'ca-polsc', name:'Computer Applications + Political Science', icon:'💻', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Bharati College','Bhagini Nivedita College','Lakshmibai College','Maharaja Agrasen','Shyam Lal Evening','Vivekananda College']
+  },
+  { id:'cs-maths', name:'Computer Science + Mathematics', icon:'🖥️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Indraprastha College','Shyam Lal Evening','Shyama Prasad Mukherji']
+  },
+  { id:'maths-phil', name:'Mathematics + Philosophy', icon:'📐', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'science',
+    tags:['Science & Math','Humanities'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Deshbandhu College','Dyal Singh College','Gargi College','Kamala Nehru College','Lakshmibai College']
+  },
+  { id:'maths-psy', name:'Mathematics + Psychology', icon:'🧮', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'science',
+    tags:['Science & Math','Social Sciences'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Aditi Mahavidyalaya','Zakir Husain College']
+  },
+  { id:'or-eco', name:'Operational Research + Economics', icon:'📊', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech','Unique'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Dyal Singh Evening']
+  },
+  { id:'or-ca', name:'Operational Research + Computer Applications', icon:'🔬', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech','Unique'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Delhi College Arts & Commerce']
+  },
+
+  /* ── ARTS & CULTURE ── */
+  { id:'music-hist', name:'Music + History', icon:'🎵', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Aditi Mahavidyalaya','Bharati College','Bhagini Nivedita College','Daulat Ram College','Janki Devi Memorial','Kalindi College','Lakshmibai College','Miranda House','Shyama Prasad Mukherji','Sri Aurobindo (Evening)','Sri Guru Tegh Bahadur Khalsa','Vivekananda College']
+  },
+  { id:'music-polsc', name:'Music + Political Science', icon:'🎵', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Bhagini Nivedita College','Bharati College','Janki Devi Memorial','Kalindi College','Shyama Prasad Mukherji']
+  },
+  { id:'music-skt', name:'Music + Sanskrit', icon:'🎵', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Aditi Mahavidyalaya','Bharati College','Daulat Ram College','Janki Devi Memorial','Kalindi College','Shyama Prasad Mukherji','Sri Guru Tegh Bahadur Khalsa','Vivekananda College']
+  },
+  { id:'music-soc', name:'Music + Sociology', icon:'🎵', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Aditi Mahavidyalaya','Lakshmibai College']
+  },
+  { id:'phy-polsc', name:'Physical Education + Political Science', icon:'🏃', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Daulat Ram College','Jesus & Mary College','Kamala Nehru College','Lakshmibai College','Miranda House','Motilal Nehru (Evening)','PGDAV College','PGDAV Evening','Sri Aurobindo (Evening)']
+  },
+  { id:'phy-hist', name:'Physical Education + History', icon:'🏃', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Jesus & Mary College','Kamala Nehru College','Miranda House','Motilal Nehru (Evening)','PGDAV Evening','Sri Aurobindo (Evening)']
+  },
+  { id:'phy-hindi', name:'Physical Education + Hindi', icon:'🏃', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Daulat Ram College','Hansraj College','Motilal Nehru (Evening)','Sri Aurobindo (Evening)']
+  },
+  { id:'buddhist-hist', name:'Buddhist Studies + History', icon:'☸️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Kalindi College']
+  },
+  { id:'buddhist-polsc', name:'Buddhist Studies + Political Science', icon:'☸️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Kalindi College']
+  },
+  { id:'hdfe-polsc', name:'HDFE + Political Science', icon:'👨‍👩‍👧', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Aditi Mahavidyalaya','Bharati College','Bhagini Nivedita College','Gargi College','Indraprastha College','Janki Devi Memorial','Shyama Prasad Mukherji']
+  },
+  { id:'nhe-soc', name:'NHE + Sociology', icon:'🥗', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture','Unique'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Aditi Mahavidyalaya','Bhagini Nivedita College','Daulat Ram College']
+  },
+  { id:'eco-ft', name:'Economics + Food Technology', icon:'🍱', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture','Unique'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Aditi Mahavidyalaya','Bhagini Nivedita College','Shyama Prasad Mukherji','Vivekananda College']
+  },
+
+  /* ── Additional combinations from colleges 38–53 ── */
+  { id:'maths-polsc', name:'Mathematics + Political Science', icon:'📐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Math'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Deshbandhu College','Satyawati Evening','Sri Guru Tegh Bahadur Khalsa','Zakir Husain College']
+  },
+  { id:'maths-omsp', name:'Mathematics + OMSP', icon:'📐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'commerce',
+    tags:['Commerce & Management'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Satyawati Evening','Swami Shraddhanand']
+  },
+  { id:'maths-music', name:'Mathematics + Music', icon:'🎵', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'arts',
+    tags:['Arts & Culture','Science & Math'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Sri Guru Tegh Bahadur Khalsa']
+  },
+  { id:'eco-music', name:'Economics + Music', icon:'🎵', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(34,211,153,0.12)',c:'#34d399'}],
+    colleges:['Sri Aurobindo (Evening)','Sri Guru Tegh Bahadur Khalsa','Zakir Husain College']
+  },
+  { id:'hindi-geo', name:'Hindi + Geography', icon:'🗺️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Shaheed Bhagat Singh','Shivaji College','Shyama Prasad Mukherji']
+  },
+  { id:'hindi-soc', name:'Hindi + Sociology', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Shyama Prasad Mukherji']
+  },
+  { id:'hdfe-soc', name:'HDFE + Sociology', icon:'👨‍👩‍👧', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Shyama Prasad Mukherji']
+  },
+  { id:'eng-polsc', name:'English + Political Science', icon:'📖', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'humanities',
+    tags:['Humanities','Social Sciences'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Deshbandhu College','Gargi College','Indraprastha College','Kirori Mal College','Motilal Nehru (Day)','Motilal Nehru (Evening)','PGDAV College','PGDAV Evening','Rajdhani College','Satyawati Evening','Sri Aurobindo (Evening)','Sri Guru Nanak Dev Khalsa','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-skt', name:'Economics + Sanskrit', icon:'🕉️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Sri Aurobindo (Day)','Sri Aurobindo (Evening)','Swami Shraddhanand','Zakir Husain College']
+  },
+  { id:'eng-skt', name:'English + Sanskrit', icon:'📚', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'language',
+    tags:['Languages','Humanities'], tagC:[{bg:'rgba(107,133,255,0.12)',c:'#6b85ff'}],
+    colleges:['Sri Aurobindo (Evening)','Zakir Husain College']
+  },
+  { id:'hindi-skt', name:'Hindi + Sanskrit', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Sri Aurobindo (Evening)','Zakir Husain College']
+  },
+  { id:'hindi-music', name:'Hindi + Music', icon:'🎵', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Janki Devi Memorial','Sri Aurobindo (Evening)']
+  },
+  { id:'hindi-phy', name:'Hindi + Physical Education', icon:'🏃', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'arts',
+    tags:['Arts & Culture','Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Delhi College Arts & Commerce','Sri Aurobindo (Evening)']
+  },
+  { id:'his-phy', name:'History + Physical Education', icon:'🏃', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Miranda House','PGDAV Evening','Sri Aurobindo (Evening)']
+  },
+  { id:'eco-tax', name:'Economics + Tax Procedures & Practices', icon:'📋', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'commerce',
+    tags:['Commerce & Management','Unique'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Zakir Husain Evening']
+  },
+  { id:'polsc-eng', name:'Political Science + English', icon:'⚖️', color:'#6b85ff', bg:'rgba(107,133,255,0.12)', cat:'social',
+    tags:['Social Sciences','UPSC Friendly'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Deshbandhu College','Dr. Bhim Rao Ambedkar','Motilal Nehru (Evening)','Swami Shraddhanand']
+  },
+  { id:'cs-eng', name:'Computer Science + English', icon:'🖥️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Shyam Lal Evening','Vivekananda College']
+  },
+  { id:'cs-hindi', name:'Computer Science + Hindi', icon:'🖥️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech','Languages'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Shyam Lal Evening']
+  },
+  { id:'cs-polsc', name:'Computer Science + Political Science', icon:'🖥️', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Shyam Lal Evening']
+  },
+  { id:'ft-polsc', name:'Food Technology + Political Science', icon:'🍱', color:'#fb7185', bg:'rgba(251,113,133,0.12)', cat:'arts',
+    tags:['Unique'], tagC:[{bg:'rgba(251,113,133,0.12)',c:'#fb7185'}],
+    colleges:['Vivekananda College']
+  },
+  { id:'eco-phy', name:'Economics + Physical Education', icon:'🏃', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'arts',
+    tags:['Arts & Culture'], tagC:[{bg:'rgba(34,211,153,0.12)',c:'#34d399'}],
+    colleges:['Sri Aurobindo (Evening)']
+  },
+  { id:'punjabi-eco', name:'Punjabi + Economics', icon:'🌾', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Dyal Singh College','Sri Guru Nanak Dev Khalsa']
+  },
+  { id:'bengali-eco', name:'Bengali + Economics', icon:'📜', color:'#34d399', bg:'rgba(52,211,153,0.12)', cat:'language',
+    tags:['Languages'], tagC:[{bg:'rgba(52,211,153,0.12)',c:'#34d399'}],
+    colleges:['Dyal Singh College','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'eco-persian', name:'Economics + Persian', icon:'📜', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Zakir Husain College']
+  },
+  { id:'his-persian', name:'History + Persian', icon:'📜', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Unique'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Zakir Husain College']
+  },
+  { id:'phil-psy', name:'Philosophy + Psychology', icon:'🔮', color:'#7c5cfc', bg:'rgba(124,92,252,0.12)', cat:'humanities',
+    tags:['Humanities','Social Sciences'], tagC:[{bg:'rgba(124,92,252,0.12)',c:'#7c5cfc'}],
+    colleges:['Daulat Ram College','Zakir Husain College']
+  },
+  { id:'hindi-eco', name:'Hindi + Economics', icon:'🗣️', color:'#fbbf24', bg:'rgba(251,191,36,0.12)', cat:'language',
+    tags:['Languages','Social Sciences'], tagC:[{bg:'rgba(251,191,36,0.12)',c:'#fbbf24'}],
+    colleges:['Maharaja Agrasen','Zakir Husain College','Zakir Husain Evening']
+  },
+  { id:'ca-eng', name:'Computer Applications + English', icon:'💻', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Vivekananda College']
+  },
+  { id:'ca-hist', name:'Computer Applications + History', icon:'💻', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'science',
+    tags:['Science & Tech'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Maharaja Agrasen']
+  },
+  { id:'geo-eco', name:'Geography + Economics', icon:'🌐', color:'#38bdf8', bg:'rgba(56,189,248,0.12)', cat:'social',
+    tags:['Social Sciences'], tagC:[{bg:'rgba(56,189,248,0.12)',c:'#38bdf8'}],
+    colleges:['Shivaji College','Shaheed Bhagat Singh Evening']
+  },
+];
+
+/* ═══════════════════
+   SEMESTER DATA (NEP & Old) — shared template, personalised per combo
+═══════════════════ */
+function getSemData(combo, structure) {
+  const sub1 = combo.name.split('+')[0].trim();
+  const sub2 = combo.name.split('+')[1]?.trim() || 'Elective';
+  if (structure === 'nep') {
+    return [
+      { year:'Year 1', label:'1st Year', sems:[
+        { num:1, title:`Foundations of ${sub1}`, subjects:[`Introduction to ${sub1}`,`Fundamentals of ${sub2}`,'MIL / English (AECC)','Generic Elective I'], live: true },
+        { num:2, title:`Core Concepts`, subjects:[`${sub1} — Paper II`,`${sub2} — Paper II`,'MIL / English (AECC)','Generic Elective II'], live: true },
+      ]},
+      { year:'Year 2', label:'2nd Year', sems:[
+        { num:3, title:`Applied ${sub1} & ${sub2}`, subjects:[`${sub1} — Paper III`,`${sub2} — Paper III`,'Skill Enhancement Course I','Discipline Elective I'], live: false },
+        { num:4, title:`Advanced Concepts`, subjects:[`${sub1} — Paper IV`,`${sub2} — Paper IV`,'Skill Enhancement Course II','Discipline Elective II'], live: false },
+      ]},
+      { year:'Year 3 — Major Specialisation', label:'3rd Year', sems:[
+        { num:5, title:`Major in ${sub1} or ${sub2}`, subjects:[`Advanced ${sub1}`,'Research Methodology','Dissertation Elective I','Discipline Specific Elective I'], live: false },
+        { num:6, title:`Advanced Specialisation`, subjects:[`Advanced ${sub2}`,'Project Work','Dissertation Elective II','Discipline Specific Elective II'], live: false },
+      ]},
+      { year:'Year 4 — Honours (Optional)', label:'4th Year', sems:[
+        { num:7, title:`Research & Dissertation I`, subjects:[`Research Topics in ${sub1}`,`Seminar in ${sub2}`,'Dissertation Part I'], live: false },
+        { num:8, title:`Final Dissertation`, subjects:['Advanced Research Topics','Viva & Presentation','Final Dissertation Submission'], live: false },
+      ]},
+    ];
+  } else {
+    return [
+      { year:'Year 1', label:'1st Year', sems:[
+        { num:1, title:`Introduction to ${sub1} & ${sub2}`, subjects:[`Introduction to ${sub1}`,`Introduction to ${sub2}`,'English / MIL'], live: true },
+        { num:2, title:`Core Papers`, subjects:[`${sub1} — Paper II`,`${sub2} — Paper II`,'English / MIL'], live: true },
+      ]},
+      { year:'Year 2', label:'2nd Year', sems:[
+        { num:3, title:`Applied Concepts`, subjects:[`${sub1} — Paper III`,`${sub2} — Paper III`,'Application Course'], live: false },
+        { num:4, title:`Contemporary Issues`, subjects:[`${sub1} — Paper IV`,`${sub2} — Paper IV`,'Application Course'], live: false },
+      ]},
+      { year:'Year 3', label:'3rd Year', sems:[
+        { num:5, title:`Advanced Topics I`, subjects:[`Advanced ${sub1}`,`Advanced ${sub2}`,'Discipline Specific Elective I'], live: false },
+        { num:6, title:`Advanced Topics II`, subjects:[`Research in ${sub1}`,`Research in ${sub2}`,'Discipline Specific Elective II'], live: false },
+      ]},
+    ];
+  }
+}
+
+/* ═══════════════════
+   STATE
+═══════════════════ */
+let curStructure = 'nep';
+let curCombo = COMBOS[0];
+let curCat = 'all';
+
+/* ═══════════════════
+   RENDER SIDEBAR
+═══════════════════ */
+function renderSidebar(query = '') {
+  const list = document.getElementById('comboList');
+  const countEl = document.getElementById('sbCountNum');
+  const q = query.toLowerCase();
+
+  const filtered = COMBOS.filter(c => {
+    const matchCat = curCat === 'all' || c.cat === curCat;
+    const matchQ = c.name.toLowerCase().includes(q) || c.tags.some(t => t.toLowerCase().includes(q));
+    return matchCat && matchQ;
+  });
+
+  countEl.textContent = filtered.length;
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="sb-empty">No combinations found.<br>Try a different search or category.</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => `
+    <div class="ci ${c.id === curCombo.id ? 'active' : ''}" onclick="pickCombo('${c.id}')">
+      <div class="ci-dot" style="background:${c.color}"></div>
+      <div>
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-tag">${c.tags[0]}${c.colleges ? ` · ${c.colleges.length} colleges` : ''}</div>
+      </div>
+      <div class="ci-arrow">›</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════
+   RENDER CONTENT
+═══════════════════ */
+function renderContent() {
+  const c = curCombo;
+  const years = getSemData(c, curStructure);
+  const isNep = curStructure === 'nep';
+  const content = document.getElementById('content');
+
+  const headerHTML = `
+    <div class="combo-hdr r">
+      <div class="combo-hdr-icon" style="background:${c.bg}">${c.icon}</div>
+      <div>
+        <div class="combo-hdr-name">${c.name}</div>
+        <div class="combo-hdr-meta">B.A. Programme · Delhi University · ${c.colleges?.length || '10+'} colleges offer this</div>
+        <div class="combo-hdr-tags">
+          ${c.tags.map((t,i)=>`<span class="htag" style="background:${c.tagC[i]?.bg||'rgba(79,110,247,0.12)'};color:${c.tagC[i]?.c||'#6b85ff'};border:1px solid ${c.tagC[i]?.c||'#6b85ff'}33">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  const stripHTML = `
+    <div class="info-strip r">
+      <div class="istrip-item"><div class="istrip-key">Programme</div><div class="istrip-val">B.A. Programme</div></div>
+      <div class="istrip-item"><div class="istrip-key">Structure</div><div class="istrip-val">${isNep ? 'NEP 2020' : 'Old (3-yr)'}</div></div>
+      <div class="istrip-item"><div class="istrip-key">Total Semesters</div><div class="istrip-val">${isNep ? '8 (Sem 7–8 optional)' : '6'}</div></div>
+      <div class="istrip-item"><div class="istrip-key">Colleges</div><div class="istrip-val">${c.colleges?.length || '10'}+ colleges</div></div>
+    </div>`;
+
+  const badgeHTML = `<div class="struct-badge r ${isNep ? 'nep-b' : 'old-b'}">
+    ${isNep ? '✦ NEP 2020 — 4-Year Programme · 8 Semesters · Exit options each year' : '📋 Old Structure — 3-Year Programme · 6 Semesters'}
+  </div>`;
+
+  const yearsHTML = years.map(yr => `
+    <div class="year-grp r">
+      <div class="year-lbl">
+        <div class="year-pill">${yr.label}</div>
+        <div class="year-line"></div>
+      </div>
+      <div class="sem-grid">
+        ${yr.sems.map(s => `
+          <a class="sem-card ${s.live ? '' : 'soon'}" href="${s.live ? `subject.html?combo=${c.id}&sem=${s.num}` : '#'}">
+            ${!s.live ? '<div class="soon-tag">Soon</div>' : ''}
+            <div class="sem-num">Semester ${s.num}</div>
+            <div class="sem-title">${s.title}</div>
+            <div class="sem-subs">${s.subjects.map(sub => `<div class="sem-sub">${sub}</div>`).join('')}</div>
+            <div class="sem-ft">
+              <div class="sem-res">${s.live ? '4 resource types available' : 'Coming soon'}</div>
+              <div class="sem-arr">›</div>
+            </div>
+          </a>`).join('')}
+      </div>
+    </div>`).join('');
+
+  const collegesHTML = c.colleges ? `
+    <div class="colleges-section r">
+      <div class="colleges-title">Colleges Offering This Combination</div>
+      <div class="college-chips">
+        ${c.colleges.map(col => `<div class="college-chip">${col}</div>`).join('')}
+      </div>
+    </div>` : '';
+
+  content.innerHTML = headerHTML + stripHTML + badgeHTML + yearsHTML + collegesHTML;
+
+  setTimeout(() => {
+    document.querySelectorAll('.r').forEach((el, i) => {
+      setTimeout(() => el.classList.add('show'), i * 55);
+    });
+  }, 20);
+}
+
+/* ═══════════════════
+   CONTROLS
+═══════════════════ */
+function pickCombo(id) {
+  curCombo = COMBOS.find(c => c.id === id);
+  renderSidebar(document.getElementById('sbSearch').value);
+  renderContent();
+  document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
+  if (window.innerWidth <= 900) toggleSB();
+}
+
+function setStruct(s) {
+  curStructure = s;
+  document.getElementById('btnNEP').classList.toggle('active', s === 'nep');
+  document.getElementById('btnOld').classList.toggle('active', s === 'old');
+  document.getElementById('structLabel').textContent = s === 'nep'
+    ? 'NEP 2020 — 8 Semesters (4 Years)'
+    : 'Old Structure — 6 Semesters (3 Years)';
+  renderContent();
+}
+
+function filterCombos() { renderSidebar(document.getElementById('sbSearch').value); }
+
+function setCat(cat, el) {
+  curCat = cat;
+  document.querySelectorAll('.cat').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderSidebar(document.getElementById('sbSearch').value);
+}
+
+function toggleSB() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('open');
+}
+
+/* INIT */
+renderSidebar();
+renderContent();
+</script>
+</body>
+</html>
