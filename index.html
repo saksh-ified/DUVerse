@@ -1451,7 +1451,7 @@
     </div>
   </footer>
 
-  <script>
+  <script type="module">
     // Cursor — disable on touch devices
     if (window.matchMedia('(pointer: coarse)').matches) {
       document.getElementById('cur').style.display = 'none';
@@ -1504,31 +1504,45 @@
     });
 
     /* ════════════════════════════
-       AUTH & PROFILE SYSTEM
+       AUTH & PROFILE SYSTEM (FIREBASE)
     ════════════════════════════ */
-    // Simple in-memory store (replace with backend later)
-    let users = JSON.parse(localStorage.getItem('duverse_users') || '{}');
-    let currentUser = JSON.parse(localStorage.getItem('duverse_current') || 'null');
+    import { auth, db } from "./firebase-config.js";
+    import { 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+      doc, setDoc, getDoc, updateDoc, arrayUnion 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    function saveData() {
-      localStorage.setItem('duverse_users', JSON.stringify(users));
-      localStorage.setItem('duverse_current', JSON.stringify(currentUser));
-    }
+    let currentUserDoc = null; // Holds the Firestore user document data
+    let currentUid = null;
 
-    // Init UI based on login state
-    function initAuth() {
-      if (currentUser) {
-        document.getElementById('navLoginBtn').style.display = 'none';
-        document.getElementById('navProfileBtn').style.display = 'flex';
-        const u = users[currentUser];
-        document.getElementById('navAvatar').textContent = u.name.charAt(0).toUpperCase();
-        document.getElementById('navStreakBadge').textContent = '🔥 ' + u.streak;
-        updateStreak();
+    // Listen to Firebase Auth state
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUid = user.uid;
+        // Fetch user data from Firestore
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          currentUserDoc = docSnap.data();
+          document.getElementById('navLoginBtn').style.display = 'none';
+          document.getElementById('navProfileBtn').style.display = 'flex';
+          document.getElementById('navAvatar').textContent = currentUserDoc.name.charAt(0).toUpperCase();
+          document.getElementById('navStreakBadge').textContent = '🔥 ' + (currentUserDoc.streak || 1);
+          updateStreak();
+        }
       } else {
+        currentUid = null;
+        currentUserDoc = null;
         document.getElementById('navLoginBtn').style.display = 'flex';
         document.getElementById('navProfileBtn').style.display = 'none';
       }
-    }
+    });
 
     // Open/close login
     function openLogin() {
@@ -1538,7 +1552,11 @@
     function closeLogin() {
       document.getElementById('loginOverlay').classList.remove('active');
       document.body.style.overflow = '';
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('signupError').style.display = 'none';
     }
+    window.openLogin = openLogin;
+    window.closeLogin = closeLogin;
 
     // Switch login/signup tabs
     function switchTab(tab) {
@@ -1547,72 +1565,114 @@
       });
       document.getElementById('loginForm').style.display = tab==='login' ? 'block' : 'none';
       document.getElementById('signupForm').style.display = tab==='signup' ? 'block' : 'none';
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('signupError').style.display = 'none';
     }
+    window.switchTab = switchTab;
 
     // Handle login
-    function handleLogin() {
+    async function handleLogin() {
       const email = document.getElementById('loginEmail').value.trim();
       const pass  = document.getElementById('loginPassword').value;
       const err   = document.getElementById('loginError');
-      if (!users[email] || users[email].password !== pass) {
-        err.style.display = 'block'; return;
+      
+      const prevText = document.querySelector('#loginForm .form-btn').textContent;
+      document.querySelector('#loginForm .form-btn').textContent = "Logging in...";
+      
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        err.style.display = 'none';
+        closeLogin();
+      } catch (error) {
+        err.textContent = "Invalid email or password. Try again.";
+        err.style.display = 'block';
+      } finally {
+        document.querySelector('#loginForm .form-btn').textContent = prevText;
       }
-      err.style.display = 'none';
-      currentUser = email;
-      saveData();
-      closeLogin();
-      initAuth();
     }
+    window.handleLogin = handleLogin;
 
     // Handle signup
-    function handleSignup() {
+    async function handleSignup() {
       const name   = document.getElementById('signupName').value.trim();
       const email  = document.getElementById('signupEmail').value.trim();
       const course = document.getElementById('signupCourse').value;
       const pass   = document.getElementById('signupPassword').value;
       const err    = document.getElementById('signupError');
+      
       if (!name || !email || !course || pass.length < 6) {
+        err.textContent = "Please fill all fields correctly. Password must be 6+ chars.";
         err.style.display = 'block'; return;
       }
-      err.style.display = 'none';
-      const today = new Date().toDateString();
-      users[email] = {
-        name, email, course, password: pass,
-        streak: 1, lastVisit: today, daysActive: 1,
-        downloads: [], activity: [
-          { icon:'🎓', name:'Joined DUVerse', meta: today, tag:'Welcome', tagColor:'rgba(52,211,153,0.15)', tagText:'#34d399' }
-        ]
-      };
-      currentUser = email;
-      saveData();
-      closeLogin();
-      initAuth();
+      
+      const prevText = document.querySelector('#signupForm .form-btn').textContent;
+      document.querySelector('#signupForm .form-btn').textContent = "Creating Account...";
+      
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+        const today = new Date().toDateString();
+        
+        // Create user document in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          name: name,
+          email: email,
+          course: course,
+          streak: 1,
+          lastVisit: today,
+          daysActive: 1,
+          downloads: [],
+          activity: [
+            { icon:'🎓', name:'Joined DUVerse', meta: today, tag:'Welcome', tagColor:'rgba(52,211,153,0.15)', tagText:'#34d399' }
+          ],
+          createdAt: new Date()
+        });
+        
+        err.style.display = 'none';
+        closeLogin();
+      } catch (error) {
+        err.textContent = error.message;
+        err.style.display = 'block';
+      } finally {
+        document.querySelector('#signupForm .form-btn').textContent = prevText;
+      }
     }
+    window.handleSignup = handleSignup;
 
     // Streak logic
-    function updateStreak() {
-      if (!currentUser) return;
-      const u = users[currentUser];
+    async function updateStreak() {
+      if (!currentUid || !currentUserDoc) return;
+      
       const today = new Date().toDateString();
-      const last  = new Date(u.lastVisit);
+      const last  = new Date(currentUserDoc.lastVisit);
       const now   = new Date();
       const diff  = Math.floor((now - last) / (1000*60*60*24));
-      if (u.lastVisit !== today) {
-        if (diff === 1) { u.streak++; } 
-        else if (diff > 1) { u.streak = 1; }
-        u.daysActive = (u.daysActive || 1) + 1;
-        u.lastVisit = today;
-        u.activity = u.activity || [];
-        u.activity.unshift({ icon:'🔥', name:'Visited DUVerse', meta: today, tag:'Streak', tagColor:'rgba(251,191,36,0.15)', tagText:'#fbbf24' });
-        saveData();
+      
+      if (currentUserDoc.lastVisit !== today) {
+        let newStreak = currentUserDoc.streak || 0;
+        if (diff === 1) { newStreak++; } 
+        else if (diff > 1) { newStreak = 1; }
+        
+        const rAct = { icon:'🔥', name:'Visited DUVerse', meta: today, tag:'Streak', tagColor:'rgba(251,191,36,0.15)', tagText:'#fbbf24' };
+        
+        const docRef = doc(db, "users", currentUid);
+        await updateDoc(docRef, {
+          streak: newStreak,
+          daysActive: (currentUserDoc.daysActive || 1) + 1,
+          lastVisit: today,
+          activity: [rAct, ...(currentUserDoc.activity || [])].slice(0, 20) // Keep last 20
+        });
+        
+        currentUserDoc.streak = newStreak;
+        currentUserDoc.lastVisit = today;
+        document.getElementById('navStreakBadge').textContent = '🔥 ' + newStreak;
       }
-      document.getElementById('navStreakBadge').textContent = '🔥 ' + u.streak;
     }
 
     // Open profile drawer
     function openProfile() {
-      if (!currentUser) return;
-      const u = users[currentUser];
+      if (!currentUid || !currentUserDoc) return;
+      const u = currentUserDoc;
       document.getElementById('profileOverlay').classList.add('active');
       document.getElementById('profileDrawer').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1625,21 +1685,18 @@
       document.getElementById('statDownloads').textContent = (u.downloads||[]).length;
       document.getElementById('statDays').textContent = u.daysActive || 1;
 
-      // Streak calendar (21 days)
-      buildStreakCalendar();
-
-      // Activity
-      buildActivityList();
-
-      // Downloads
-      buildDownloadList();
+      buildStreakCalendar(u.streak);
+      buildActivityList(u.activity);
+      buildDownloadList(u.downloads);
     }
+    window.openProfile = openProfile;
 
     function closeProfile() {
       document.getElementById('profileOverlay').classList.remove('active');
       document.getElementById('profileDrawer').classList.remove('open');
       document.body.style.overflow = '';
     }
+    window.closeProfile = closeProfile;
 
     function handleOverlayClick(e, id) {
       if (e.target.id === id) {
@@ -1647,12 +1704,12 @@
         if (id === 'profileOverlay') closeProfile();
       }
     }
+    window.handleOverlayClick = handleOverlayClick;
 
-    function buildStreakCalendar() {
+    function buildStreakCalendar(streakCount) {
       const bar = document.getElementById('streakBar');
       bar.innerHTML = '';
-      const u = users[currentUser];
-      const streak = u.streak || 1;
+      const streak = streakCount || 1;
       const today = new Date().toDateString();
       for (let i = 20; i >= 0; i--) {
         const d = document.createElement('div');
@@ -1664,10 +1721,9 @@
       }
     }
 
-    function buildActivityList() {
+    function buildActivityList(activityArray) {
       const list = document.getElementById('activityList');
-      const u = users[currentUser];
-      const acts = (u.activity || []).slice(0, 6);
+      const acts = (activityArray || []).slice(0, 6);
       if (!acts.length) {
         list.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No activity yet.</div>';
         return;
@@ -1683,10 +1739,9 @@
         </div>`).join('');
     }
 
-    function buildDownloadList() {
+    function buildDownloadList(downloadArray) {
       const list = document.getElementById('downloadList');
-      const u = users[currentUser];
-      const dls = (u.downloads || []).slice(0, 5);
+      const dls = (downloadArray || []).slice(0, 5);
       if (!dls.length) {
         list.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;">No downloads yet. Open a subject to download resources!</div>';
         return;
@@ -1702,12 +1757,15 @@
         </div>`).join('');
     }
 
-    function handleLogout() {
-      currentUser = null;
-      saveData();
-      closeProfile();
-      initAuth();
+    async function handleLogout() {
+      try {
+        await signOut(auth);
+        closeProfile();
+      } catch(e) {
+        console.error("Logout Error:", e);
+      }
     }
+    window.handleLogout = handleLogout;
 
     /* ══════════════════════════════
        CAROUSEL — SLIDE LEFT + FADE

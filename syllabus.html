@@ -186,6 +186,32 @@
       .filter-chips{gap:0.25rem}
       .fchip{padding:0.3rem 0.7rem;font-size:0.68rem}
     }
+
+    /* ─── AUTH CSS ─── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); z-index:1000; display:none; align-items:center; justify-content:center; padding:1rem; }
+    .overlay.active { display:flex; }
+    .login-modal { background:var(--card); border:1px solid var(--border2); border-radius:20px; padding:2.5rem; width:100%; max-width:400px; position:relative; animation:popIn 0.3s ease both; }
+    @keyframes popIn { from { opacity:0; transform:scale(0.95) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .modal-close { position:absolute; top:1rem; right:1rem; background:var(--card2); border:1px solid var(--border); border-radius:6px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:0.8rem; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+    .modal-close:hover { color:var(--text); border-color:var(--border2); }
+    .modal-logo { display:flex; align-items:center; gap:8px; margin-bottom:1.8rem; }
+    .modal-title { font-family:var(--font-d); font-size:1.5rem; font-weight:900; margin-bottom:0.4rem; }
+    .modal-tabs { display:flex; gap:0.3rem; margin-bottom:1.5rem; background:var(--navy); border-radius:8px; padding:0.3rem; }
+    .modal-tab { flex:1; padding:0.5rem; border-radius:6px; border:none; background:transparent; color:var(--muted); font-family:var(--font-b); font-size:0.83rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+    .modal-tab.active { background:var(--card2); color:var(--text); }
+    .form-group { margin-bottom:1rem; }
+    .form-label { font-size:0.75rem; font-weight:600; color:var(--muted); letter-spacing:0.5px; margin-bottom:0.4rem; display:block; text-transform:uppercase; }
+    .form-input { width:100%; background:var(--navy); border:1px solid var(--border); border-radius:8px; padding:0.75rem 1rem; color:var(--text); font-family:var(--font-b); font-size:0.9rem; transition:border-color 0.2s; outline:none; }
+    .form-input:focus { border-color:var(--indigo); }
+    .form-btn { width:100%; background:var(--indigo); color:white; border:none; border-radius:10px; padding:0.9rem; font-family:var(--font-b); font-size:0.95rem; font-weight:700; cursor:pointer; transition:all 0.2s; margin-top:0.5rem; box-shadow:0 4px 20px rgba(79,110,247,0.3); }
+    .form-btn:hover { background:var(--indigo2); transform:translateY(-1px); }
+    .form-error { font-size:0.78rem; color:var(--rose); margin-top:0.3rem; display:none; }
+    .nav-login-btn { background:var(--card); color:var(--text); border:1px solid var(--border2); padding:0.5rem 1.2rem; border-radius:8px; font-family:var(--font-b); font-size:0.83rem; font-weight:600; cursor:pointer; transition:all 0.2s; display:none; }
+    .nav-login-btn:hover { border-color:var(--indigo); color:var(--indigo2); }
+    .nav-profile-btn { background:transparent; border:none; padding:0; display:none; align-items:center; gap:0.6rem; cursor:pointer; }
+    .nav-avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--indigo),var(--violet)); display:flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:0.9rem; border:2px solid transparent; transition:border-color 0.2s; }
+    .nav-profile-btn:hover .nav-avatar { border-color:white; }
+    .nav-streak-badge { background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.25); color:var(--amber); padding:0.25rem 0.6rem; border-radius:100px; font-size:0.75rem; font-weight:700; }
   </style>
 </head>
 <body>
@@ -203,9 +229,81 @@
   </div>
   <div class="nav-right">
     <a href="index.html" class="nav-back">← Home</a>
+    <button class="nav-profile-btn" id="navProfileBtn" onclick="alert('Profile dashboard is on the Home page.')" style="display:none;">
+      <div class="nav-avatar" id="navAvatar">A</div>
+      <div class="nav-streak-badge" id="navStreakBadge">🔥 0</div>
+    </button>
+    <button class="nav-login-btn" id="navLoginBtn" onclick="openLogin()">Log In</button>
     <div class="hamburger" id="hamBtn" onclick="window.location='index.html'"><span></span><span></span><span></span></div>
   </div>
 </nav>
+
+<!-- LOGIN MODAL -->
+<div class="overlay" id="loginOverlay" onclick="if(event.target.id==='loginOverlay')closeLogin()">
+  <div class="login-modal">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <div class="modal-logo">
+      <div style="width:32px;height:32px;border-radius:6px;background:#0f1729;border:2px solid #4f6ef7;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#4f6ef7,#7c5cfc);"></div>
+        <span style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:800;color:#f0f3ff;">DU</span>
+        <div style="width:14px;height:1px;background:#4f6ef7;margin:1px 0;"></div>
+        <div style="width:3px;height:3px;border-radius:50%;background:#7c5cfc;"></div>
+      </div>
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#f0f3ff;">DU<span style="color:#6b85ff;">Verse</span></span>
+    </div>
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:var(--font-d);font-size:1.4rem;font-weight:800;margin-bottom:0.4rem">Log In to Download</h3>
+      <p style="font-size:0.8rem;color:var(--muted)">You need a free DUVerse account to view or download full syllabus PDFs.</p>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('login')">Log In</button>
+      <button class="modal-tab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="yourname@gmail.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="loginPassword" placeholder="••••••••"/>
+        <div class="form-error" id="loginError">Invalid email or password. Try again.</div>
+      </div>
+      <button class="form-btn" onclick="handleLogin()">Log In →</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" id="signupName" placeholder="Your name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="signupEmail" placeholder="yourname@gmail.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Course</label>
+        <select class="form-input" id="signupCourse">
+          <option value="">Select your programme</option>
+          <option>B.A. Programme</option>
+          <option>B.A. (Hons.) Economics</option>
+          <option>B.Com. / B.Com. (Hons.)</option>
+          <option>B.Sc. (Hons.) Mathematics</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="signupPassword" placeholder="Min. 6 characters"/>
+        <div class="form-error" id="signupError">Please fill all fields correctly.</div>
+      </div>
+      <button class="form-btn" onclick="handleSignup()">Create Account →</button>
+    </div>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -687,8 +785,8 @@ function renderCourses(filtered) {
             </div>
           </div>
           <div class="cc-actions">
-            <a href="${viewUrl}" target="_blank" class="cc-dl" onclick="event.stopPropagation()">📄 View PDF</a>
-            <a href="${dlUrl}" class="cc-dl" onclick="event.stopPropagation()" style="background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</a>
+            <button class="cc-dl" onclick="handleDownload(event, '${viewUrl}', '${c.name} Syllabus VIEW')">📄 View PDF</button>
+            <button class="cc-dl" onclick="handleDownload(event, '${dlUrl}', '${c.name} Syllabus DOWNLOAD')" style="background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</button>
             <div class="cc-toggle">▼</div>
           </div>
         </div>
@@ -701,8 +799,8 @@ function renderCourses(filtered) {
         html += `<div style="margin-top:1rem;padding:0.7rem 1rem;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15);border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
           <span style="font-size:0.78rem;color:var(--mint);font-weight:700">📄 Additional: ${c.extraDrive.label}</span>
           <div style="display:flex;gap:0.4rem">
-            <a href="${xView}" target="_blank" class="cc-dl" style="font-size:0.68rem;padding:0.3rem 0.7rem">View PDF</a>
-            <a href="${xDl}" class="cc-dl" style="font-size:0.68rem;padding:0.3rem 0.7rem;background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</a>
+            <button class="cc-dl" onclick="handleDownload(event, '${xView}', '${c.extraDrive.label} VIEW')" style="font-size:0.68rem;padding:0.3rem 0.7rem">View PDF</button>
+            <button class="cc-dl" onclick="handleDownload(event, '${xDl}', '${c.extraDrive.label} DOWNLOAD')" style="font-size:0.68rem;padding:0.3rem 0.7rem;background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</button>
           </div></div>`;
       }
 
@@ -770,6 +868,181 @@ function filterCourses() {
 
   renderCourses(filtered);
 }
+
+/* ═══════════════════ AUTH LOGIC (FIREBASE) ═══════════════════ */
+import { auth, db } from "./firebase-config.js";
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  doc, setDoc, getDoc, updateDoc 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+let currentUserDoc = null;
+let currentUid = null;
+let pendingDownload = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUid = user.uid;
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      currentUserDoc = docSnap.data();
+      document.getElementById('navLoginBtn').style.display = 'none';
+      document.getElementById('navProfileBtn').style.display = 'flex';
+      document.getElementById('navAvatar').textContent = currentUserDoc.name.charAt(0).toUpperCase();
+      document.getElementById('navStreakBadge').textContent = '🔥 ' + (currentUserDoc.streak || 1);
+      
+      // If they logged in to download something, trigger it now
+      if (pendingDownload) {
+        handleDownloadRecord(pendingDownload.url, pendingDownload.title);
+        pendingDownload = null;
+      }
+    }
+  } else {
+    currentUid = null;
+    currentUserDoc = null;
+    document.getElementById('navLoginBtn').style.display = 'flex';
+    document.getElementById('navProfileBtn').style.display = 'none';
+  }
+});
+
+function openLogin() {
+  document.getElementById('loginOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLogin() {
+  document.getElementById('loginOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('signupError').style.display = 'none';
+}
+window.openLogin = openLogin;
+window.closeLogin = closeLogin;
+
+function switchTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach((t,i) => {
+    t.classList.toggle('active', (tab==='login' && i===0) || (tab==='signup' && i===1));
+  });
+  document.getElementById('loginForm').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab==='signup' ? 'block' : 'none';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('signupError').style.display = 'none';
+}
+window.switchTab = switchTab;
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  const err   = document.getElementById('loginError');
+  
+  const prevText = document.querySelector('#loginForm .form-btn').textContent;
+  document.querySelector('#loginForm .form-btn').textContent = "Logging in...";
+  
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    err.style.display = 'none';
+    closeLogin();
+  } catch (error) {
+    err.textContent = "Invalid email or password. Try again.";
+    err.style.display = 'block';
+  } finally {
+    document.querySelector('#loginForm .form-btn').textContent = prevText;
+  }
+}
+window.handleLogin = handleLogin;
+
+async function handleSignup() {
+  const name   = document.getElementById('signupName').value.trim();
+  const email  = document.getElementById('signupEmail').value.trim();
+  const course = document.getElementById('signupCourse').value;
+  const pass   = document.getElementById('signupPassword').value;
+  const err    = document.getElementById('signupError');
+  
+  if (!name || !email || !course || pass.length < 6) {
+    err.textContent = "Please fill all fields correctly. Password must be 6+ chars.";
+    err.style.display = 'block'; return;
+  }
+  
+  const prevText = document.querySelector('#signupForm .form-btn').textContent;
+  document.querySelector('#signupForm .form-btn').textContent = "Creating Account...";
+  
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = userCredential.user;
+    const today = new Date().toDateString();
+    
+    await setDoc(doc(db, "users", user.uid), {
+      name: name,
+      email: email,
+      course: course,
+      streak: 1,
+      lastVisit: today,
+      daysActive: 1,
+      downloads: [],
+      activity: [
+        { icon:'🎓', name:'Joined DUVerse', meta: today, tag:'Welcome', tagColor:'rgba(52,211,153,0.15)', tagText:'#34d399' }
+      ],
+      createdAt: new Date()
+    });
+    
+    err.style.display = 'none';
+    closeLogin();
+  } catch (error) {
+    err.textContent = error.message;
+    err.style.display = 'block';
+  } finally {
+    document.querySelector('#signupForm .form-btn').textContent = prevText;
+  }
+}
+window.handleSignup = handleSignup;
+
+async function handleDownloadRecord(url, title) {
+  if (!currentUid || !currentUserDoc) return;
+  
+  const today = new Date().toDateString();
+  const dlRecord = {
+    name: title,
+    subject: 'Syllabus PDF',
+    date: today
+  };
+  
+  const actRecord = {
+    icon:'📥', name:'Downloaded Resource', meta:title,
+    tag:'Syllabus', tagColor:'rgba(56,189,248,0.15)', tagText:'#38bdf8'
+  };
+
+  const docRef = doc(db, "users", currentUid);
+  
+  const newDls = [dlRecord, ...(currentUserDoc.downloads || [])].slice(0, 20);
+  const newActs = [actRecord, ...(currentUserDoc.activity || [])].slice(0, 20);
+  
+  await updateDoc(docRef, {
+    downloads: newDls,
+    activity: newActs
+  });
+  
+  currentUserDoc.downloads = newDls;
+  currentUserDoc.activity = newActs;
+  
+  window.open(url, '_blank');
+}
+
+function handleDownload(e, url, title) {
+  e.stopPropagation();
+  e.preventDefault();
+  if (!currentUid) {
+    pendingDownload = { url, title };
+    openLogin();
+  } else {
+    handleDownloadRecord(url, title);
+  }
+}
+window.handleDownload = handleDownload;
 
 /* ═══════════════════ INIT ═══════════════════ */
 renderCourses(COURSES);
