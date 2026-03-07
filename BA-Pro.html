@@ -883,11 +883,16 @@ function renderContent() {
   const headerHTML = `
     <div class="combo-hdr r">
       <div class="combo-hdr-icon" style="background:${c.bg}">${c.icon}</div>
-      <div>
-        <div class="combo-hdr-name">${c.name}</div>
-        <div class="combo-hdr-meta">B.A. Programme · Delhi University · ${c.colleges?.length || '10+'} colleges offer this</div>
-        <div class="combo-hdr-tags">
-          ${c.tags.map((t,i)=>`<span class="htag" style="background:${c.tagC[i]?.bg||'rgba(79,110,247,0.12)'};color:${c.tagC[i]?.c||'#6b85ff'};border:1px solid ${c.tagC[i]?.c||'#6b85ff'}33">${t}</span>`).join('')}
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap">
+          <div>
+            <div class="combo-hdr-name">${c.name}</div>
+            <div class="combo-hdr-meta">B.A. Programme · Delhi University · ${c.colleges?.length || '10+'} colleges offer this</div>
+            <div class="combo-hdr-tags">
+              ${c.tags.map((t,i)=>`<span class="htag" style="background:${c.tagC[i]?.bg||'rgba(79,110,247,0.12)'};color:${c.tagC[i]?.c||'#6b85ff'};border:1px solid ${c.tagC[i]?.c||'#6b85ff'}33">${t}</span>`).join('')}
+            </div>
+          </div>
+          <a href="syllabus.html" style="background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.3);color:var(--indigo2);padding:0.4rem 0.9rem;border-radius:8px;font-size:0.75rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:all 0.2s" onmouseover="this.style.background='var(--indigo)';this.style.color='white'" onmouseout="this.style.background='rgba(79,110,247,0.1)';this.style.color='var(--indigo2)'">📄 View Syllabus PDFs</a>
         </div>
       </div>
     </div>`;

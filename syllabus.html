@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="DUVerse Syllabus Hub — Official NEP 2020 course structures for all Delhi University programmes. Download syllabus PDFs for B.A., B.Com., BMS, BBA(FIA) and more."/>
+  <title>Syllabus Hub — DUVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --night:#080c18;--navy:#0d1226;--navy2:#111830;--card:#151d35;--card2:#1a2340;
+      --border:#232d4a;--border2:#2d3a5c;--indigo:#4f6ef7;--indigo2:#6b85ff;
+      --violet:#7c5cfc;--mint:#34d399;--amber:#fbbf24;--rose:#fb7185;--sky:#38bdf8;
+      --text:#f0f3ff;--text2:#c8d0f0;--muted:#7a88b8;--faint:#3a4568;
+      --font-d:'Fraunces',Georgia,serif;--font-b:'Plus Jakarta Sans',sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--night);color:var(--text);font-family:var(--font-b);overflow-x:hidden;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:900;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.022'/%3E%3C/svg%3E")}
+    .mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(79,110,247,0.1) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 20%,rgba(124,92,252,0.08) 0%,transparent 55%)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;
+      justify-content:space-between;padding:0 5%;height:64px;
+      background:rgba(8,12,24,0.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;text-decoration:none;gap:0}
+    .logo-icon{width:36px;height:36px;border-radius:7px;background:#0f1729;border:2px solid var(--indigo);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+    .logo-icon::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--indigo),var(--violet))}
+    .logo-icon span{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;color:var(--text);line-height:1}
+    .logo-line{width:18px;height:1px;background:var(--indigo);margin:2px 0}
+    .logo-dot{width:3.5px;height:3.5px;border-radius:50%;background:var(--violet)}
+    .logo-text{padding-left:10px;font-family:var(--font-b);font-size:1.15rem;font-weight:800;letter-spacing:-0.5px;color:var(--text);line-height:1}
+    .logo-text span{color:var(--indigo2)}
+    .nav-center{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--muted)}
+    .nav-center a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+    .nav-center a:hover{color:var(--indigo2)}
+    .nav-center .sep{color:var(--faint)}
+    .nav-center .cur{color:var(--text2);font-weight:600}
+    .nav-right{display:flex;align-items:center;gap:0.8rem}
+    .nav-back{background:var(--card);border:1px solid var(--border2);border-radius:8px;
+      padding:0.4rem 1rem;font-size:0.78rem;font-weight:600;color:var(--text2);
+      text-decoration:none;transition:all 0.2s}
+    .nav-back:hover{border-color:var(--indigo);color:var(--indigo2)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;
+      width:36px;height:36px;background:var(--card);border:1px solid var(--border2);
+      border-radius:8px;padding:8px;cursor:pointer}
+    .hamburger span{display:block;height:1.5px;background:var(--text2);border-radius:2px;transition:all 0.3s}
+
+    /* HERO */
+    .hero{position:relative;z-index:1;padding:6.5rem 5% 3rem;border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(79,110,247,0.04) 0%,transparent 100%)}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;
+      background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      border-radius:100px;padding:0.3rem 1rem;font-size:0.7rem;font-weight:700;
+      letter-spacing:1px;text-transform:uppercase;color:var(--indigo2);margin-bottom:1.2rem}
+    .hero h1{font-family:var(--font-d);font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;
+      letter-spacing:-1.5px;line-height:1.08;margin-bottom:0.7rem}
+    .hero h1 em{font-style:italic;color:var(--indigo2)}
+    .hero-sub{font-size:0.92rem;color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:1.8rem}
+    .hero-sub strong{color:var(--text2);font-weight:700}
+    .hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap}
+    .hstat{display:flex;flex-direction:column}
+    .hstat-num{font-family:var(--font-d);font-size:1.7rem;font-weight:900;color:var(--text);line-height:1}
+    .hstat-lbl{font-size:0.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:0.15rem}
+
+    /* SEARCH & FILTER BAR */
+    .filter-bar{position:relative;z-index:1;padding:1.2rem 5%;background:var(--navy);
+      border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .search-box{flex:1;min-width:200px;background:var(--card);border:1px solid var(--border);
+      border-radius:10px;padding:0.65rem 1rem;color:var(--text);font-family:var(--font-b);
+      font-size:0.85rem;outline:none;transition:border-color 0.2s}
+    .search-box:focus{border-color:var(--indigo)}
+    .search-box::placeholder{color:var(--faint)}
+    .filter-chips{display:flex;gap:0.35rem;flex-wrap:wrap}
+    .fchip{padding:0.35rem 0.9rem;border-radius:100px;font-size:0.72rem;font-weight:700;
+      cursor:pointer;border:1px solid var(--border);color:var(--muted);
+      background:transparent;transition:all 0.2s;white-space:nowrap;font-family:var(--font-b)}
+    .fchip.active{background:rgba(79,110,247,0.15);border-color:var(--indigo);color:var(--indigo2)}
+    .fchip:hover{border-color:var(--border2);color:var(--text2)}
+    .result-count{font-size:0.72rem;color:var(--faint);font-weight:600}
+
+    /* CONTENT */
+    .content{position:relative;z-index:1;padding:2rem 5% 4rem;max-width:1200px;margin:0 auto}
+    .section-label{display:flex;align-items:center;gap:0.8rem;margin:2rem 0 1rem;
+      font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--faint)}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    /* COURSE CARDS */
+    .course-grid{display:grid;grid-template-columns:1fr;gap:0.9rem}
+    .course-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+      overflow:hidden;transition:border-color 0.25s}
+    .course-card:hover{border-color:var(--border2)}
+    .course-card.open{border-color:rgba(79,110,247,0.3)}
+    .cc-header{padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;
+      transition:background 0.2s}
+    .cc-header:hover{background:var(--card2)}
+    .cc-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+      justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .cc-info{flex:1;min-width:0}
+    .cc-name{font-family:var(--font-d);font-size:1.05rem;font-weight:800;color:var(--text);
+      letter-spacing:-0.3px;margin-bottom:0.15rem}
+    .cc-meta{font-size:0.73rem;color:var(--muted);display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap}
+    .cc-badge{font-size:0.58rem;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;
+      padding:0.15rem 0.5rem;border-radius:4px;flex-shrink:0}
+    .badge-hons{background:rgba(124,92,252,0.12);color:var(--violet);border:1px solid rgba(124,92,252,0.25)}
+    .badge-prog{background:rgba(56,189,248,0.1);color:var(--sky);border:1px solid rgba(56,189,248,0.2)}
+    .badge-mgmt{background:rgba(52,211,153,0.1);color:var(--mint);border:1px solid rgba(52,211,153,0.2)}
+    .badge-common{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+    .cc-actions{display:flex;align-items:center;gap:0.6rem;flex-shrink:0}
+    .cc-dl{background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.2);
+      color:var(--indigo2);border-radius:8px;padding:0.4rem 0.9rem;
+      font-size:0.72rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+      text-decoration:none;font-family:var(--font-b);white-space:nowrap}
+    .cc-dl:hover{background:var(--indigo);color:white;border-color:var(--indigo)}
+    .cc-toggle{color:var(--faint);font-size:0.8rem;transition:transform 0.3s;flex-shrink:0;
+      width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+      background:var(--card2);border:1px solid var(--border)}
+    .course-card.open .cc-toggle{transform:rotate(180deg);color:var(--indigo2);border-color:rgba(79,110,247,0.3)}
+
+    /* EXPANDED BODY */
+    .cc-body{display:none;border-top:1px solid var(--border);padding:0 1.5rem 1.5rem}
+    .course-card.open .cc-body{display:block}
+    .sem-group{margin-top:1.2rem}
+    .sem-label{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem}
+    .sem-pill{font-family:var(--font-d);font-size:0.72rem;font-weight:700;
+      padding:0.22rem 0.85rem;border-radius:100px;background:var(--card2);
+      border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+    .sem-line{flex:1;height:1px;background:var(--border)}
+    .paper-list{display:flex;flex-direction:column;gap:0.4rem}
+    .paper-item{display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0.9rem;
+      background:var(--navy);border:1px solid var(--border);border-radius:9px;
+      transition:border-color 0.2s;flex-wrap:wrap}
+    .paper-item:hover{border-color:var(--border2)}
+    .paper-type{font-size:0.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+      padding:0.14rem 0.45rem;border-radius:3px;white-space:nowrap;flex-shrink:0}
+    .t-dsc{background:rgba(79,110,247,0.12);color:var(--indigo2);border:1px solid rgba(79,110,247,0.2)}
+    .t-ge{background:rgba(56,189,248,0.1);color:var(--sky);border:1px solid rgba(56,189,248,0.2)}
+    .t-aec{background:rgba(52,211,153,0.1);color:var(--mint);border:1px solid rgba(52,211,153,0.2)}
+    .t-sec{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+    .t-vac{background:rgba(251,113,133,0.1);color:var(--rose);border:1px solid rgba(251,113,133,0.2)}
+    .t-dse{background:rgba(124,92,252,0.12);color:var(--violet);border:1px solid rgba(124,92,252,0.2)}
+    .paper-code{font-size:0.62rem;font-weight:700;color:var(--faint);flex-shrink:0;font-family:monospace}
+    .paper-name{font-size:0.8rem;font-weight:600;color:var(--text2);flex:1;min-width:0;line-height:1.35}
+    .paper-note{font-size:0.68rem;color:var(--muted);font-style:italic;width:100%;padding-left:calc(0.45rem + 0.7rem + 50px)}
+    .choose-label{font-size:0.65rem;color:var(--faint);font-weight:700;letter-spacing:0.5px;
+      text-transform:uppercase;margin:0.6rem 0 0.3rem;padding-left:0.5rem}
+
+    /* FOOTER */
+    footer{position:relative;z-index:1;text-align:center;padding:2.5rem 5%;
+      border-top:1px solid var(--border);background:var(--night)}
+    .f-brand{font-family:var(--font-d);font-size:1.3rem;font-weight:900;margin-bottom:0.4rem}
+    .f-brand span{font-style:italic;color:var(--indigo2)}
+    .f-sub{font-size:0.78rem;color:var(--muted)}
+    .f-link{color:var(--indigo2);text-decoration:none}
+    .f-link:hover{text-decoration:underline}
+
+    /* ANIMATIONS */
+    .r{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease}
+    .r.show{opacity:1;transform:translateY(0)}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-center{display:none}
+      .hamburger{display:flex}
+      .hero{padding:5.5rem 4% 2rem}
+      .hero h1{font-size:clamp(1.8rem,7vw,2.5rem)}
+      .filter-bar{padding:1rem 4%}
+      .content{padding:1.5rem 4% 3rem}
+      .cc-header{padding:1rem 1.1rem;flex-wrap:wrap}
+      .cc-icon{width:38px;height:38px;font-size:1.1rem}
+      .cc-name{font-size:0.95rem}
+      .cc-actions{width:100%;justify-content:flex-end;margin-top:0.5rem}
+      .cc-body{padding:0 1.1rem 1.2rem}
+      .paper-item{padding:0.5rem 0.7rem}
+      .paper-note{padding-left:0}
+    }
+    @media(max-width:480px){
+      nav{padding:0 4%}
+      .hero{padding:5rem 4% 1.8rem}
+      .hero-stats{gap:1.5rem}
+      .filter-chips{gap:0.25rem}
+      .fchip{padding:0.3rem 0.7rem;font-size:0.68rem}
+    }
+  </style>
+</head>
+<body>
+<div class="mesh"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><span>DU</span><div class="logo-line"></div><div class="logo-dot"></div></div>
+    <div class="logo-text">DU<span>Verse</span></div>
+  </a>
+  <div class="nav-center">
+    <a href="index.html">Home</a><span class="sep">›</span>
+    <span class="cur">Syllabus Hub</span>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+    <div class="hamburger" id="hamBtn" onclick="window.location='index.html'"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge r">📋 Official Syllabi · NEP 2020</div>
+  <h1 class="r">Every Syllabus.<br><em>Every Course.</em></h1>
+  <p class="hero-sub r">Official <strong>NEP 2020</strong> course structures for all Delhi University programmes — sourced directly from DU's School of Open Learning. View semester-wise papers, paper codes, and <strong>download the official PDF</strong>.</p>
+  <div class="hero-stats r">
+    <div class="hstat"><div class="hstat-num">20</div><div class="hstat-lbl">Course Syllabi</div></div>
+    <div class="hstat"><div class="hstat-num">200+</div><div class="hstat-lbl">Papers Listed</div></div>
+    <div class="hstat"><div class="hstat-num">NEP</div><div class="hstat-lbl">2020 Structure</div></div>
+    <div class="hstat"><div class="hstat-num">₹0</div><div class="hstat-lbl">Always Free</div></div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <input class="search-box" id="searchBox" type="text" placeholder="🔍  Search courses, subjects, papers..." oninput="filterCourses()"/>
+  <div class="filter-chips" id="filterChips">
+    <button class="fchip active" onclick="setFilter('all',this)">All</button>
+    <button class="fchip" onclick="setFilter('hons',this)">🎓 Honours</button>
+    <button class="fchip" onclick="setFilter('prog',this)">📚 Programme</button>
+    <button class="fchip" onclick="setFilter('comm',this)">📊 Commerce</button>
+    <button class="fchip" onclick="setFilter('mgmt',this)">💼 Management</button>
+    <button class="fchip" onclick="setFilter('common',this)">📋 Common Papers</button>
+  </div>
+  <div class="result-count" id="resultCount">Showing 20 courses</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="courseContainer"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">DU<span>Verse</span></div>
+  <p class="f-sub">Syllabus data sourced from <a href="https://sol.du.ac.in" target="_blank" class="f-link">DU School of Open Learning</a> · NEP 2020 · <a href="index.html" class="f-link">Back to Home</a></p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   COURSE DATA — Extracted from 20 official DU PDFs
+═══════════════════════════════════════════ */
+const COURSES = [
+
+  // ─── HONOURS ───
+  {
+    id:'ba-hons-eng', name:'B.A. (Hons.) English', icon:'📖', category:'hons',
+    badge:'Honours', badgeClass:'badge-hons',
+    driveId:'1LogIrf1PqzVygt7RvtW0XrfM79mQz22r',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Introduction to Literary Studies',cid:'2032101101'},
+        {type:'DSC',code:'DSC-2',name:'European Classical Literature',cid:'2032101102'},
+        {type:'DSC',code:'DSC-3',name:'Indian Classical Literature',cid:'2032101103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: History / Political Science / Psychology / Sanskrit'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'14th to 17th Century Poetry',cid:'2032101201'},
+        {type:'DSC',code:'DSC-5',name:'16th and 17th Century English Drama',cid:'2032101202'},
+        {type:'DSC',code:'DSC-6',name:'18th Century Literature',cid:'2032101203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Different from Sem 1 choice'},
+      ]},
+    ]
+  },
+  {
+    id:'ba-hons-eco', name:'B.A. (Hons.) Economics', icon:'📊', category:'hons',
+    badge:'Honours', badgeClass:'badge-hons',
+    driveId:'1amEtJ6NbEaFomMDOpi8-cXPczBacBexI',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Introductory Microeconomics',cid:'2272101101'},
+        {type:'DSC',code:'DSC-2',name:'Introductory Mathematical Methods for Economics',cid:'2272101102'},
+        {type:'DSC',code:'DSC-3',name:'Introductory Statistics for Economics',cid:'2272101103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: Commerce / Psychology'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Introductory Macroeconomics',cid:'2272101201'},
+        {type:'DSC',code:'DSC-5',name:'Intermediate Mathematical Methods for Economics',cid:'2272101202'},
+        {type:'DSC',code:'DSC-6',name:'Intermediate Statistics for Economics',cid:'2272101203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'ba-hons-polsc', name:'B.A. (Hons.) Political Science', icon:'⚖️', category:'hons',
+    badge:'Honours', badgeClass:'badge-hons',
+    driveId:'1RYm2n19kmjSK9_UbmsxgJA_eagGfFQJj',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Understanding Political Theory',cid:'2322101101'},
+        {type:'DSC',code:'DSC-2',name:'Ideas and Institutions in Indian Political Thought',cid:'2322101102'},
+        {type:'DSC',code:'DSC-3',name:'Colonialism and Nationalism in India',cid:'2322101103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: Economics / History / Psychology / Sanskrit'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Perspectives on Public Administration',cid:'2322101201'},
+        {type:'DSC',code:'DSC-5',name:'Methods and Approaches in Comparative Political Analysis',cid:'2322101202'},
+        {type:'DSC',code:'DSC-6',name:'Introduction to International Relations: Theories, Concepts and Debates',cid:'2322101203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'ba-hons-psy', name:'B.A. (Hons.) Psychology', icon:'🧠', category:'hons',
+    badge:'Honours', badgeClass:'badge-hons',
+    driveId:'1Duv9_OxsqT0yycB3FooeVOSyReiQ1agQ',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Introduction to Psychology',cid:'2112101101'},
+        {type:'DSC',code:'DSC-2',name:'Cognitive Psychology',cid:'2112101102'},
+        {type:'DSC',code:'DSC-3',name:'Biopsychology',cid:'2112101103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: Commerce / English'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Psychology of Individual Differences',cid:'2112101201'},
+        {type:'DSC',code:'DSC-5',name:'Social Psychology',cid:'2112101202'},
+        {type:'DSC',code:'DSC-6',name:'Basic Statistics in Psychology',cid:'2112101204'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+
+  // ─── COMMERCE ───
+  {
+    id:'bcom-hons', name:'B.Com. (Hons.)', icon:'📊', category:'comm',
+    badge:'Commerce Honours', badgeClass:'badge-hons',
+    driveId:'1XJLRGLefAeKF_rIFXgT5XfnRqrC3nRsw',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Management Principles and Applications',cid:'2412081101'},
+        {type:'DSC',code:'DSC-2',name:'Business Laws',cid:'2412081102'},
+        {type:'DSC',code:'DSC-3',name:'Financial Accounting',cid:'2412081103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: English / Economics / BBA(FIA) / Mathematics'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Corporate Accounting',cid:'2412081201'},
+        {type:'DSC',code:'DSC-5',name:'Company Law',cid:'2412081202'},
+        {type:'DSC',code:'DSC-6',name:'Human Resource Management',cid:'2412081203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bcom-prog', name:'B.Com. (Programme)', icon:'💹', category:'comm',
+    badge:'Commerce Programme', badgeClass:'badge-prog',
+    driveId:'1JjFeiDgZO_6TX372eCwaLzNlPdy0ynx4',
+    extraDrive:{id:'1_o2M3Yk8Qwcql3aZNDiFVYYEsRrJv8NJ',label:'Sem 3-4 PDF'},
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Business Organization and Management',cid:'2412091101'},
+        {type:'DSC',code:'DSC-2',name:'Business Laws',cid:'2412091102'},
+        {type:'DSC',code:'DSC-3',name:'Financial Accounting',cid:'2412091103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: English / Hindi'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Corporate Accounting',cid:'2412091201'},
+        {type:'DSC',code:'DSC-5',name:'Company Law',cid:'2412091202'},
+        {type:'DSC',code:'DSC-6',name:'Human Resource Management',cid:'2412091203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:3, papers:[
+        {type:'DSC',code:'DSC-7',name:'Business Statistics'},
+        {type:'DSC',code:'DSC-8',name:'Financial Management'},
+        {type:'DSC',code:'DSC-9',name:'Principles of Marketing'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: English Fluency-II / Hindi / Sanskrit / Punjabi / Urdu / Economics / Political Science'},
+        {type:'AEC',code:'AEC',name:'Ability Enhancement Course — Choose Any One'},
+        {type:'SEC',code:'SEC',name:'Skill Enhancement Course — Choose Any One'},
+        {type:'VAC',code:'VAC',name:'Value Addition Course — Choose Any One'},
+      ]},
+      { sem:4, papers:[
+        {type:'DSC',code:'DSC-10',name:'Income Tax Law and Practice'},
+        {type:'DSC',code:'DSC-11',name:'Cost Accounting'},
+        {type:'DSC',code:'DSC-12',name:'E-Commerce'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+        {type:'AEC',code:'AEC',name:'Ability Enhancement Course — Choose Any One'},
+        {type:'SEC',code:'SEC',name:'Skill Enhancement Course — Choose Any One'},
+        {type:'VAC',code:'VAC',name:'Value Addition Course — Choose Any One'},
+      ]},
+    ]
+  },
+
+  // ─── MANAGEMENT ───
+  {
+    id:'bms', name:'BMS (Bachelor of Management Studies)', icon:'💼', category:'mgmt',
+    badge:'Management', badgeClass:'badge-mgmt',
+    driveId:'1CNay4DMTCEPeu3zezx7xdlljPwBdyT-f',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Fundamentals of Management',cid:'2922061101'},
+        {type:'DSC',code:'DSC-2',name:'Statistics for Business Decision',cid:'2922061102'},
+        {type:'DSC',code:'DSC-3',name:'Financial Accounting and Analysis',cid:'2922061103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: Commerce / English'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Cost and Management Accounting',cid:'2922061201'},
+        {type:'DSC',code:'DSC-5',name:'Microeconomics',cid:'2922061202'},
+        {type:'DSC',code:'DSC-6',name:'Principles of Marketing',cid:'2922061203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bba-fia', name:'BBA (FIA) — Financial Investment Analysis', icon:'💰', category:'mgmt',
+    badge:'Management', badgeClass:'badge-mgmt',
+    driveId:'1ukXOdgDAcKhfX0j8w_2WQ5-UDCril3de',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'DSC-1',name:'Financial Accounting and Analysis',cid:'2922071101'},
+        {type:'DSC',code:'DSC-2',name:'Microeconomics',cid:'2922071102'},
+        {type:'DSC',code:'DSC-3',name:'Statistics for Business Decision',cid:'2922071103'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: Commerce / English'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'DSC-4',name:'Cost and Management Accounting',cid:'2922071201'},
+        {type:'DSC',code:'DSC-5',name:'Macroeconomics',cid:'2922071202'},
+        {type:'DSC',code:'DSC-6',name:'Quantitative Techniques',cid:'2922071203'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+
+  // ─── B.A. PROGRAMME MAJORS ───
+  {
+    id:'bap-history', name:'B.A. (Prog.) — History Major', icon:'🏛️', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1uNFNecyTef-xfytC0MJYHiT2HLdF-4g3',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'History: Ancient Societies',cid:'2312201102'},
+        {type:'DSC',code:'Minor',name:'History: History of India from Earliest Times upto c.300 CE',cid:'2312201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / Economics / Hindi / Political Science'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One',note:'Options: English / Hindi / Sanskrit / Urdu / Punjabi'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'History: Medieval Societies — Global Perspective',cid:'2312201202'},
+        {type:'DSC',code:'Minor',name:'History: History of India 300 CE to 1200 CE',cid:'2312201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-polsc', name:'B.A. (Prog.) — Political Science Major', icon:'🗳️', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1vcPmydgq19LdNCWhsYjGSyHYXPlQRp7q',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Political Science: Public Administration in India',cid:'2322201102'},
+        {type:'DSC',code:'Minor',name:'Political Science: Introduction to Political Theory',cid:'2322201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / Economics / History / Psychology'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Political Science: Indian Foreign Policy',cid:'2322201202'},
+        {type:'DSC',code:'Minor',name:'Political Science: Indian Government and Politics',cid:'2322201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-eco', name:'B.A. (Prog.) — Economics Major', icon:'📈', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1VhI7k67rtnPty1kE-wQRqu-vGVo4wDSM',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Economics: Basic Mathematics for Economic Analysis',cid:'2272201102'},
+        {type:'DSC',code:'Minor',name:'Economics: Introductory Microeconomics',cid:'2272201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / Mathematics / Political Science / History'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Economics: Basic Statistics for Economics',cid:'2272201202'},
+        {type:'DSC',code:'Minor',name:'Economics: Introductory Macroeconomics',cid:'2272201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-hindi', name:'B.A. (Prog.) — Hindi Major', icon:'🗣️', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1esAS5FZhAAwc0_hgyR1mNzhzP-nOk_v-',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Hindi: हिंदी सिनेमा और उसका अध्ययन',cid:'2052201102'},
+        {type:'DSC',code:'Minor',name:'Hindi: हिंदी भाषा और साहित्य का इतिहास',cid:'2052201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / History / Political Science / Sanskrit'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Hindi: हिंदी का मौलिक साहित्य और उसकी परंपरा',cid:'2052201202'},
+        {type:'DSC',code:'Minor',name:'Hindi: हिंदी कविता (मध्य काल और आधुनिक काल)',cid:'2052201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-maths', name:'B.A. (Prog.) — Mathematics Major', icon:'📐', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1q7p5v4xN7tSPAhVwjfJSIu6L49LbCV0X',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Mathematics: Elements of Discrete Mathematics',cid:'2352201102'},
+        {type:'DSC',code:'Minor',name:'Mathematics: Topics in Calculus',cid:'2352571101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Economics / Computer Programming (C++)'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Mathematics: Analytical Geometry',cid:'2352201202'},
+        {type:'DSC',code:'Minor',name:'Mathematics: Elementary Linear Algebra',cid:'2352571201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-ca', name:'B.A. (Prog.) — Computer Applications Major', icon:'💻', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1rDWjSqvztw_TiKKQk2xZQ9A1gR7Xbo6t',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Computer: Programming Fundamentals Using Python',cid:'2342201102'},
+        {type:'DSC',code:'Minor',name:'Computer: Introduction to Programming using C++',cid:'2342571101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Mathematics (Calculus) / Psychology'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Computer: Data Interpretation and Visualization using Python',cid:'2342201202'},
+        {type:'DSC',code:'Minor',name:'Computer: Data Structures',cid:'2342571201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-psy', name:'B.A. (Prog.) — Psychology Major', icon:'🧠', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1Uu9n2yEqRLpkgvM4R1LPeW3hSJ1lumbv',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Psychology: Fundamentals of Cognitive Psychology',cid:'2112201102'},
+        {type:'DSC',code:'Minor',name:'Psychology: Fundamentals of Psychology',cid:'2112201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / Political Science'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Psychology: Application of Social Psychology',cid:'2112201202'},
+        {type:'DSC',code:'Minor',name:'Psychology: Introduction to Social Psychology',cid:'2112201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-edu', name:'B.A. (Prog.) — Education Major', icon:'🎓', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1j7NMR_meDAnSopeANG-QCgKLYtpHi763',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Education: Education in Contemporary India',cid:'2432201102'},
+        {type:'DSC',code:'Minor',name:'Education: Basic Concepts and Ideas in Education',cid:'2432201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: History / Political Science / Psychology'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Education: Human Learning, Cognition and Schooling',cid:'2432201202'},
+        {type:'DSC',code:'Minor',name:'Education: Understanding Human Development',cid:'2432201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-skt', name:'B.A. (Prog.) — Sanskrit Major', icon:'🕉️', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1MKD0G6afDNEspTZ20lCtNzHEqQX_rit6',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Sanskrit: Sanskrit Poetry',cid:'2132201102'},
+        {type:'DSC',code:'Minor',name:'Sanskrit: Sanskrit Grammar',cid:'2132201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Hindi / History'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Sanskrit: Sanskrit Drama',cid:'2132201202'},
+        {type:'DSC',code:'Minor',name:'Sanskrit: Sanskrit Prose',cid:'2132201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+  {
+    id:'bap-urdu', name:'B.A. (Prog.) — Urdu Major', icon:'✍️', category:'prog',
+    badge:'Programme', badgeClass:'badge-prog',
+    driveId:'1JuPxgfnmUHxbRw_2ugvmwSnCRCpqbRXx',
+    semesters:[
+      { sem:1, papers:[
+        {type:'DSC',code:'Major',name:'Urdu: Study of Modern Poetry-I',cid:'2142201102'},
+        {type:'DSC',code:'Minor',name:'Urdu: Study of Modern Prose and Poetry-I',cid:'2142201101'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One',note:'Options: Education / History'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+      { sem:2, papers:[
+        {type:'DSC',code:'Major',name:'Urdu: Study of Modern Prose-I',cid:'2142201202'},
+        {type:'DSC',code:'Minor',name:'Urdu: A Study of Modern Prose and Poetry-II',cid:'2142201201'},
+        {type:'DSC',code:'Minor 2',name:'Other Minor — Choose Any One'},
+        {type:'GE',code:'GE',name:'Generic Elective — Choose Any One'},
+      ]},
+    ]
+  },
+
+  // ─── COMMON ───
+  {
+    id:'common-aec-sec-vac', name:'Common Papers — AEC, SEC, VAC', icon:'📋', category:'common',
+    badge:'All Programmes', badgeClass:'badge-common',
+    driveId:'1ZSZX2pedVY4l_h4tSk5qYNfn8ohapHrq',
+    semesters:[
+      { sem:1, papers:[
+        {type:'AEC',code:'Paper-5',name:'Ability Enhancement Course (AEC) — Choose Any One',note:'Options: Environmental Science / Language courses (Assamese, Bengali, Hindi, Punjabi, Sanskrit, Tamil, Telugu, Urdu, etc.)'},
+        {type:'SEC',code:'Paper-6',name:'Skill Enhancement Course (SEC) — Choose Any One',note:'Options: IT Tools / Multimedia & Applications / Data Analysis / Cyber Security'},
+        {type:'VAC',code:'Paper-7',name:'Value Addition Course (VAC) — Choose Any One',note:'Options: Understanding India / Knowledge and Value / Health & Wellness / Yoga Education / Digital Fluency / etc.'},
+      ]},
+      { sem:2, papers:[
+        {type:'AEC',code:'Paper-5',name:'Ability Enhancement Course (AEC) — Choose different from Sem 1'},
+        {type:'SEC',code:'Paper-6',name:'Skill Enhancement Course (SEC) — Choose different from Sem 1'},
+        {type:'VAC',code:'Paper-7',name:'Value Addition Course (VAC) — Choose different from Sem 1'},
+      ]},
+    ]
+  },
+];
+
+/* ═══════════════════ RENDERING ═══════════════════ */
+let currentFilter = 'all';
+
+function getTypeClass(type) {
+  const map = {DSC:'t-dsc', GE:'t-ge', AEC:'t-aec', SEC:'t-sec', VAC:'t-vac', DSE:'t-dse'};
+  return map[type] || 't-dsc';
+}
+
+function renderCourses(filtered) {
+  const container = document.getElementById('courseContainer');
+  if (filtered.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:4rem 2rem;color:var(--muted)">
+      <div style="font-size:2rem;margin-bottom:0.8rem">🔍</div>
+      <div style="font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:var(--text2);margin-bottom:0.3rem">No courses found</div>
+      <p style="font-size:0.82rem">Try a different search term or filter.</p></div>`;
+    document.getElementById('resultCount').textContent = 'No results';
+    return;
+  }
+
+  // Group by category
+  const groups = {hons:'🎓 Honours Courses', comm:'📊 Commerce Courses', mgmt:'💼 Management Courses', prog:'📚 B.A. Programme Majors', common:'📋 Common Papers'};
+  const grouped = {};
+  filtered.forEach(c => {
+    if (!grouped[c.category]) grouped[c.category] = [];
+    grouped[c.category].push(c);
+  });
+
+  let html = '';
+  const order = ['hons','comm','mgmt','prog','common'];
+  order.forEach(cat => {
+    if (!grouped[cat]) return;
+    html += `<div class="section-label">${groups[cat]}</div><div class="course-grid">`;
+    grouped[cat].forEach((c, i) => {
+      const viewUrl = `https://drive.google.com/file/d/${c.driveId}/view`;
+      const dlUrl = `https://drive.google.com/uc?export=download&id=${c.driveId}`;
+      html += `
+      <div class="course-card r" id="card-${c.id}" style="transition-delay:${i*0.04}s">
+        <div class="cc-header" onclick="toggleCard('${c.id}')">
+          <div class="cc-icon" style="background:rgba(79,110,247,0.08);border:1px solid rgba(79,110,247,0.15)">${c.icon}</div>
+          <div class="cc-info">
+            <div class="cc-name">${c.name}</div>
+            <div class="cc-meta">
+              <span class="cc-badge ${c.badgeClass}">${c.badge}</span>
+              <span>${c.semesters.length} Semester${c.semesters.length>1?'s':''}</span>
+              <span>·</span>
+              <span>${c.semesters.reduce((a,s)=>a+s.papers.length,0)} Papers</span>
+            </div>
+          </div>
+          <div class="cc-actions">
+            <a href="${viewUrl}" target="_blank" class="cc-dl" onclick="event.stopPropagation()">📄 View PDF</a>
+            <a href="${dlUrl}" class="cc-dl" onclick="event.stopPropagation()" style="background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</a>
+            <div class="cc-toggle">▼</div>
+          </div>
+        </div>
+        <div class="cc-body">`;
+
+      // Extra download for B.Com Prog Sem 3-4
+      if (c.extraDrive) {
+        const xView = `https://drive.google.com/file/d/${c.extraDrive.id}/view`;
+        const xDl = `https://drive.google.com/uc?export=download&id=${c.extraDrive.id}`;
+        html += `<div style="margin-top:1rem;padding:0.7rem 1rem;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15);border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
+          <span style="font-size:0.78rem;color:var(--mint);font-weight:700">📄 Additional: ${c.extraDrive.label}</span>
+          <div style="display:flex;gap:0.4rem">
+            <a href="${xView}" target="_blank" class="cc-dl" style="font-size:0.68rem;padding:0.3rem 0.7rem">View PDF</a>
+            <a href="${xDl}" class="cc-dl" style="font-size:0.68rem;padding:0.3rem 0.7rem;background:var(--indigo);color:white;border-color:var(--indigo)">⬇ Download</a>
+          </div></div>`;
+      }
+
+      c.semesters.forEach(sem => {
+        html += `
+          <div class="sem-group">
+            <div class="sem-label">
+              <div class="sem-pill">Semester ${sem.sem}</div>
+              <div class="sem-line"></div>
+            </div>
+            <div class="paper-list">`;
+        sem.papers.forEach(p => {
+          html += `
+              <div class="paper-item">
+                <div class="paper-type ${getTypeClass(p.type)}">${p.type}</div>
+                <div class="paper-code">${p.code}</div>
+                <div class="paper-name">${p.name}${p.cid ? ` <span style="color:var(--faint);font-size:0.62rem">(${p.cid})</span>`:''}</div>
+              </div>`;
+          if (p.note) html += `<div class="paper-note">${p.note}</div>`;
+        });
+        html += `</div></div>`;
+      });
+
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+  document.getElementById('resultCount').textContent = `Showing ${filtered.length} course${filtered.length!==1?'s':''}`;
+
+  // Trigger scroll reveal
+  setTimeout(() => {
+    document.querySelectorAll('.r').forEach((el,i) => {
+      setTimeout(() => el.classList.add('show'), i * 45);
+    });
+  }, 50);
+}
+
+function toggleCard(id) {
+  document.getElementById('card-'+id).classList.toggle('open');
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  filterCourses();
+}
+
+function filterCourses() {
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  let filtered = COURSES;
+
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(c => c.category === currentFilter);
+  }
+
+  if (q) {
+    filtered = filtered.filter(c => {
+      const searchStr = (c.name + ' ' + c.badge + ' ' + c.semesters.map(s => s.papers.map(p => p.name + ' ' + p.code + ' ' + (p.note||'')).join(' ')).join(' ')).toLowerCase();
+      return searchStr.includes(q);
+    });
+  }
+
+  renderCourses(filtered);
+}
+
+/* ═══════════════════ INIT ═══════════════════ */
+renderCourses(COURSES);
+
+// Scroll reveal for hero elements
+setTimeout(() => {
+  document.querySelectorAll('.hero .r').forEach((el,i) => {
+    setTimeout(() => el.classList.add('show'), i * 100);
+  });
+}, 100);
+</script>
+</body>
+</html>
