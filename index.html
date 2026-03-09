@@ -1412,6 +1412,24 @@
     </div>
   </section>
 
+  <!-- ── GLOBAL SEARCH MODAL ── -->
+  <div class="search-modal-overlay" id="globalSearchOverlay">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <svg fill="none" class="search-modal-icon" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="globalSearchInput" class="search-modal-input" placeholder="Search courses, subjects, or syllabi (E.g. 'BCom', 'History')" autocomplete="off" />
+        <button class="search-modal-close">ESC</button>
+      </div>
+      <div class="search-modal-results" id="globalSearchResults">
+        <!-- Results injected here -->
+      </div>
+      <div class="search-modal-footer">
+        <div class="search-kbd"><kbd>↑</kbd> <kbd>↓</kbd> to navigate</div>
+        <div class="search-kbd"><kbd>↵</kbd> to select</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-grid">
@@ -1975,5 +1993,6 @@
     // Init on load
     initAuth();
   </script>
+  <script src="app-search.js"></script>
 </body>
 </html>

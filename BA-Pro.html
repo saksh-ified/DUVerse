@@ -1290,12 +1290,20 @@ function handleDownload(e, url, title) {
 window.handleDownload = handleDownload;
 
 /* INIT */
+const urlParams = new URLSearchParams(window.location.search);
+const comboId = urlParams.get('combo');
+if (comboId) {
+  const targetCombo = COMBOS.find(c => c.id === comboId);
+  if (targetCombo) curCombo = targetCombo;
+}
 renderSidebar();
 renderContent();
+if (comboId && curCombo) {
+  setTimeout(() => {
+    document.getElementById('content').scrollTo({top:0, behavior: 'smooth'});
+  }, 200);
+}
 </script>
-<script type="module">
-  import { initGlobalSearch } from './app-search.js';
-  initGlobalSearch();
-</script>
+<script src="app-search.js"></script>
 </body>
 </html>

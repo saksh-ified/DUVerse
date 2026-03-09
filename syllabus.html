@@ -1081,6 +1081,18 @@ window.handleDownload = handleDownload;
 /* ═══════════════════ INIT ═══════════════════ */
 renderCourses(COURSES);
 
+const urlParams = new URLSearchParams(window.location.search);
+const q = urlParams.get('q');
+if (q) {
+  setTimeout(() => {
+    const card = document.getElementById('card-' + q);
+    if (card) {
+      card.classList.add('open');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 200);
+}
+
 // Scroll reveal for hero elements
 setTimeout(() => {
   document.querySelectorAll('.hero .r').forEach((el,i) => {
@@ -1088,9 +1100,6 @@ setTimeout(() => {
   });
 }, 100);
 </script>
-<script type="module">
-  import { initGlobalSearch } from './app-search.js';
-  initGlobalSearch();
-</script>
+<script src="app-search.js"></script>
 </body>
 </html>
