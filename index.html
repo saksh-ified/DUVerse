@@ -11,6 +11,7 @@
   <meta property="og:type" content="website"/>
   <title>DUVerse — Every Resource. Every Subject. One Place.</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="app-search.css" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -100,6 +101,17 @@
       background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2);
       padding: 0.25rem 0.75rem; border-radius: 100px;
     }
+    .nav-search-trigger {
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 8px;
+      background: transparent; border: 1px solid var(--border2);
+      color: var(--text2); cursor: pointer; transition: all 0.2s;
+    }
+    .nav-search-trigger:hover {
+      background: var(--card2); border-color: var(--border); color: var(--text);
+    }
+    .nav-search-trigger svg { width: 18px; height: 18px; }
+    
     .nav-btn { 
       background: var(--indigo); color: white; border: none;
       padding: 0.5rem 1.2rem; border-radius: 8px;
@@ -1054,6 +1066,24 @@
     </div>
   </div>
 
+  <!-- ── GLOBAL SEARCH MODAL ── -->
+  <div class="search-modal-overlay" id="globalSearchOverlay">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <svg fill="none" class="search-modal-icon" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="globalSearchInput" class="search-modal-input" placeholder="Search courses, subjects, or syllabi (E.g. 'BCom', 'History')" autocomplete="off" />
+        <button class="search-modal-close">ESC</button>
+      </div>
+      <div class="search-modal-results" id="globalSearchResults">
+        <!-- Results injected here -->
+      </div>
+      <div class="search-modal-footer">
+        <div class="search-kbd"><kbd>↑</kbd> <kbd>↓</kbd> to navigate</div>
+        <div class="search-kbd"><kbd>↵</kbd> to select</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── HERO ── -->
   <section style="position:relative;z-index:1;">
     <div class="hero">
@@ -1441,7 +1471,7 @@
           <li><a href="#">About DUVerse</a></li>
           <li><a href="#">How It Works</a></li>
           <li><a href="#">Contribute</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="mailto:duverse.team@gmail.com">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -1452,6 +1482,9 @@
   </footer>
 
   <script type="module">
+    import { initGlobalSearch } from './app-search.js';
+    initGlobalSearch();
+
     // Cursor — disable on touch devices
     if (window.matchMedia('(pointer: coarse)').matches) {
       document.getElementById('cur').style.display = 'none';
